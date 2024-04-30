@@ -1,0 +1,1 @@
+ini buat nyimpen data save and load nanti
