@@ -1,1 +1,0 @@
-ini buat plant, sunflower sama zombie
