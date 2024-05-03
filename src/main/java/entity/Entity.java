@@ -49,5 +49,8 @@ public class Entity implements Attackable{
     }
 
     @Override
-    public void attack() {}
+    public void attack(Entity entity) 
+    {
+        entity.setHealth(getHealth() - this.getAttackDamage());
+    }
 }
