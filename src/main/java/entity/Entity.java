@@ -7,6 +7,7 @@ public class Entity implements Attackable{
     private int health;
     private int attackDamage;
     private int attackSpeed;
+    private boolean isAlive;
 
     public Entity(String name, int health, int attackDamage, int attackSpeed)
     {
@@ -46,6 +47,14 @@ public class Entity implements Attackable{
 
     public void setAttackSpeed(int attackSpeed){
         this.attackSpeed = attackSpeed;
+    }
+
+    public boolean getIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive){
+        this.isAlive = isAlive;
     }
 
     @Override
