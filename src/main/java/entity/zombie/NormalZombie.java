@@ -10,7 +10,7 @@ public class NormalZombie extends Zombie{
 
     @Override
     public void attack(Plant plant) {
-        plant.setHealth(plant.getHealth() - this.getAttackDamage());
+        super.attack(plant);
     }
 
 }
