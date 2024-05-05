@@ -1,5 +1,6 @@
-package src.main.java.entity.plant;
+package entity.plant;
 
+import entity.zombie.Zombie;
 // package src.entity;
 
 public class Pumkin extends Plant{

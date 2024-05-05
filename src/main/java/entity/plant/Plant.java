@@ -1,6 +1,6 @@
-package src.main.java.entity.plant;
+package entity.plant;
 
-import src.main.java.entity.Entity;
+import entity.Entity;
 
 public class Plant extends Entity{
     private int cost;
@@ -37,8 +37,4 @@ public class Plant extends Entity{
     public void setCooldown(int cooldown){
         this.cooldown = cooldown;
     }
-
-    @Override
-    public void attack() {}
-
 }

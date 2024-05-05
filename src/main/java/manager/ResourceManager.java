@@ -1,4 +1,4 @@
-package src.main.java.manager;
+package manager;
 
 public class ResourceManager {
     

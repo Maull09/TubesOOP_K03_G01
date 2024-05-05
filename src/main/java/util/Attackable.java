@@ -1,5 +1,7 @@
-package src.main.java.util;
+package util;
+
+import entity.Entity;
 
 public interface Attackable {
-    public void attack();
+    public void attack(Entity entity);
 } 

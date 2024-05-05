@@ -1,6 +1,6 @@
-package src.main.java.entity.zombie;
+package entity.zombie;
 
-import src.main.java.entity.plant.Plant;
+import entity.plant.Plant;
 
 public class DoorZombie extends Zombie{
     private boolean hasDoor;

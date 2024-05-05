@@ -1,4 +1,4 @@
-package src.main.java.entity;
+package entity;
 
 public class Sun {
     private static int totalSun;

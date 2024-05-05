@@ -1,6 +1,6 @@
-package src.main.java.entity.plant;
+package entity.plant;
 
-import src.main.java.entity.zombie.Zombie;
+import entity.zombie.Zombie;
 
 public class Repeater extends Plant{
     public Repeater() {

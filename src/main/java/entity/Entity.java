@@ -1,6 +1,6 @@
-package src.main.java.entity;
+package entity;
 
-import src.main.java.util.*;
+import util.*;
 
 public class Entity implements Attackable{
     private String name;
@@ -47,14 +47,6 @@ public class Entity implements Attackable{
 
     public void setAttackSpeed(int attackSpeed){
         this.attackSpeed = attackSpeed;
-    }
-
-    public boolean getIsAlive() {
-        return isAlive;
-    }
-
-    public void setIsAlive(boolean isAlive){
-        this.isAlive = isAlive;
     }
 
     @Override

@@ -1,4 +1,6 @@
-package src.main.java.entity.plant;
+package entity.plant;
+
+import entity.zombie.Zombie;
 
 public class Chomper extends Plant{
     public Chomper() {

@@ -1,6 +1,6 @@
-package src.main.java.entity.plant;
+package entity.plant;
 
-import src.main.java.entity.zombie.Zombie;
+import entity.zombie.Zombie;
 
 public class TangleKelp extends Plant{
     public TangleKelp() {
@@ -11,14 +11,5 @@ public class TangleKelp extends Plant{
     {
         super.attack(zombie);
     }
-
-    public void hasAttack()
-    {
-        super.isAlive(false);
-    }
-
-
-
-
 
 }

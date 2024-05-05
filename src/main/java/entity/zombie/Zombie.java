@@ -1,9 +1,9 @@
-package src.main.java.entity.zombie;
+package entity.zombie;
 
-import src.main.java.util.Moveable;
-import src.main.java.entity.Entity;
+import util.Moveable;
+import entity.Entity;
 import java.util.Random;
-import src.main.java.entity.plant.Plant;
+import entity.plant.Plant;
 
 public class Zombie extends Entity implements Moveable{
     private boolean is_aquatic;
@@ -34,7 +34,7 @@ public class Zombie extends Entity implements Moveable{
     }
 
     @Override
-    public void move() {}
+    public void move(Zombie zombie) {}
     public void attack(Plant plant){}
 }
 
