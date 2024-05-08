@@ -49,6 +49,14 @@ public class Entity implements Attackable{
         this.attackSpeed = attackSpeed;
     }
 
+    public boolean getIsAlive() {
+        return isAlive;
+    }
+
+    public void setIsAlive(boolean isAlive){
+        this.isAlive = isAlive;
+    }
+
     @Override
     public void attack(Entity entity) 
     {
