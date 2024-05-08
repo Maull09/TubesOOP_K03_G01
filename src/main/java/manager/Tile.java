@@ -28,4 +28,24 @@ public class Tile {
     public ListOf<Entity> getEntities() {
         return entities;
     }
+
+    public TileType getType() {
+        return type;
+    }
+
+    public void setType(TileType type) {
+        this.type = type;
+    }
+
+    public boolean isEmpty() {
+        return entities.isEmpty();
+    }
+
+    public boolean contains(Entity type) {
+        return entities.contains(type);
+    }
+
+    public boolean contains(String type) {
+        return entities.contains(type);
+    }
 }

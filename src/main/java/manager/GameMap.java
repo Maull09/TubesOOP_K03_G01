@@ -1,10 +1,15 @@
 package manager;
 
+import java.util.List;
+import java.util.Random;
+
 import entity.*;
 import entity.plant.Plant;
+import entity.plant.PlantFactory;
 import entity.zombie.Zombie;
+import entity.zombie.ZombieFactory;
 import util.ListOf;
-
+import data.*;
 
 public class GameMap {
     private ListOf<ListOf<Tile>> tiles;
@@ -94,16 +99,48 @@ public class GameMap {
         }
     }
 
-    public void zombieAttack() {
-        
-    }
-
     public void spawnZombies() {
-        
+        Random random = new Random();
+        List<Integer> spawnLand = List.of(1, 2, 5, 6);
+        List<Integer> spawnWater = List.of(3, 4);
+        List<String> zombieTypes = List.of("Normal", "ConeHead", "Pole Vaulting", "Bucket Head", "Ducky Tube", "Dolphin Rider", "Door", "Football", "Flag", "Newspaper");
+        double spawnChance = 0.3;
+        if (random.nextDouble() < spawnChance) {
+            Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())));
+            if (zombie.getName().equals("Ducky Tube") || zombie.getName().equals("Dolphin Rider")) {
+                int randomIndex = random.nextInt(spawnWater.size());
+                tiles.get(randomIndex).get(11).addEntity(zombie);
+            } else {
+                int randomIndex = random.nextInt(spawnLand.size());
+                tiles.get(randomIndex).get(11).addEntity(zombie);
+            }
+        }
     }
 
-    public void spawnPlants() {
-        
+    public void spawnPlants(String plantType, int x, int y, GameState gameState) {
+        // Handler if sun is not enough
+        Plant plant = PlantFactory.createPlant(plantType);
+        if (plant.getCost() > gameState.getSunPoints()) {
+            return;
+        }
+
+        // Handler if plant is not allowed to be planted on the tile because there not lilypad
+        if (!canPlacePlant(tiles.get(y).get(x), plantType)) {
+            return;
+        }
+
+        // Deduct sun points and add plant to tile
+        gameState.setSunPoints(gameState.getSunPoints() - plant.getCost());
+        tiles.get(y).get(x).addEntity(plant);  
+    }
+
+    // Helper method to check if a plant can be placed on a given tile
+    private boolean canPlacePlant(Tile tile, String plantType) {
+        if (tile.getType() == TileType.POOL && !plantType.equals("Lilypad") && !tile.contains("Lilypad")) {
+            return false;  // Only Lilypad or plants on Lilypads can be placed in pool tiles
+        }
+        // Add other specific conditions if necessary
+        return true;
     }
 
     public void update() {

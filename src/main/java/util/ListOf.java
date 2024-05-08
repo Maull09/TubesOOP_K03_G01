@@ -64,5 +64,18 @@ public class ListOf<T> {
         }
         return false;
     }
+
+    public boolean contains(T item) {
+        return items.contains(item);
+    }
+
+    public boolean contains(String name) {
+        for (T item : items) {
+            if (item.toString().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 

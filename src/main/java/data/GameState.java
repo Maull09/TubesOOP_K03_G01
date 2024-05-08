@@ -45,8 +45,16 @@ public class GameState {
         return inventory;
     }
 
-    public Sun getSunPoints() {
-        return sunPoints;
+    public int getSunPoints() {
+        return sunPoints.getTotalSun();
+    }
+
+    public void addSunPoints(int amount) {
+        sunPoints.addSun(amount);
+    }
+
+    public void setSunPoints(int amount) {
+        sunPoints.setTotalSun(amount);
     }
 
     public TimeKeeper getTimeKeeper() {

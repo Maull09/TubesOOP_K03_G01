@@ -11,6 +11,10 @@ public class Sun {
     public void addSun(){
         Sun.totalSun += 25;
     }
+
+    public void addSun(int sun){
+        Sun.totalSun += sun;
+    }
     
     public void reduceSun(int sun){
         if (totalSun > sun)
@@ -21,5 +25,13 @@ public class Sun {
             return;
         }
 
+    }
+
+    public int getTotalSun(){
+        return Sun.totalSun;
+    }
+
+    public void setTotalSun(int sun){
+        Sun.totalSun = sun;
     }
 }
