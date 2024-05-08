@@ -3,6 +3,8 @@ package entity.plant;
 import entity.zombie.Zombie;
 
 public class Squash extends Plant{
+    // private boolean hasAttack = true;
+
     public Squash() {
         super("Squash", 50, 100, 5000, 0, 1, 20);
     }
@@ -12,14 +14,9 @@ public class Squash extends Plant{
         super.attack(zombie);
     }
 
-    public boolean getHasAttack()
+    public void HasAttack()
     {
-        return this.hasAttack;
-    }
-
-    public void setHasAttack(boolean hasAttack)
-    {
-        super.setIsAlive(hasAttack);
+        super.setIsAlive(false);
     }
 
 

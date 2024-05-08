@@ -38,6 +38,12 @@ public class Plant extends Entity{
     public void setCooldown(int cooldown){
         this.cooldown = cooldown;
     }
+
+    public void die() {
+        super.setIsAlive(false);
+        System.out.println(this.getName() + " died!");
+    }
+
     @Override
     public void attack(){}
     public void attack(ListOf<Entity> tile){}

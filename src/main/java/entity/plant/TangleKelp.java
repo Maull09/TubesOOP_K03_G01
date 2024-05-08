@@ -12,14 +12,9 @@ public class TangleKelp extends Plant{
         super.attack(zombie);
     }
 
-    public boolean getHasAttack()
+    public void HasAttack()
     {
-        return this.hasAttack;
-    }
-
-    public void setHasAttack(boolean hasAttack)
-    {
-        super.setIsAlive(hasAttack);
+        super.setIsAlive(false);
     }
 
 }
