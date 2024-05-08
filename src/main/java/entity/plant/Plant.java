@@ -37,4 +37,6 @@ public class Plant extends Entity{
     public void setCooldown(int cooldown){
         this.cooldown = cooldown;
     }
+    @Override
+    public void attack(){}
 }

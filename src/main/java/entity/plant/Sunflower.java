@@ -12,10 +12,10 @@ public class Sunflower extends Plant{
         super.attack(zombie);
     }
 
-    // public void produceSun()
-    // {
-    //     addSun();
-    // }
+    public void produceSun()
+    {
+        addSun();
+    }
 
     
 }
