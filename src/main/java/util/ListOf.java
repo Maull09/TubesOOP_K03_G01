@@ -3,6 +3,7 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import entity.Entity;
 
 public class ListOf<T> {
     private List<T> items;
@@ -43,6 +44,25 @@ public class ListOf<T> {
 
     public boolean isEmpty() {
         return items.isEmpty();
+    }
+
+    public ListOf<Entity> getAllOfType(Class<?> type, ListOf<Entity> entities) {
+        ListOf<Entity> result = new ListOf<>();
+        for (int i = 0; i < entities.size(); i++) {
+            if (type.isInstance(entities.get(i))) {
+                result.add(entities.get(i));
+            }
+        }
+        return result;
+    }
+
+    public boolean contains(Class<?> type, ListOf<Entity> entities) {
+        for (int i = 0; i < entities.size(); i++) {
+            if (type.isInstance(entities.get(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

@@ -1,12 +1,13 @@
 package manager;
 
-import java.util.ArrayList;
-import java.util.List;
 import entity.*;
+import entity.plant.Plant;
+import entity.zombie.Zombie;
+import util.ListOf;
 
 
 public class GameMap {
-    private List<List<Tile>> tiles;
+    private ListOf<ListOf<Tile>> tiles;
     private int width;
     private int height;
 
@@ -17,9 +18,9 @@ public class GameMap {
     }
 
     private void initializeTiles() {
-        this.tiles = new ArrayList<>();
+        this.tiles = new ListOf<>();
         for (int y = 0; y < height; y++) {
-            List<Tile> row = new ArrayList<>();
+            ListOf<Tile> row = new ListOf<>();
             for (int x = 0; x < width; x++) {
                 Tile tile = createTileByPosition(x, y);
                 row.add(tile);
@@ -49,39 +50,71 @@ public class GameMap {
         tiles.get(y).get(x).removeEntity(entity);
     }
 
-    public List<Entity> getEntitiesAt(int x, int y) {
+    public ListOf<Entity> getEntitiesAt(int x, int y) {
         return tiles.get(y).get(x).getEntities();
     }
 
-    // Additional methods for handling specific tile logic could be added here
-}
+    public void moveZombies(){
+        for (int y = tiles.size() - 1; y >= 0; y--) {
+            for (int x = tiles.get(y).size() - 1; x >= 0; x--) {
+                ListOf<Entity> tile = tiles.get(y).get(x).getEntities();
+                ListOf<Entity> nextTile = x + 1 < tiles.get(y).size() ? tiles.get(y).get(x + 1).getEntities() : null;
 
-// Tile class to handle different tile behaviors
-class Tile {
-    private TileType type;
-    private List<Entity> entities;
+                ListOf<Entity> toMove = new ListOf<>();
+                for (int i = 0; i < tile.size(); i++) {
+                    if (tile.get(i) instanceof Zombie) {
+                        if (nextTile != null && !nextTile.contains(Plant.class, nextTile)) {
+                            toMove.add(tile.get(i));
+                        } else {
+                            ((Zombie) tile.get(i)).attack(tile.getAllOfType(Plant.class, tile));
+                        }
+                    }
+                }
 
-    public Tile(TileType type) {
-        this.type = type;
-        this.entities = new ArrayList<>();
-    }
-
-    public void addEntity(Entity entity) {
-        // Example: Only allow water-based plants in POOL type tiles
-        if (this.type == TileType.POOL) {
-            entities.add(entity);
-        } else if (this.type != TileType.POOL) {
-            entities.add(entity);
+                for (int i = 0; i < toMove.size(); i++) {
+                    tile.remove(toMove.get(i));
+                    if (nextTile != null) {
+                        nextTile.add(toMove.get(i));
+                    }
+                }
+            }
         }
     }
 
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
+    public void plantAttack() {
+        for (int y = 0; y < tiles.size(); y++) {
+            for (int x = 0; x < tiles.get(y).size(); x++) {
+                ListOf<Entity> tile = tiles.get(y).get(x).getEntities();
+                for (int i = 0; i < tile.size(); i++) {
+                    if (tile.get(i) instanceof Plant) {
+                        ((Plant) tile.get(i)).attack(tile.getAllOfType(Zombie.class, tile));
+                    }
+                }
+            }
+        }
     }
 
-    public List<Entity> getEntities() {
-        return entities;
+    public void zombieAttack() {
+        
     }
+
+    public void spawnZombies() {
+        
+    }
+
+    public void spawnPlants() {
+        
+    }
+
+    public void update() {
+    }
+
+    public boolean checkForGameOverConditions() {
+
+
+        return false;
+    }
+
 }
 
 // Enum to define tile types

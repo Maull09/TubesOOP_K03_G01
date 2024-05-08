@@ -1,5 +1,6 @@
 package entity.zombie;
 
+import util.ListOf;
 import util.Moveable;
 import entity.Entity;
 import java.util.Random;
@@ -36,5 +37,6 @@ public class Zombie extends Entity implements Moveable{
     @Override
     public void move(Zombie zombie) {}
     public void attack(Plant plant){}
+    public void attack(ListOf<Entity> tile){}
 }
 

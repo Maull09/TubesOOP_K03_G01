@@ -1,6 +1,8 @@
 package entity;
 
 import util.*;
+import entity.zombie.Zombie;
+import entity.plant.Plant;
 
 public class Entity implements Attackable{
     private String name;
@@ -61,5 +63,31 @@ public class Entity implements Attackable{
     public void attack(Entity entity) 
     {
         entity.setHealth(getHealth() - this.getAttackDamage());
+    }
+
+    @Override
+    public void attack() 
+    {
+        System.out.println("Attacking...");
+    }
+
+    @Override
+    public void attack(Zombie zombie) 
+    {
+        zombie.setHealth(zombie.getHealth() - this.getAttackDamage());
+    }
+
+    @Override
+    public void attack(Plant plant) 
+    {
+        plant.setHealth(plant.getHealth() - this.getAttackDamage());
+    }
+
+    @Override
+    public void attack(ListOf<Entity> tile) 
+    {
+        for (int i = 0; i < tile.size(); i++) {
+            tile.get(i).setHealth(tile.get(i).getHealth() - this.getAttackDamage());
+        }
     }
 }

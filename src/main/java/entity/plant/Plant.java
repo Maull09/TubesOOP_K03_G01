@@ -1,6 +1,7 @@
 package entity.plant;
 
 import entity.Entity;
+import util.ListOf;
 
 public class Plant extends Entity{
     private int cost;
@@ -39,4 +40,5 @@ public class Plant extends Entity{
     }
     @Override
     public void attack(){}
+    public void attack(ListOf<Entity> tile){}
 }
