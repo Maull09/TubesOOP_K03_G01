@@ -86,13 +86,13 @@ public class GameMap {
         }
     }
 
-    public void plantAttack() {
+    public void plantAttack(GameState gameState) {
         for (int y = 0; y < tiles.size(); y++) {
             for (int x = 0; x < tiles.get(y).size(); x++) {
                 ListOf<Entity> tile = tiles.get(y).get(x).getEntities();
                 for (int i = 0; i < tile.size(); i++) {
                     if (tile.get(i) instanceof Plant) {
-                        ((Plant) tile.get(i)).attack(tile.getAllOfType(Zombie.class, tile));
+                        ((Plant) tile.get(i)).attack(tile.getAllOfType(Zombie.class, tile), gameState.getTimeKeeper());
                     }
                 }
             }
@@ -125,9 +125,14 @@ public class GameMap {
         }
 
         // Handler if plant is not allowed to be planted on the tile because there not lilypad
-        if (!canPlacePlant(tiles.get(y).get(x), plantType)) {
+        if (!canPlacePlant(tiles.get(y).get(x), plantType)){
             return;
         }
+
+        // Handler if plant is not allowed to be planted on the tile because there is already a plant except pumpkin
+        if (tiles.get(y).get(x).contains(Plant.class, tiles.get(y).get(x)) && !plantType.equals("Pumpkin")) {
+            return;
+        } 
 
         // Deduct sun points and add plant to tile
         gameState.setSunPoints(gameState.getSunPoints() - plant.getCost());
@@ -139,7 +144,6 @@ public class GameMap {
         if (tile.getType() == TileType.POOL && !plantType.equals("Lilypad") && !tile.contains("Lilypad")) {
             return false;  // Only Lilypad or plants on Lilypads can be placed in pool tiles
         }
-        // Add other specific conditions if necessary
         return true;
     }
 
@@ -147,8 +151,15 @@ public class GameMap {
     }
 
     public boolean checkForGameOverConditions() {
-
-
+        // Check if zombies have reached the target zone
+        for (int y = 0; y < tiles.size(); y++) {
+            ListOf<Entity> targetZone = tiles.get(y).get(0).getEntities();
+            for (int i = 0; i < targetZone.size(); i++) {
+                if (targetZone.get(i) instanceof Zombie) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

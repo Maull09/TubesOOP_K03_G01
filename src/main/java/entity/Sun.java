@@ -5,21 +5,21 @@ public class Sun {
 
     public Sun ()
     {
-        Sun.totalSun = 25;
+        totalSun = 25;
     }
 
-    public void addSun(){
-        Sun.totalSun += 25;
+    public static void addSun(){
+        totalSun += 25;
     }
 
     public void addSun(int sun){
-        Sun.totalSun += sun;
+        totalSun += sun;
     }
     
     public void reduceSun(int sun){
         if (totalSun > sun)
         {
-            Sun.totalSun -= sun;
+            totalSun -= sun;
         }
         else {
             return;

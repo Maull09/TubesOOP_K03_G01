@@ -1,6 +1,7 @@
 package entity.plant;
 
 import entity.zombie.Zombie;
+import entity.*;
 
 public class Sunflower extends Plant{
     public Sunflower() {
@@ -14,7 +15,7 @@ public class Sunflower extends Plant{
 
     public void produceSun()
     {
-        addSun();
+        Sun.addSun();
     }
 
     

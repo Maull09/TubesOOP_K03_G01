@@ -45,6 +45,15 @@ public class Tile {
         return entities.contains(type);
     }
 
+    public boolean contains(Class<?> type, Tile entities) {
+        for (int i = 0; i < entities.getEntities().size(); i++) {
+            if (type.isInstance(entities.getEntities().get(i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean contains(String type) {
         return entities.contains(type);
     }

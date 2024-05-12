@@ -77,5 +77,6 @@ public class ListOf<T> {
         }
         return false;
     }
+
 }
 

@@ -7,11 +7,13 @@ public class Flag {
     private boolean isActive;
     private int triggerTime; // Time at which this flag should be evaluated
     private GameState gameState; // Reference to the game state to affect changes
+    private GameMap gameMap; // Reference to the game map to trigger events
 
-    public Flag(int triggerTime, GameState gameState) {
+    public Flag(int triggerTime, GameState gameState, GameMap gameMap) {
         this.isActive = false;
         this.triggerTime = triggerTime;
         this.gameState = gameState;
+        this.gameMap = gameMap;
     }
 
     // Method to activate the flag
@@ -27,7 +29,7 @@ public class Flag {
         // Example implementation: doubling the number of zombies
         // This should be tied into how zombies are spawned in your game logic
         System.out.println("Zombie wave increased!");
-        // gameState.spawnAdditionalZombies(); // This method should be implemented in GameState
+        gameMap.spawnZombies();
     }
 
     // Check whether it's time to trigger this flag
