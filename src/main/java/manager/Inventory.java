@@ -8,15 +8,23 @@ public class Inventory {
 
     public Inventory() {
         this.items = new ListOf<>();
+        items.add(PlantFactory.createPlant("Sunflower"));
+        items.add(PlantFactory.createPlant("Peashooter"));
+        items.add(PlantFactory.createPlant("Repeater"));
+        items.add(PlantFactory.createPlant("SnowPea"));
+        items.add(PlantFactory.createPlant("Wallnut"));
+        items.add(PlantFactory.createPlant("Pumkin"));
+        items.add(PlantFactory.createPlant("Chomper"));
+        items.add(PlantFactory.createPlant("TangleKelp"));
+        items.add(PlantFactory.createPlant("Squash"));
+        items.add(PlantFactory.createPlant("Lilypad"));
     }
 
-    public boolean addItem(Plant item) {
+    public void addItem(Plant item) {
         if (items.size() < MAX_ITEMS) {
             items.add(item);
-            return true;
         } else {
             System.out.println("Inventory is full. Cannot add more items.");
-            return false;
         }
     }
 

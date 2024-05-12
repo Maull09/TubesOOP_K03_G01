@@ -14,12 +14,14 @@ import java.awt.event.ActionEvent;
  * @author USER
  */
 public class MainMenu extends javax.swing.JFrame {
+    private JFrame parentFrame;
 
     /**
      * Creates new form MainMenu1
      */
     
-    public MainMenu() {
+    public MainMenu(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
         initializeGUI();
     }
 
@@ -51,7 +53,7 @@ public class MainMenu extends javax.swing.JFrame {
     private JButton createButton(String actionCommand, int x, int y, String iconPath) {
         ImageIcon icon = new ImageIcon(getClass().getResource(iconPath));
         JButton button = new JButton(icon);
-        button.setActionCommand(actionCommand);  
+        button.setActionCommand(actionCommand); 
         button.setBounds(x, y, icon.getIconWidth(), icon.getIconHeight());
         button.addActionListener(this::buttonAction);
         button.setBorderPainted(false);
@@ -71,6 +73,7 @@ public class MainMenu extends javax.swing.JFrame {
                 break;
             case "Zombies":
                 System.out.println("View Zombies");
+                openzombielist();
                 break;
             case "Help":
                 System.out.println("Show Help");
@@ -83,8 +86,15 @@ public class MainMenu extends javax.swing.JFrame {
                 break;
         }
     }
+
+    private void openzombielist() {
+        parentFrame.setContentPane(new ZombieList(parentFrame));
+        parentFrame.revalidate();
+        parentFrame.repaint();
+    }
     
     public static void main(String[] args) {
-        new MainMenu(); // Create and display the main menu
+        JFrame parentFrame = new JFrame();
+        new MainMenu(parentFrame); // Create and display the main menu
     }             
 }
