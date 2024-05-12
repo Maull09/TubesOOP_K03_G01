@@ -2,6 +2,8 @@ package entity.plant;
 
 import entity.Entity;
 import util.ListOf;
+import data.TimeKeeper;
+import entity.zombie.Zombie;
 
 public class Plant extends Entity{
     private int cost;
@@ -40,5 +42,22 @@ public class Plant extends Entity{
     }
     @Override
     public void attack(){}
-    public void attack(ListOf<Entity> tile){}
+    public void attack(ListOf<Entity> tile, TimeKeeper timeKeeper){
+        // attack all zombies in the tile continues with duration of cooldown is attackSpeed
+        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0){
+            for (int i = 0; i < tile.size(); i++) {
+                if (tile.get(i) instanceof Zombie) {
+                    Zombie zombie = (Zombie) tile.get(i);
+                    if (zombie.getHealth() > 0) {
+                        zombie.setHealth(zombie.getHealth() - this.getAttackDamage());
+                        System.out.println(this.getName() + " attacked " + zombie.getName() + " for " + this.getAttackDamage() + " damage");
+                    }
+                    if (zombie.getHealth() <= 0) {
+                        zombie.setIsAlive(false);
+                        zombie.die();
+                    }
+                }
+            }
+        }
+    }
 }
