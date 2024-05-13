@@ -8,7 +8,9 @@ import entity.plant.Plant;
 import manager.DeckTanaman;
 import manager.Inventory;
 import util.ListOf;
-public class PlantSelectScreen extends JFrame {
+
+public class PlantSelectScreen extends JPanel {
+    private Image backgroundImage;
     private DeckTanaman deckTanaman;
     private Inventory inventory;
     private JPanel deckPanel;
@@ -16,28 +18,38 @@ public class PlantSelectScreen extends JFrame {
 
     public PlantSelectScreen(DeckTanaman deckTanaman, Inventory inventory) {
         this.deckTanaman = deckTanaman;
-        this.inventory = new Inventory();
-        
-        setTitle("Choose Your Plants");
-        setSize(1280, 720);
+        this.inventory = inventory;
         setLayout(new BorderLayout());
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        initializeUI(deckTanaman, inventory);
-        setVisible(true);
+        // loadImage();
+        initializeUI();
     }
 
-    private void initializeUI(DeckTanaman deckTanaman, Inventory inventory) {
+    private void loadImage() {
+        try {
+            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/description/bgplantdesc.png")).getImage();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (backgroundImage != null) {
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+
+    private void initializeUI() {
         // North panel for deck
         deckPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        deckPanel.setOpaque(false);
         deckPanel.setBorder(BorderFactory.createTitledBorder("Your Deck"));
-
-        // Populate deck from deckTanaman
         refreshDeckPanel();
 
         // South panel for inventory
         inventoryPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        inventoryPanel.setOpaque(false);
         inventoryPanel.setBorder(BorderFactory.createTitledBorder("Inventory - Drag plants to your deck"));
         
         // Populate inventory from inventory class
@@ -54,13 +66,14 @@ public class PlantSelectScreen extends JFrame {
             });
             inventoryPanel.add(button);
         }
+
         // Add a button to start the game
         JButton startButton = new JButton("Start Game");
+        startButton.setOpaque(false);
 
         add(deckPanel, BorderLayout.NORTH);
         add(inventoryPanel, BorderLayout.SOUTH);
-        add(startButton, BorderLayout.CENTER);  
-
+        add(startButton, BorderLayout.CENTER);
     }
 
     private void refreshDeckPanel() {
@@ -78,10 +91,11 @@ public class PlantSelectScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            DeckTanaman deckTanaman = new DeckTanaman();
-            Inventory inventory = new Inventory();
-            PlantSelectScreen plantSelectScreen = new PlantSelectScreen(deckTanaman, inventory);
-        });
+        JFrame frame = new JFrame("Plant Selection");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new PlantSelectScreen(new DeckTanaman(), new Inventory()));
+        frame.setSize(1280, 720);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }

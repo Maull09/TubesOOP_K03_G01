@@ -1,22 +1,18 @@
 package gui;
 
 import javax.swing.*;
-
-import manager.DeckTanaman;
-import manager.Inventory;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class MainMenu extends JPanel {
+public class HelpScreen extends JPanel{
     private Image backgroundImage;
     private GameGUI gameGUI;
 
-    public MainMenu(GameGUI gameGUI) {
+    public HelpScreen(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
         initializeGUI();
         try {
-            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/Menu.png")).getImage();
+            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/HelpPage.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace(); // Handle potential errors gracefully
         }
@@ -34,11 +30,7 @@ public class MainMenu extends JPanel {
         setLayout(null); // Use null layout to manually position buttons
 
         // Create and place buttons
-        add(createButton("Start", 535, 435, "/resources/images/background/StartButton.png"));
-        add(createButton("Plants", 400, 540, "/resources/images/background/PlantsButton.png"));
-        add(createButton("Zombies", 650, 540, "/resources/images/background/ZombiesButton.png"));
-        add(createButton("Help", 50, 33, "/resources/images/background/HelpButton.png"));
-        add(createButton("Exit", 1050, 33, "/resources/images/background/ExitButton.png"));
+        add(createButton("Back", 20, 29, "/resources/images/description/backdescplant.png"));
 
         revalidate();
         repaint();
@@ -59,36 +51,12 @@ public class MainMenu extends JPanel {
     private void buttonAction(ActionEvent e) {
         String command = e.getActionCommand();
         switch (command) {
-            case "Start":
-                gameGUI.showPlantSelectScreen();
-                break;
-            case "Plants":
-                gameGUI.showPlantList();
-                break;
-            case "Zombies":
-                gameGUI.showZombieList();
-                break;
-            case "Help":
-                gameGUI.showHelpScreen();
-                break;
-            case "Exit":
-                System.exit(0);
+            case "Back":
+                gameGUI.showMainMenu();
                 break;
             default:
                 System.out.println("Unknown command: " + command);
                 break;
         }
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Plants vs. Zombies");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1280, 720);
-        frame.setLocationRelativeTo(null);
-
-        GameGUI gameGUI = new GameGUI();
-        MainMenu menu = new MainMenu(gameGUI);
-        frame.setContentPane(menu);
-        frame.setVisible(true);
     }
 }
