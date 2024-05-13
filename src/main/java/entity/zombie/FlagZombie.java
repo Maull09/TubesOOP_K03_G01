@@ -1,12 +1,14 @@
 package entity.zombie;
 
+import javax.swing.ImageIcon;
+
 import entity.plant.Plant;
 
 public class FlagZombie extends Zombie{
     private boolean hasFlag;
 
-    public FlagZombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, boolean has_flag) {
-        super("Flag Zombie", 125, 105, 1, false);
+    public FlagZombie() {
+        super("Flag Zombie", 125, 105, 1, false, new ImageIcon("/resources/images/zombie/FlagZombie.png"));
     }
 
     public boolean getHasFlag() {

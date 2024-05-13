@@ -1,12 +1,14 @@
 package entity.zombie;
 
+import javax.swing.ImageIcon;
+
 import entity.plant.Plant;
 
 public class ConeHeadZombie extends Zombie{
     private boolean hasCone;
 
-    public ConeHeadZombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic) {
-        super("Cone Head Zombie", 250, 100, 1, false);
+    public ConeHeadZombie() {
+        super("Cone Head Zombie", 250, 100, 1, false, new ImageIcon("/resources/images/zombie/ConeHatZombie.png"));
     }
 
     public boolean getHasCone() {
