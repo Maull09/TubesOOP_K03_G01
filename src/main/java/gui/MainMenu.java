@@ -40,11 +40,11 @@ public class MainMenu extends javax.swing.JFrame {
         setLayout(null);
 
         // Create and place buttons
-        add(createButton("Start", 200, 180, "/resources/images/background/StartButton.png"));
-        add(createButton("Plants", 200, 220, "/resources/images/background/PlantsButton.png"));
-        add(createButton("Zombies", 200, 260, "/resources/images/background/ZombiesButton.png"));
-        add(createButton("Help", 67, 50, "/resources/images/background/HelpButton.png"));
-        add(createButton("Exit", 450, 310, "/resources/images/background/ExitButton.png"));
+        add(createButton("Start", 535, 435, "/resources/images/background/StartButton.png"));
+        add(createButton("Plants", 400, 540, "/resources/images/background/PlantsButton.png"));
+        add(createButton("Zombies", 650, 540, "/resources/images/background/ZombiesButton.png"));
+        add(createButton("Help", 50, 33, "/resources/images/background/HelpButton.png"));
+        add(createButton("Exit", 1050, 33, "/resources/images/background/ExitButton.png"));
 
         // Ensure the JFrame is visible
         setVisible(true);
