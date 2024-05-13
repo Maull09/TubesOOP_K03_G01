@@ -2,9 +2,6 @@ package gui;
 
 import javax.swing.*;
 
-import manager.DeckTanaman;
-import manager.Inventory;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 

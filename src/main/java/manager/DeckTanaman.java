@@ -28,5 +28,9 @@ public class DeckTanaman {
     public ListOf<Plant> getPlants() {
         return plants;
     }
+
+    public boolean containsPlant(Plant plant) {
+        return plants.contains(plant);
+    }
 }
 

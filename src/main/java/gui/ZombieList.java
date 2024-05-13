@@ -32,7 +32,8 @@ public class ZombieList extends JPanel {
 
         // Create a panel for the top bar and back button
         JPanel topBarPanel = new JPanel();
-        topBarPanel.setLayout(new FlowLayout(FlowLayout.CENTER));  // Use FlowLayout to place items from left to right
+        topBarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Use FlowLayout to place items from left to right
+        topBarPanel.setPreferredSize(new Dimension(1280, 130));
         topBarPanel.setOpaque(false);  // Make the panel transparent
     
         // Back Button
@@ -42,10 +43,6 @@ public class ZombieList extends JPanel {
         backButton.setContentAreaFilled(false);
         backButton.setFocusPainted(false);
         backButton.addActionListener(e -> gameGUI.showMainMenu());
-    
-        // Create a spacer
-        JLabel spacer = new JLabel();
-        spacer.setSize(new Dimension(10, 50)); // Lebar 10 px dan tinggi 50 px
         
         // Top bar with image
         ImageIcon topBarIcon = new ImageIcon(getClass().getResource("/resources/images/description/headerzombie.png"));
@@ -53,7 +50,7 @@ public class ZombieList extends JPanel {
     
         // Add back button and top bar label to the top bar panel
         topBarPanel.add(backButton);
-        topBarPanel.add(spacer);
+        topBarPanel.add(Box.createHorizontalStrut(100));
         topBarPanel.add(topBarLabel);
         add(topBarPanel, BorderLayout.NORTH);
 

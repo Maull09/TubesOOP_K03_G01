@@ -1,9 +1,19 @@
 package gui;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 import manager.DeckTanaman;
 import manager.Inventory;
 import java.awt.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class GameGUI extends JFrame {
     private MainMenu mainMenu;
@@ -15,6 +25,7 @@ public class GameGUI extends JFrame {
     public GameGUI() {
         initializeFrame();
         initializePanels();
+        playBackgroundSound("/resources/sound/backsound.wav");
         showMainMenu();
     }
 
@@ -31,7 +42,7 @@ public class GameGUI extends JFrame {
         mainMenu = new MainMenu(this);
         plantList = new PlantList(this);
         zombieList = new ZombieList(this);
-        plantSelectScreen = new PlantSelectScreen(new DeckTanaman(), new Inventory());
+        plantSelectScreen = new PlantSelectScreen(new DeckTanaman(), new Inventory(), this);
         helpScreen = new HelpScreen(this);  // Initialize your help screen here
     }
 
@@ -60,6 +71,27 @@ public class GameGUI extends JFrame {
         revalidate();
         repaint();
     }
+
+    private void playBackgroundSound(String resourcePath) {
+        try {
+            // Use getClass().getResourceAsStream inside AudioSystem to get an AudioInputStream
+            InputStream audioSrc = getClass().getResourceAsStream(resourcePath);
+            // Check if the input stream is null
+            if (audioSrc == null) {
+                System.err.println("Resource not found: " + resourcePath);
+                return;
+            }
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args) {
         new GameGUI();  // Start the game GUI
