@@ -2,14 +2,17 @@ package entity.zombie;
 
 import util.ListOf;
 import util.Moveable;
+
+import javax.swing.ImageIcon;
+
 import entity.Entity;
 import entity.plant.Plant;
 
 public class Zombie extends Entity implements Moveable{
     private boolean is_aquatic;
 
-    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic) {
-        super(name, health, attackDamage, attackSpeed);
+    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, ImageIcon icon) {
+        super(name, health, attackDamage, attackSpeed, icon);
         this.is_aquatic = is_aquatic;
     }
 

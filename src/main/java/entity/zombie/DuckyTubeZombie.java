@@ -1,10 +1,12 @@
 package entity.zombie;
 
+import javax.swing.ImageIcon;
+
 import entity.plant.Plant;
 
 public class DuckyTubeZombie extends Zombie {
-    public DuckyTubeZombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic) {
-        super("Ducky Tube Zombie", 100, 100, 1, true);
+    public DuckyTubeZombie() {
+        super("Ducky Tube Zombie", 100, 100, 1, true, new ImageIcon("/resources/images/zombie/duckytubezombie.png"));
     }
 
     @Override

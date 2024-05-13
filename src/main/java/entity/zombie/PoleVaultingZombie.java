@@ -1,12 +1,14 @@
 package entity.zombie;
 
+import javax.swing.ImageIcon;
+
 import entity.plant.Plant;
 
 public class PoleVaultingZombie extends Zombie{
     private boolean hasPole;
 
-    public PoleVaultingZombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic) {
-        super("Pole Vaulting Zombie", 175, 100, 1, false);
+    public PoleVaultingZombie() {
+        super("Pole Vaulting Zombie", 175, 100, 1, false, new ImageIcon("/resources/images/zombie/Polevaulterzombie.png"));
     }
 
     public boolean getHasPole() {

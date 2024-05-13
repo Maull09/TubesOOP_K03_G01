@@ -1,12 +1,14 @@
 package entity.zombie;
 
+import javax.swing.ImageIcon;
+
 import entity.plant.Plant;
 
 public class NewspaperZombie extends Zombie{
     private boolean hasNewspaper;
 
-    public NewspaperZombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic) {
-        super("Newspaper Zombie", 150, 100, 1, false);
+    public NewspaperZombie() {
+        super("Newspaper Zombie", 150, 100, 1, false, new ImageIcon("/resources/images/zombie/Newspaper_Zombie.png"));
     }
 
     public boolean getHasNewspaper() {
