@@ -10,7 +10,7 @@ public class PlantFactory {
             case "Peashooter":
                 return new Peashooter();
             case "Pumkin":
-                return new Pumkin();
+                return new Pumpkin();
             case "Repeater":
                 return new Repeater();
             case "SnowPea":
