@@ -21,5 +21,12 @@ public class Sunflower extends Plant{
         Sun.addSun();
     }
 
-    
+    @Override
+    public ImageIcon getIcon() {
+        return super.getIcon();
+    }
+
+    public String getImagePath() {
+        return "/resources/images/plant/Sunflower.png";
+    }
 }

@@ -21,8 +21,14 @@ public class Squash extends Plant{
         super.setIsAlive(false);
     }
 
+    @Override
+    public ImageIcon getIcon() {
+        return super.getIcon();
+    }
 
-
+    public String getImagePath() {
+        return "/resources/images/plant/Squash.png";
+    }
 
     
 }

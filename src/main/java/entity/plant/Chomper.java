@@ -6,12 +6,21 @@ import entity.zombie.Zombie;
 
 public class Chomper extends Plant{
     public Chomper() {
-        super("Chomper", 150, 100, 5000, 10, 1, 20, new ImageIcon("/resources/images/plant/Chomper.png"));
+        super("Chomper", 150, 100, 5000, 10, 1, 20, new ImageIcon("/resources/images/cards/card_chomper.png"));
     }
 
     public void attack(Zombie zombie)
     {
         super.attack(zombie);
+    }
+
+    @Override
+    public ImageIcon getIcon() {
+        return super.getIcon();
+    }
+
+    public String getImagePath() {
+        return "/resources/images/cards/card_chomper.png";
     }
 
     

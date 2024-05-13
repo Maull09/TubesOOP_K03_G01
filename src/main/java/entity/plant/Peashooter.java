@@ -14,4 +14,13 @@ public class Peashooter extends Plant {
         super.attack(zombie);
     }
 
+    @Override
+    public ImageIcon getIcon() {
+        return super.getIcon();
+    }
+
+    public String getImagePath() {
+        return "/resources/images/plant/Peashooter.png";
+    }
+
 }

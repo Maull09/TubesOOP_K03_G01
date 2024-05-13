@@ -10,17 +10,17 @@ public class ZombieList extends JPanel {
     public ZombieList(JFrame parentFrame) {
         this.parentFrame = parentFrame;
         initializeUI();
-        setPreferredSize(new Dimension(600, 400)); // Preferred size for the panel
+        setPreferredSize(new Dimension(1280, 720)); // Preferred size for the panel
         parentFrame.add(this); // Adds this panel to the parent frame
         parentFrame.pack();
         parentFrame.setVisible(true);
     }
-
+    
     private void initializeUI() {
         this.setLayout(new BorderLayout(5, 5));
 
         // Top bar with image
-        ImageIcon topBarIcon = new ImageIcon(getClass().getResource("/resources/images/background/StartButton.png")); // Adjust path
+        ImageIcon topBarIcon = new ImageIcon(getClass().getResource("/resources/images/description/headerzombie.png")); // Adjust path
         JLabel topBarLabel = new JLabel(topBarIcon);
         this.add(topBarLabel, BorderLayout.NORTH);
 
@@ -28,16 +28,13 @@ public class ZombieList extends JPanel {
         JPanel gridPanel = new JPanel(new GridLayout(3, 3, 5, 5)); // Adjust grid layout as needed
         for (int i = 0; i < 10; i++) { // Adjust to 9 if that's your intent (previously 10 causing out of grid)
             final int index = i;
-            JButton button = new JButton("Zombie " + (i + 1));
-            button.addActionListener(e -> updateDetailDisplay("Detail for Zombie " + (index + 1)));
+            JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/description/zombie" + i + ".png")));
+            button.addActionListener(e -> updateDetailDisplay("/resources/images/description/desczombie" + index + ".png"));
             gridPanel.add(button);
         }
 
         // Large rectangle for details
-        detailLabel = new JLabel("Click a zombie for details", JLabel.CENTER);
-        detailLabel.setBackground(Color.GREEN);
-        detailLabel.setOpaque(true);
-        detailLabel.setPreferredSize(new Dimension(200, 200));
+        detailLabel = new JLabel("", JLabel.CENTER);
 
         // Adding components to the layout
         this.add(gridPanel, BorderLayout.WEST);
@@ -45,7 +42,7 @@ public class ZombieList extends JPanel {
     }
 
     private void updateDetailDisplay(String detailText) {
-        detailLabel.setText(detailText);
+        detailLabel.setIcon(new ImageIcon(getClass().getResource(detailText)));
     }
 
     public static void main(String[] args) {

@@ -11,12 +11,14 @@ public class DeckTanaman {
         this.plants = new ListOf<>();
     }
 
-    public void addPlant(Plant plant) {
+    public boolean addPlant(Plant plant) {
         if (plants.size() < MAX_SIZE) {
             plants.add(plant);
+            return true;
         } else {
             System.out.println("Deck is full. Cannot add more plants.");
         }
+        return false;
     }
 
     public void removePlant(Plant plant) {

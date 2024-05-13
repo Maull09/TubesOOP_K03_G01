@@ -19,4 +19,13 @@ public class TangleKelp extends Plant{
         super.setIsAlive(false);
     }
 
+    @Override
+    public ImageIcon getIcon() {
+        return super.getIcon();
+    }
+
+    public String getImagePath() {
+        return "/resources/images/plant/Tangle-kelp.png";
+    }
+
 }
