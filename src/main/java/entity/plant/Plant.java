@@ -2,6 +2,9 @@ package entity.plant;
 
 import entity.Entity;
 import util.ListOf;
+
+import javax.swing.ImageIcon;
+
 import data.TimeKeeper;
 import entity.zombie.Zombie;
 
@@ -10,8 +13,8 @@ public class Plant extends Entity{
     private int range;
     private int cooldown;
 
-    public Plant(String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown) {
-        super(name,health,attackDamage,attackSpeed);
+    public Plant(String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown, ImageIcon icon) {
+        super(name,health,attackDamage,attackSpeed,icon);
         this.cost = cost;
         this.range = range;
         this.cooldown = cooldown;

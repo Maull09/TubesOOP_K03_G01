@@ -3,6 +3,7 @@ package entity;
 import util.*;
 import entity.zombie.Zombie;
 import entity.plant.Plant;
+import javax.swing.ImageIcon;
 
 public class Entity implements Attackable{
     private String name;
@@ -10,13 +11,15 @@ public class Entity implements Attackable{
     private int attackDamage;
     private int attackSpeed;
     private boolean isAlive;
+    private ImageIcon icon;
 
-    public Entity(String name, int health, int attackDamage, int attackSpeed)
+    public Entity(String name, int health, int attackDamage, int attackSpeed, ImageIcon icon)
     {
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
+        this.icon = icon;
     }
 
     public String getName() {
@@ -58,6 +61,14 @@ public class Entity implements Attackable{
     public void setIsAlive(boolean isAlive){
         this.isAlive = isAlive;
     }
+
+    public ImageIcon getIcon() {
+        return icon;
+    }
+
+    public void setIcon(ImageIcon icon) {
+        this.icon = icon;
+    } 
 
     @Override
     public void attack(Entity entity) 
