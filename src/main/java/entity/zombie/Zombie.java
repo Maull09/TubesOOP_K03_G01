@@ -8,13 +8,13 @@ import entity.plant.Plant;
 
 public class Zombie extends Entity implements Moveable{
     private boolean is_aquatic;
-    private boolean hasArmor;
+    private boolean isFaster;
     private boolean isSlowed;
 
-    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, int row, int col, boolean isAlive, boolean hasArmor, boolean isSlowed) {
+    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, int row, int col, boolean isAlive, boolean isFaster, boolean isSlowed) {
         super(name, health, attackDamage, attackSpeed, row, col, true);
         this.is_aquatic = is_aquatic;
-        this.hasArmor = hasArmor;
+        this.isFaster = isFaster;
         this.isSlowed = false;
     }
 
@@ -26,12 +26,12 @@ public class Zombie extends Entity implements Moveable{
         this.is_aquatic = is_aquatic;
     }
 
-    public boolean getHasArmor() {
-        return hasArmor;
+    public boolean getIsFaster() {
+        return isFaster;
     }
 
-    public void setHasArmor(boolean hasArmor) {
-        this.hasArmor = hasArmor;
+    public void setIsFaster(boolean isFaster) {
+        this.isFaster = isFaster;
     }
 
     public boolean getIsSlowed() {
