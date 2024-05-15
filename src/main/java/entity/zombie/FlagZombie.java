@@ -3,19 +3,19 @@ package entity.zombie;
 import entity.plant.Plant;
 
 public class FlagZombie extends Zombie{
-    private boolean hasFlag;
+    private boolean hasArmor;
 
     public FlagZombie(int row, int col) {
         super("FlagZombie", 125, 105, 1, false, row, col, true);
     }
 
     public boolean getHasFlag() {
-        return hasFlag;
+        return hasArmor;
     }
 
-    public void setHasFlag(boolean hasFlag) {
-        this.hasFlag = hasFlag;
-        if (this.hasFlag == false) {
+    public void setHasFlag(boolean hasArmor) {
+        this.hasArmor = hasArmor;
+        if (this.hasArmor == false) {
             this.setAttackDamage(100);
         }
     }

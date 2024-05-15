@@ -3,18 +3,18 @@ package entity.zombie;
 import entity.plant.Plant;
 
 public class DolphinRiderZombie extends Zombie{
-    private boolean hasDolphin;
+    private boolean hasArmor;
 
     public DolphinRiderZombie(int row, int col) {
         super("DolphinRiderZombie", 175, 100, 1, true, row, col, true);
     } 
 
     public boolean getHasDolphin() {
-        return hasDolphin;
+        return hasArmor;
     }
 
-    public void setHasDolphin(boolean hasDolphin) {
-        this.hasDolphin = hasDolphin;
+    public void setHasDolphin(boolean hasArmor) {
+        this.hasArmor = hasArmor;
     }
 
     @Override
