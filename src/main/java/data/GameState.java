@@ -14,7 +14,7 @@ public class GameState {
     private ListOf<Flag> flags;
 
     public GameState() {
-        this.gameMap = new GameMap(11, 6);
+        this.gameMap = new GameMap();
         this.deck = new DeckTanaman();
         this.inventory = new Inventory();
         this.sunPoints = new Sun();
@@ -36,39 +36,39 @@ public class GameState {
         if (timeKeeper.getCurrentTime() % spawnsun == 0) {
             addSunPoints(25);
         }
-        spawnZombie();
-        processZombieActions();
-        processPlantActions();
-        updateGameMap();
-        checkGameOver();
+        // spawnZombie();
+        // processZombieActions();
+        // processPlantActions();
+        // updateGameMap();
+        // checkGameOver();
     }
     
-    private void spawnZombie() {
-        gameMap.spawnZombies();
-    }
+    // private void spawnZombie() {
+    //     gameMap.spawnZombies();
+    // }
 
-    private void processZombieActions() {
-        // Zombies move or attack every 5 seconds
-        gameMap.moveZombies();
-    }
+    // private void processZombieActions() {
+    //     // Zombies move or attack every 5 seconds
+    //     gameMap.moveZombies();
+    // }
 
-    private void processPlantActions() {
-        // Plants perform actions (like shooting)
-        gameMap.plantAttack(this);
-    }
+    // private void processPlantActions() {
+    //     // Plants perform actions (like shooting)
+    //     gameMap.plantAttack(this);
+    // }
 
-    private void updateGameMap() {
-        // Update the visual or state representation of the map
-        // Could be simplified or elaborated based on actual game mechanics
-        gameMap.update();
-    }
+    // private void updateGameMap() {
+    //     // Update the visual or state representation of the map
+    //     // Could be simplified or elaborated based on actual game mechanics
+    //     gameMap.update();
+    // }
 
-    private void checkGameOver() {
-        // Check conditions that would end the game
-        if (gameMap.checkForGameOverConditions()) {
-            stopGame();
-        }
-    }
+    // private void checkGameOver() {
+    //     // Check conditions that would end the game
+    //     if (gameMap.checkForGameOverConditions()) {
+    //         stopGame();
+    //     }
+    // }
 
     private void stopGame() {
         // Perform actions to end the game

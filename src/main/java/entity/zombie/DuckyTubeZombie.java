@@ -6,7 +6,7 @@ import entity.plant.Plant;
 
 public class DuckyTubeZombie extends Zombie {
     public DuckyTubeZombie() {
-        super("Ducky Tube Zombie", 100, 100, 1, true, new ImageIcon("/resources/images/zombie/duckytubezombie.png"));
+        super("DuckyTubeZombie", 100, 100, 1, true, new ImageIcon("/resources/images/zombie/duckytubezombie.png"));
     }
 
     @Override

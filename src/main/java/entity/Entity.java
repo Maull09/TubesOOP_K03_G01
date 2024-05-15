@@ -2,6 +2,7 @@ package entity;
 
 import util.*;
 import entity.zombie.Zombie;
+import manager.Tile;
 import entity.plant.Plant;
 import javax.swing.ImageIcon;
 
@@ -101,4 +102,17 @@ public class Entity implements Attackable{
             tile.get(i).setHealth(tile.get(i).getHealth() - this.getAttackDamage());
         }
     }
+
+    public void attackPlants(Tile tile){
+        for (int i = 0; i < tile.getPlants().size(); i++) {
+            tile.getPlants().get(i).setHealth(tile.getPlants().get(i).getHealth() - this.getAttackDamage());
+        }
+    }
+    
+    public void attackZombies(Tile tile){
+        for (int i = 0; i < tile.getZombies().size(); i++) {
+            tile.getZombies().get(i).setHealth(tile.getZombies().get(i).getHealth() - this.getAttackDamage());
+        }
+    }
+
 }

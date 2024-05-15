@@ -8,7 +8,7 @@ public class FlagZombie extends Zombie{
     private boolean hasFlag;
 
     public FlagZombie() {
-        super("Flag Zombie", 125, 105, 1, false, new ImageIcon("/resources/images/zombie/FlagZombie.png"));
+        super("FlagZombie", 125, 105, 1, false, new ImageIcon("/resources/images/zombie/FlagZombie.png"));
     }
 
     public boolean getHasFlag() {

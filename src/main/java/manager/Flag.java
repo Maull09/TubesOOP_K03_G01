@@ -29,7 +29,7 @@ public class Flag {
         // Example implementation: doubling the number of zombies
         // This should be tied into how zombies are spawned in your game logic
         System.out.println("Zombie wave increased!");
-        gameMap.spawnZombies();
+        gameMap.zombieSpawner();
     }
 
     // Check whether it's time to trigger this flag

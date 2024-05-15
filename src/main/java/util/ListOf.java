@@ -46,6 +46,18 @@ public class ListOf<T> {
         return items.isEmpty();
     }
 
+    public void clear() {
+        items.clear();
+    }
+
+    public ListOf<T> addAll(ListOf<T> item) {
+        ListOf<T> result = new ListOf<>();
+        for (int i = 0; i < item.size(); i++) {
+            result.add(item.get(i));
+        }
+        return result;
+    }
+
     public ListOf<Entity> getAllOfType(Class<?> type, ListOf<Entity> entities) {
         ListOf<Entity> result = new ListOf<>();
         for (int i = 0; i < entities.size(); i++) {

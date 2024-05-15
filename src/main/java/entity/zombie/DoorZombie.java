@@ -8,7 +8,7 @@ public class DoorZombie extends Zombie{
     private boolean hasDoor;
 
     public DoorZombie() {
-        super("Door Zombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/DoorZombie.png"));
+        super("DoorZombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/DoorZombie.png"));
     }
 
     public boolean getHasDoor() {

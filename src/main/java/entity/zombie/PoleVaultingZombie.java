@@ -8,7 +8,7 @@ public class PoleVaultingZombie extends Zombie{
     private boolean hasPole;
 
     public PoleVaultingZombie() {
-        super("Pole Vaulting Zombie", 175, 100, 1, false, new ImageIcon("/resources/images/zombie/Polevaulterzombie.png"));
+        super("PoleVaultingZombie", 175, 100, 1, false, new ImageIcon("/resources/images/zombie/Polevaulterzombie.png"));
     }
 
     public boolean getHasPole() {

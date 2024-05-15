@@ -8,7 +8,7 @@ public class ConeHeadZombie extends Zombie{
     private boolean hasCone;
 
     public ConeHeadZombie() {
-        super("Cone Head Zombie", 250, 100, 1, false, new ImageIcon("/resources/images/zombie/ConeHatZombie.png"));
+        super("ConeHeadZombie", 250, 100, 1, false, new ImageIcon("/resources/images/zombie/ConeHatZombie.png"));
     }
 
     public boolean getHasCone() {

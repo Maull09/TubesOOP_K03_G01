@@ -1,60 +1,41 @@
 package manager;
 
+import java.util.ArrayList;
+import java.util.List;
+import entity.plant.Plant;
+import entity.zombie.Zombie;
 import util.ListOf;
-import entity.Entity;
 
 public class Tile {
-    private TileType type;
-    private ListOf<Entity> entities;
+    private ListOf<Plant> plants;
+    private ListOf<Zombie> zombies;
 
-    public Tile(TileType type) {
-        this.type = type;
-        this.entities = new ListOf<>();
+    public Tile() {
+        this.plants = new ListOf<Plant>();
+        this.zombies = new ListOf<Zombie>();
     }
 
-    public void addEntity(Entity entity) {
-        // Example: Only allow water-based plants in POOL type tiles
-        if (this.type == TileType.POOL) {
-            entities.add(entity);
-        } else if (this.type != TileType.POOL) {
-            entities.add(entity);
-        }
+    public ListOf<Plant> getPlants() {
+        return plants;
     }
 
-    public void removeEntity(Entity entity) {
-        entities.remove(entity);
+    public void addPlant(Plant plant) {
+        plants.add(plant);
     }
 
-    public ListOf<Entity> getEntities() {
-        return entities;
+    public ListOf<Zombie> getZombies() {
+        return zombies;
     }
 
-    public TileType getType() {
-        return type;
+    public void addZombie(Zombie zombie) {
+        zombies.add(zombie);
     }
 
-    public void setType(TileType type) {
-        this.type = type;
+    public void removePlant(Plant plant) {
+        plants.remove(plant);
     }
 
-    public boolean isEmpty() {
-        return entities.isEmpty();
-    }
-
-    public boolean contains(Entity type) {
-        return entities.contains(type);
-    }
-
-    public boolean contains(Class<?> type, Tile entities) {
-        for (int i = 0; i < entities.getEntities().size(); i++) {
-            if (type.isInstance(entities.getEntities().get(i))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean contains(String type) {
-        return entities.contains(type);
+    public void removeZombie(Zombie zombie) {
+        zombies.remove(zombie);
     }
 }

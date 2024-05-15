@@ -8,7 +8,7 @@ public class DolphinRiderZombie extends Zombie{
     private boolean hasDolphin;
 
     public DolphinRiderZombie() {
-        super("Dolphin Rider Zombie", 175, 100, 1, true, new ImageIcon("/resources/images/zombie/Dolphinzombie.png"));
+        super("DolphinRiderZombie", 175, 100, 1, true, new ImageIcon("/resources/images/zombie/Dolphinzombie.png"));
     } 
 
     public boolean getHasDolphin() {

@@ -6,7 +6,11 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
+
+import data.GameEngine;
+import data.GameState;
 import manager.DeckTanaman;
+import manager.GameMap;
 import manager.Inventory;
 import java.awt.*;
 import java.io.BufferedInputStream;
@@ -21,11 +25,12 @@ public class GameGUI extends JFrame {
     private ZombieList zombieList;
     private PlantSelectScreen plantSelectScreen;
     private HelpScreen helpScreen;  // Assuming you have a HelpScreen class
+    private GamePanel gameScreen;  // Assuming you have a GamePanel class
 
     public GameGUI() {
         initializeFrame();
         initializePanels();
-        playBackgroundSound("/resources/sound/backsound.wav");
+        // playBackgroundSound("/resources/sound/backsound.wav");
         showMainMenu();
     }
 
@@ -44,6 +49,7 @@ public class GameGUI extends JFrame {
         zombieList = new ZombieList(this);
         plantSelectScreen = new PlantSelectScreen(new DeckTanaman(), new Inventory(), this);
         helpScreen = new HelpScreen(this);  // Initialize your help screen here
+        gameScreen = new GamePanel(new GameMap(),new GameState(), this);  // Initialize your game screen here
     }
 
     public void showMainMenu() {
@@ -64,6 +70,10 @@ public class GameGUI extends JFrame {
 
     public void showHelpScreen() {
         setPanel(helpScreen);
+    }
+
+    public void showGameScreen() {
+        setPanel(gameScreen);
     }
 
     private void setPanel(JPanel panel) {
@@ -91,7 +101,6 @@ public class GameGUI extends JFrame {
             e.printStackTrace();
         }
     }
-
 
     public static void main(String[] args) {
         new GameGUI();  // Start the game GUI

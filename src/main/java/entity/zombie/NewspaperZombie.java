@@ -8,7 +8,7 @@ public class NewspaperZombie extends Zombie{
     private boolean hasNewspaper;
 
     public NewspaperZombie() {
-        super("Newspaper Zombie", 150, 100, 1, false, new ImageIcon("/resources/images/zombie/Newspaper_Zombie.png"));
+        super("NewspaperZombie", 150, 100, 1, false, new ImageIcon("/resources/images/zombie/Newspaper_Zombie.png"));
     }
 
     public boolean getHasNewspaper() {

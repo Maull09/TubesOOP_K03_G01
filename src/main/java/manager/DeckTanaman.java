@@ -32,5 +32,19 @@ public class DeckTanaman {
     public boolean containsPlant(Plant plant) {
         return plants.contains(plant);
     }
+
+    public boolean isEmpty() {
+        return plants.isEmpty();
+    }
+
+    // public void clear() {
+    //     for (int i = 0; i < plants.size(); i++) {
+    //         plants.remove(i);
+    //     }
+    // }
+
+    public boolean isFull() {
+        return plants.size() == MAX_SIZE;
+    }
 }
 

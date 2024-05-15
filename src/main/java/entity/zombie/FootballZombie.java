@@ -8,7 +8,7 @@ public class FootballZombie extends Zombie{
     private boolean hasHelmet;
 
     public FootballZombie() {
-        super("Football Zombie", 350, 100, 2, false, new ImageIcon("/resources/images/zombie/FootballZombie.png"));
+        super("FootballZombie", 350, 100, 2, false, new ImageIcon("/resources/images/zombie/FootballZombie.png"));
     }
 
     public boolean getHasHelmet() {

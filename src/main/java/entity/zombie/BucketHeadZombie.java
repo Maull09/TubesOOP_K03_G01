@@ -8,7 +8,7 @@ public class BucketHeadZombie extends Zombie{
     private boolean hasBucket;
 
     public BucketHeadZombie() {
-        super("Bucket Head Zombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/BucketheadZombie.png"));
+        super("BucketHeadZombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/BucketheadZombie.png"));
     }
     
     public boolean getHasBucket() {
