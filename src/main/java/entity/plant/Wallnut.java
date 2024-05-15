@@ -6,7 +6,7 @@ import entity.zombie.Zombie;
 
 public class Wallnut extends Plant{
     public Wallnut(int row, int col) {
-        super("Wallnut", 50, 1000, 0, 0, 0, 20, new ImageIcon("/resources/images/plant/Wall-nut.png"), row, col);
+        super("Wallnut", 50, 1000, 0, 0, 0, 20, row, col);
     }
 
     public void attack(Zombie zombie)

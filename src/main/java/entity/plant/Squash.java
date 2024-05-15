@@ -8,7 +8,7 @@ public class Squash extends Plant{
     // private boolean hasAttack = true;
 
     public Squash(int row, int col) {
-        super("Squash", 50, 100, 5000, 0, 1, 20, new ImageIcon("/resources/images/plant/Squash.png"), row, col);
+        super("Squash", 50, 100, 5000, 0, 1, 20, row, col);
     }
 
     public void attack(Zombie zombie)

@@ -13,8 +13,8 @@ public class Plant extends Entity{
     private int range;
     private int cooldown;
 
-    public Plant(String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown, ImageIcon icon, int row, int col) {
-        super(name,health,attackDamage,attackSpeed,icon, row, col, true);
+    public Plant(String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown, int row, int col) {
+        super(name,health,attackDamage,attackSpeed, row, col, true);
         this.cost = cost;
         this.range = range;
         this.cooldown = cooldown;

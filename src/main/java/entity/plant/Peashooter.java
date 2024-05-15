@@ -10,7 +10,7 @@ import manager.Tile;
 
 public class Peashooter extends Plant {
     public Peashooter(int row, int col) {
-        super("Peashooter", 100, 100, 25, 4, -1, 10, new ImageIcon("/resources/images/plant/Peashooter.png"), row, col);
+        super("Peashooter", 100, 100, 25, 4, -1, 10, row, col);
     }
 
     public void attack(Zombie zombie)

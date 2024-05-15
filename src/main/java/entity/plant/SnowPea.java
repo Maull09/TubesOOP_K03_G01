@@ -6,7 +6,7 @@ import entity.zombie.Zombie;
 
 public class SnowPea extends Plant{
     public SnowPea(int row, int col) {
-        super("SnowPea", 175, 100, 25, 4, -1, 10, new ImageIcon("/resources/images/plant/SnowPea.png"), row, col);
+        super("SnowPea", 175, 100, 25, 4, -1, 10,  row, col);
     }
 
     public void attack(Zombie zombie)
