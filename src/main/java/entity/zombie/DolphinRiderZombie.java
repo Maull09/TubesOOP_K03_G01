@@ -6,7 +6,7 @@ public class DolphinRiderZombie extends Zombie{
     private boolean hasArmor;
 
     public DolphinRiderZombie(int row, int col) {
-        super("DolphinRiderZombie", 175, 100, 1, true, row, col, true);
+        super("DolphinRiderZombie", 175, 100, 1, true, row, col, true, true, false);
     } 
 
     public boolean getHasDolphin() {

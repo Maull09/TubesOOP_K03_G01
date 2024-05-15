@@ -5,7 +5,7 @@ import entity.plant.Plant;
 public class NormalZombie extends Zombie{
 
     public NormalZombie(int row, int col) {
-        super("NormalZombie", 125, 100, 1, false, row, col, true);
+        super("NormalZombie", 125, 100, 1, false, row, col, true, false, false);
     }
 
     @Override
