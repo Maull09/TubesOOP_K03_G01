@@ -1,6 +1,9 @@
 package entity.plant;
 
 public class PlantFactory {
+    private static int row;
+    private static int col;
+    
     public static Plant createPlant(String type) {
         switch (type) {
             case "Chomper":
@@ -8,7 +11,7 @@ public class PlantFactory {
             case "Lilypad":
                 return new Lilypad();
             case "Peashooter":
-                return new Peashooter();
+                return new Peashooter(row, col);
             case "Pumkin":
                 return new Pumpkin();
             case "Repeater":

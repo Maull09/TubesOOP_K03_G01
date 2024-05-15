@@ -11,16 +11,21 @@ public class Entity implements Attackable{
     private int health;
     private int attackDamage;
     private int attackSpeed;
+    private int row;
+    private int col;
     private boolean isAlive;
     private ImageIcon icon;
 
-    public Entity(String name, int health, int attackDamage, int attackSpeed, ImageIcon icon)
+    public Entity(String name, int health, int attackDamage, int attackSpeed, ImageIcon icon, int row, int col, boolean isAlive)
     {
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
         this.icon = icon;
+        this.row = row;
+        this.col = col;
+        this.isAlive = isAlive;
     }
 
     public String getName() {
@@ -70,6 +75,26 @@ public class Entity implements Attackable{
     public void setIcon(ImageIcon icon) {
         this.icon = icon;
     } 
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row){
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col){
+        this.col = col;
+    }
+
+    public void takeDamage(int damage){
+        this.health -= damage;
+    }
 
     @Override
     public void attack(Entity entity) 

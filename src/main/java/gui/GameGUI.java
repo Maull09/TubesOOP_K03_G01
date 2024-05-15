@@ -14,10 +14,8 @@ import manager.GameMap;
 import manager.Inventory;
 import java.awt.*;
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 public class GameGUI extends JFrame {
     private MainMenu mainMenu;
@@ -30,7 +28,7 @@ public class GameGUI extends JFrame {
     public GameGUI() {
         initializeFrame();
         initializePanels();
-        // playBackgroundSound("/resources/sound/backsound.wav");
+        playBackgroundSound("/resources/sound/backsound.wav");
         showMainMenu();
     }
 

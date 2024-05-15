@@ -6,21 +6,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import manager.DeckTanaman;
 import manager.GameMap;
 import util.ListOf;
 import data.GameState;
+import entity.Projectile;
 import entity.plant.Plant;
 import entity.plant.PlantFactory;
 import entity.zombie.Zombie;
-import entity.zombie.ZombieFactory;
+
 public class GamePanel extends JPanel implements ActionListener{
     private Image backgroundImage;
     private GameMap gameMap;
     private GameState gameState;
-    private Timer timer;
     private final int CELL_SIZE = 100;
     private GameGUI gameGUI;
     private JPanel topBarPanel;
@@ -225,26 +224,6 @@ public class GamePanel extends JPanel implements ActionListener{
         int startX = 15;
         int startY = 15;
 
-        // dummy plant draw
-        ImageIcon dummyPlant = new ImageIcon(getClass().getResource("/resources/images/plants/Sunflower.png"));
-        int row = 0;
-        int col = 0;
-        g.drawImage(dummyPlant.getImage(), startX + (col + 3) * CELL_SIZE, startY + (row + 2) * CELL_SIZE, 90, 90, this);
-
-        // dummy add plant
-        Plant dummy = PlantFactory.createPlant("Sunflower");
-        gameMap.getTile(0, 1).addPlant(dummy);
-        Plant dummy2 = PlantFactory.createPlant("Peashooter");
-        gameMap.getTile(0, 2).addPlant(dummy2);
-        Plant dummy3 = PlantFactory.createPlant("Wallnut");
-        gameMap.getTile(0, 3).addPlant(dummy3);
-        Plant dummy4 = PlantFactory.createPlant("SnowPea");
-        gameMap.getTile(0, 4).addPlant(dummy4);
-        Plant dummy5 = PlantFactory.createPlant("Repeater");
-        gameMap.getTile(0, 5).addPlant(dummy5);
-        Plant dummy6 = PlantFactory.createPlant("Lilypad");
-        gameMap.getTile(0, 6).addPlant(dummy6);
-
         // Draw every plant in the grid
         for(int i = 0; i < 6; i++){
             for(int j = 1; j < 10; j++){
@@ -263,28 +242,6 @@ public class GamePanel extends JPanel implements ActionListener{
         int startX = 15;
         int startY = 15;
 
-        // dummy add zombie
-        Zombie dummy = ZombieFactory.createZombie("Normal");
-        gameMap.getTile(3, 1).addZombie(dummy);
-        Zombie dummy2 = ZombieFactory.createZombie("ConeHead");
-        gameMap.getTile(3, 2).addZombie(dummy2);
-        Zombie dummy3 = ZombieFactory.createZombie("Bucket Head");
-        gameMap.getTile(3, 3).addZombie(dummy3);
-        Zombie dummy4 = ZombieFactory.createZombie("Flag");
-        gameMap.getTile(3, 4).addZombie(dummy4);
-        Zombie dummy5 = ZombieFactory.createZombie("Pole Vaulting");
-        gameMap.getTile(3, 5).addZombie(dummy5);
-        Zombie dummy6 = ZombieFactory.createZombie("Newspaper");
-        gameMap.getTile(3, 6).addZombie(dummy6);
-        Zombie dummy7 = ZombieFactory.createZombie("Ducky Tube");
-        gameMap.getTile(3, 7).addZombie(dummy7);
-        Zombie dummy8 = ZombieFactory.createZombie("Football");
-        gameMap.getTile(3, 8).addZombie(dummy8);
-        Zombie dummy9 = ZombieFactory.createZombie("Dolphin Rider");
-        gameMap.getTile(3, 9).addZombie(dummy9);
-        Zombie dummy10 = ZombieFactory.createZombie("Door");
-        gameMap.getTile(3, 10).addZombie(dummy10);
-
         // Draw every zombie in the grid
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 11; j++){
@@ -300,6 +257,20 @@ public class GamePanel extends JPanel implements ActionListener{
 
     private void drawProjectiles(Graphics g) {
         // Implement drawing projectiles based on gameState
+        int startX = 15;
+        int startY = 15;
+
+        // Draw every projectile in the grid
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 11; j++){
+                ListOf<Projectile> projectiles = gameMap.getTile(i, j).getProjectiles();
+                for(int k = 0; k < projectiles.size(); k++){
+                    Projectile projectile = projectiles.get(k);
+                    ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/projectiles/" + projectile.getType() + ".png"));
+                    g.drawImage(projectileicon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
+                }
+            }
+        }
     }
 
     // Additional methods to handle game events (planting, spawning, etc.)
