@@ -1,14 +1,12 @@
 package entity.zombie;
 
-import javax.swing.ImageIcon;
-
 import entity.plant.Plant;
 
 public class FootballZombie extends Zombie{
     private boolean hasHelmet;
 
-    public FootballZombie() {
-        super("FootballZombie", 350, 100, 2, false, new ImageIcon("/resources/images/zombie/FootballZombie.png"));
+    public FootballZombie(int row, int col) {
+        super("FootballZombie", 350, 100, 2, false, row, col, true);
     }
 
     public boolean getHasHelmet() {

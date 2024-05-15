@@ -1,14 +1,12 @@
 package entity.zombie;
 
-import javax.swing.ImageIcon;
-
 import entity.plant.Plant;
 
 public class DolphinRiderZombie extends Zombie{
     private boolean hasDolphin;
 
-    public DolphinRiderZombie() {
-        super("DolphinRiderZombie", 175, 100, 1, true, new ImageIcon("/resources/images/zombie/Dolphinzombie.png"));
+    public DolphinRiderZombie(int row, int col) {
+        super("DolphinRiderZombie", 175, 100, 1, true, row, col, true);
     } 
 
     public boolean getHasDolphin() {

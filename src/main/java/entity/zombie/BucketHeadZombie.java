@@ -1,14 +1,12 @@
 package entity.zombie;
 
-import javax.swing.ImageIcon;
-
 import entity.plant.Plant;
 
 public class BucketHeadZombie extends Zombie{
     private boolean hasBucket;
 
-    public BucketHeadZombie() {
-        super("BucketHeadZombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/BucketheadZombie.png"));
+    public BucketHeadZombie(int row, int col) {
+        super("BucketHeadZombie", 300, 100, 1, false, row, col, true);
     }
     
     public boolean getHasBucket() {

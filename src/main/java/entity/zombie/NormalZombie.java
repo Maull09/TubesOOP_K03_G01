@@ -1,13 +1,11 @@
 package entity.zombie;
 
-import javax.swing.ImageIcon;
-
 import entity.plant.Plant;
 
 public class NormalZombie extends Zombie{
 
-    public NormalZombie() {
-        super("NormalZombie", 125, 100, 1, false, new ImageIcon("/resources/images/zombie/NormalZombie.png"));
+    public NormalZombie(int row, int col) {
+        super("NormalZombie", 125, 100, 1, false, row, col, true);
     }
 
     @Override
