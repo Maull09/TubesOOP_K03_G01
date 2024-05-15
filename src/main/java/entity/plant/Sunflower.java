@@ -21,7 +21,4 @@ public class Sunflower extends Plant{
         Sun.addSun();
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Sunflower.png";
-    }
 }

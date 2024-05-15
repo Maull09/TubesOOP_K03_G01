@@ -18,11 +18,6 @@ public class Peashooter extends Plant {
         super.attack(zombie);
     }
 
-    @Override
-    public ImageIcon getIcon() {
-        return super.getIcon();
-    }
-
     public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
         if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
             for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {

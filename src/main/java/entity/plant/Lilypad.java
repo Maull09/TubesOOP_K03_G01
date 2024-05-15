@@ -14,9 +14,6 @@ public class Lilypad extends Plant{
         super.attack(zombie);
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Lilypad.png";
-    }
 
 
 

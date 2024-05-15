@@ -14,10 +14,5 @@ public class Wallnut extends Plant{
         super.attack(zombie);
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Wall-nut.png";
-    }
-
-
     
 }

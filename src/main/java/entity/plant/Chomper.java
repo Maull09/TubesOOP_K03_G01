@@ -14,9 +14,6 @@ public class Chomper extends Plant{
         super.attack(zombie);
     }
 
-    public String getImagePath() {
-        return "/resources/images/cards/card_chomper.png";
-    }
 
     
 

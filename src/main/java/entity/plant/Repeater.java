@@ -14,9 +14,6 @@ public class Repeater extends Plant{
         super.attack(zombie);
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Repeater.png";
-    }
 
 
 

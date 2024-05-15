@@ -14,9 +14,5 @@ public class SnowPea extends Plant{
         super.attack(zombie);
     }
 
-
-    public String getImagePath() {
-        return "/resources/images/plant/SnowPea.png";
-    }
     
 }

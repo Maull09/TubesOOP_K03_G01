@@ -19,8 +19,5 @@ public class TangleKelp extends Plant{
         super.setIsAlive(false);
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Tangle-kelp.png";
-    }
 
 }

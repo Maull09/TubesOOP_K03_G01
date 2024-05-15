@@ -15,9 +15,6 @@ public class Pumpkin extends Plant{
         zombie.setHealth(getHealth()-getAttackDamage());
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Pumpkin.png";
-    }
 
 
 

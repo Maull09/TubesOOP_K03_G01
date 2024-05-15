@@ -21,9 +21,6 @@ public class Squash extends Plant{
         super.setIsAlive(false);
     }
 
-    public String getImagePath() {
-        return "/resources/images/plant/Squash.png";
-    }
 
     
 }

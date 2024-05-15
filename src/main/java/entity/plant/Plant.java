@@ -49,9 +49,6 @@ public class Plant extends Entity{
         System.out.println(this.getName() + " died!");
     }
 
-    public String getImagePath() {
-        return "/resources/images/cards/cards_wallnut.png";
-    }
 
     @Override
     public void attack(){}
