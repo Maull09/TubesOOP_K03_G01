@@ -16,13 +16,12 @@ public class Entity implements Attackable{
     private boolean isAlive;
     private ImageIcon icon;
 
-    public Entity(String name, int health, int attackDamage, int attackSpeed, ImageIcon icon, int row, int col, boolean isAlive)
+    public Entity(String name, int health, int attackDamage, int attackSpeed, int row, int col, boolean isAlive)
     {
         this.name = name;
         this.health = health;
         this.attackDamage = attackDamage;
         this.attackSpeed = attackSpeed;
-        this.icon = icon;
         this.row = row;
         this.col = col;
         this.isAlive = isAlive;
@@ -67,14 +66,6 @@ public class Entity implements Attackable{
     public void setIsAlive(boolean isAlive){
         this.isAlive = isAlive;
     }
-
-    public ImageIcon getIcon() {
-        return icon;
-    }
-
-    public void setIcon(ImageIcon icon) {
-        this.icon = icon;
-    } 
 
     public int getRow() {
         return row;
