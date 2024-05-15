@@ -12,7 +12,7 @@ public class PlantFactory {
                 return new Lilypad(row, col);
             case "Peashooter":
                 return new Peashooter(row, col);
-            case "Pumkin":
+            case "Pumpkin":
                 return new Pumpkin(row, col);
             case "Repeater":
                 return new Repeater(row, col);
