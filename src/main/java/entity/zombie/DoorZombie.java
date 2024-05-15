@@ -1,14 +1,13 @@
 package entity.zombie;
 
-import javax.swing.ImageIcon;
 
 import entity.plant.Plant;
 
 public class DoorZombie extends Zombie{
     private boolean hasDoor;
 
-    public DoorZombie() {
-        super("DoorZombie", 300, 100, 1, false, new ImageIcon("/resources/images/zombie/DoorZombie.png"));
+    public DoorZombie(int row, int col) {
+        super("DoorZombie", 300, 100, 1, false, row, col, true);
     }
 
     public boolean getHasDoor() {
