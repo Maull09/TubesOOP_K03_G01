@@ -7,8 +7,8 @@ import entity.zombie.Zombie;
 public class Squash extends Plant{
     // private boolean hasAttack = true;
 
-    public Squash() {
-        super("Squash", 50, 100, 5000, 0, 1, 20, new ImageIcon("/resources/images/plant/Squash.png"));
+    public Squash(int row, int col) {
+        super("Squash", 50, 100, 5000, 0, 1, 20, new ImageIcon("/resources/images/plant/Squash.png"), row, col);
     }
 
     public void attack(Zombie zombie)
@@ -19,11 +19,6 @@ public class Squash extends Plant{
     public void HasAttack()
     {
         super.setIsAlive(false);
-    }
-
-    @Override
-    public ImageIcon getIcon() {
-        return super.getIcon();
     }
 
     public String getImagePath() {

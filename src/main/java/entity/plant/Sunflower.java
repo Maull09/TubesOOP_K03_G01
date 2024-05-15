@@ -7,8 +7,8 @@ import javax.swing.ImageIcon;
 import entity.*;
 
 public class Sunflower extends Plant{
-    public Sunflower() {
-        super("Sunflower", 50, 100, 0, 0, 0, 10, new ImageIcon("/resources/images/plant/Sunflower.png"));
+    public Sunflower(int row, int col) {
+        super("Sunflower", 50, 100, 0, 0, 0, 10, new ImageIcon("/resources/images/plant/Sunflower.png"), row, col);
     }
 
     public void attack(Zombie zombie)
@@ -19,11 +19,6 @@ public class Sunflower extends Plant{
     public void produceSun()
     {
         Sun.addSun();
-    }
-
-    @Override
-    public ImageIcon getIcon() {
-        return super.getIcon();
     }
 
     public String getImagePath() {

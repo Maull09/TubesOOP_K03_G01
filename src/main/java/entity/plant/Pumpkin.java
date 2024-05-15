@@ -6,18 +6,13 @@ import entity.zombie.Zombie;
 // package src.entity;
 
 public class Pumpkin extends Plant{
-    public Pumpkin() {
-        super("Pumpkin", 125, 4000, 0, 0, 0, 20, new ImageIcon("/resources/images/plant/Pumpkin.png"));
+    public Pumpkin(int row, int col) {
+        super("Pumpkin", 125, 4000, 0, 0, 0, 20, new ImageIcon("/resources/images/plant/Pumpkin.png"), row, col);
     }
 
     public void attack(Zombie zombie)
     {
         zombie.setHealth(getHealth()-getAttackDamage());
-    }
-
-    @Override
-    public ImageIcon getIcon() {
-        return super.getIcon();
     }
 
     public String getImagePath() {
