@@ -18,7 +18,7 @@ public class TangleKelp extends Plant{
     }
 
     public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0 && !hasAttacked) {
+        if (!hasAttacked) {
             Tile tile = gameMap.getTile(this.getRow(), this.getCol());
             if (!tile.getZombies().isEmpty()) {
                 // Directly attack the first zombie in the tile

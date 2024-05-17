@@ -80,7 +80,7 @@ public class GameEngine {
 
     // Repaints the GUI on the Event Dispatch Thread (EDT)
     private void repaint() {
-        SwingUtilities.invokeLater(() -> gamePanel.repaint());
+        SwingUtilities.invokeLater(() -> gameGUI.getGameScreen().repaint());
     }
 
     // Schedule sun addition every 5 to 10 seconds

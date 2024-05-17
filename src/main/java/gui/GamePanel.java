@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements ActionListener{
 
     private void loadImage() {
         try {
-            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/23.png")).getImage();
+            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/PoolBg.png")).getImage();
         } catch (Exception e) {
             e.printStackTrace();
         }
