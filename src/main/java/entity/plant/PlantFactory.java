@@ -4,7 +4,7 @@ public class PlantFactory {
     private static int row;
     private static int col;
     
-    public static Plant createPlant(String type) {
+    public static Plant createPlant(String type, int row, int col) {
         switch (type) {
             case "Chomper":
                 return new Chomper(row, col);
