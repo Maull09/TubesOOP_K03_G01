@@ -10,12 +10,14 @@ public class Plant extends Entity{
     private int cost;
     private int range;
     private int cooldown;
+    private int lastAttackTime;
 
     public Plant(String name, int cost, int health, int attackDamage, int attackSpeed, int range, int cooldown, int row, int col) {
         super(name,health,attackDamage,attackSpeed, row, col, true);
         this.cost = cost;
         this.range = range;
         this.cooldown = cooldown;
+        this.lastAttackTime = 0;
     }
 
     public int getCost() {
@@ -45,6 +47,14 @@ public class Plant extends Entity{
     public void die() {
         super.setIsAlive(false);
         System.out.println(this.getName() + " died!");
+    }
+
+    public int getlastAttackTime(){
+        return lastAttackTime;
+    }
+
+    public int setlastAttackTime(int lastAttackTime){
+        return this.lastAttackTime = lastAttackTime;
     }
 
 

@@ -18,20 +18,22 @@ public class Peashooter extends Plant {
     }
 
     public void attackZombies() {
-        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0) {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
             for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
                 Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
                     // Directly attack the first zombie in the tile
                     Zombie targetZombie = tile.getZombies().get(0);
                     targetZombie.takeDamage(this.getAttackDamage());
-                    System.out.println(this.getAttackDamage() + "attack" + this.getName());
+                    System.out.println(this.getAttackDamage() + " attack " + this.getName());
                     if (!targetZombie.getIsAlive()) {
                         tile.removeZombie(targetZombie);
                     }
                     // Add projectile for visualization
-                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol()+1, this.getAttackDamage());
+                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol() + 1, this.getAttackDamage());
                     GameState.getInstance().getGameMap().addProjectile(projectile);
+                    this.setlastAttackTime(currentTime); // Update last attack time
                     break;
                 }
             }
