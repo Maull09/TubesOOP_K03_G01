@@ -19,7 +19,9 @@ import entity.zombie.ZombieFactory;
 
 public class GamePanel extends JPanel implements ActionListener{
     private Image backgroundImage;
-    private final int CELL_SIZE = 100;
+    private final int CELL_SIZE = 96;
+    private final int startX = 8;
+    private final int startY = 42;
     private GameGUI gameGUI;
     private JPanel topBarPanel;
     private JPanel deckPanel;
@@ -173,8 +175,7 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void handleMouseClick(int x, int y) {
-        int startX = 15;
-        int startY = 15;
+
         
         if (selectedPlant != null) {
             // Calculate the cell that was clicked
@@ -235,8 +236,7 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void drawBackground(Graphics g) {
-        int startX = 15; 
-        int startY = 15; 
+
         // Draw grid
         for (int row = 1; row < 7; row++) {
             for (int col = 2; col < 13; col++) {
@@ -246,8 +246,6 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void drawPlants(Graphics g) {
-        int startX = 15;
-        int startY = 15;
 
         // dummy plant
         // Plant dummy1 = PlantFactory.createPlant("Sunflower");
@@ -273,8 +271,6 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void drawZombies(Graphics g) {
-        int startX = 15;
-        int startY = 15;
 
         // dummy zombie
         Zombie dummy1 = ZombieFactory.createZombie("Normal");
@@ -303,8 +299,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
     private void drawProjectiles(Graphics g) {
         // Implement drawing projectiles based on gameState
-        int startX = 15;
-        int startY = 15;
 
         // Draw every projectile in the grid
         for(int i = 0; i < 6; i++){
