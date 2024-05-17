@@ -246,17 +246,6 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void drawPlants(Graphics g) {
-
-        // dummy plant
-        // Plant dummy1 = PlantFactory.createPlant("Sunflower");
-        Plant dummy2 = PlantFactory.createPlant("Peashooter", 1,1);
-        Plant dummy3 = PlantFactory.createPlant("Wallnut",2,1);
-
-        // add dummy plant to the game map
-        // gameState.getGameMap().getTile(0, 1).addPlant(dummy1);
-        GameState.getInstance().getGameMap().getTile(1, 1).addPlant(dummy2);
-        GameState.getInstance().getGameMap().getTile(2, 1).addPlant(dummy3);
-
         // Draw every plant in the grid
         for(int i = 0; i < 6; i++){
             for(int j = 1; j < 10; j++){
@@ -272,15 +261,15 @@ public class GamePanel extends JPanel implements ActionListener{
 
     private void drawZombies(Graphics g) {
 
-        // dummy zombie
-        Zombie dummy1 = ZombieFactory.createZombie("Normal", 0, 10);
-        Zombie dummy2 = ZombieFactory.createZombie("ConeHead", 1, 10);
-        Zombie dummy3 = ZombieFactory.createZombie("Pole Vaulting", 2, 10);
+        // // dummy zombie
+        // Zombie dummy1 = ZombieFactory.createZombie("Normal", 0, 10);
+        // Zombie dummy2 = ZombieFactory.createZombie("ConeHead", 1, 10);
+        // Zombie dummy3 = ZombieFactory.createZombie("Pole Vaulting", 2, 10);
 
-        // add dummy zombie to the game map
-        GameState.getInstance().getGameMap().getTile(0, 10).addZombie(dummy1);
-        GameState.getInstance().getGameMap().getTile(1, 10).addZombie(dummy2);
-        GameState.getInstance().getGameMap().getTile(2, 10).addZombie(dummy3);
+        // // add dummy zombie to the game map
+        // GameState.getInstance().getGameMap().getTile(0, 10).addZombie(dummy1);
+        // GameState.getInstance().getGameMap().getTile(1, 10).addZombie(dummy2);
+        // GameState.getInstance().getGameMap().getTile(2, 10).addZombie(dummy3);
 
         for (int i = 0; i < GameState.getInstance().getGameMap().getRows(); i++) {
             for (int j = 0; j < GameState.getInstance().getGameMap().getCols(); j++) {
@@ -306,8 +295,21 @@ public class GamePanel extends JPanel implements ActionListener{
                 ListOf<Projectile> projectiles = GameState.getInstance().getGameMap().getTile(i, j).getProjectiles();
                 for(int k = 0; k < projectiles.size(); k++){
                     Projectile projectile = projectiles.get(k);
-                    ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                    g.drawImage(projectileicon.getImage(), (startX + (j + 2) * CELL_SIZE) + 53, (startY + (i + 1) * CELL_SIZE) + 5, 33, 30, this);
+                    boolean hitZombie = false;
+
+                    // Check if the projectile hits a zombie
+                    ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
+                    if (!zombies.isEmpty()) {
+                        hitZombie = true;
+                    }
+
+                    // If the projectile hits a zombie, remove the projectile
+                    if (hitZombie) {
+                        projectiles.remove(projectile);
+                    } else {
+                        ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
+                        g.drawImage(projectileicon.getImage(), (startX + (j + 2) * CELL_SIZE) + 53, (startY + (i + 1) * CELL_SIZE) + 5, 33, 30, this);                      
+                    }
                 }
             }
         }

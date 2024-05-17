@@ -2,6 +2,8 @@ package entity.plant;
 
 import entity.zombie.Zombie;
 import manager.GameMap;
+import manager.Tile;
+import data.GameState;
 import data.TimeKeeper;
 import entity.*;
 
@@ -21,8 +23,10 @@ public class Sunflower extends Plant{
     }
 
     public void attackZombies() {
-        if (TimeKeeper.getInstance().getCurrentTime() % 3 == 0) {
-            produceSun();
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= 3) {
+            GameState.getInstance().addSunPoints(25);
+            this.setlastAttackTime(currentTime); // Update last attack time
         }
     }
 

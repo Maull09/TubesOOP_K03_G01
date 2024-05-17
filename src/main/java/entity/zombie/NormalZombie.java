@@ -1,6 +1,10 @@
 package entity.zombie;
 
+import data.GameState;
+import data.TimeKeeper;
+import entity.Projectile;
 import entity.plant.Plant;
+import manager.Tile;
 
 public class NormalZombie extends Zombie{
 
@@ -12,5 +16,4 @@ public class NormalZombie extends Zombie{
     public void attack(Plant plant) {
         super.attack(plant);
     }
-
 }

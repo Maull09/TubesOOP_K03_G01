@@ -31,9 +31,10 @@ public class Peashooter extends Plant {
                         tile.removeZombie(targetZombie);
                     }
                     // Add projectile for visualization
-                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol() + 1, this.getAttackDamage());
+                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol(), this.getAttackDamage());
                     GameState.getInstance().getGameMap().addProjectile(projectile);
                     this.setlastAttackTime(currentTime); // Update last attack time
+                    System.out.println(this.getlastAttackTime());
                     break;
                 }
             }
@@ -41,3 +42,4 @@ public class Peashooter extends Plant {
     }
 
 }
+

@@ -2,9 +2,11 @@ package entity.zombie;
 
 import util.ListOf;
 import util.Moveable;
+import data.GameState;
 import data.TimeKeeper;
 import entity.Entity;
 import entity.plant.Plant;
+import manager.Tile;
 
 public class Zombie extends Entity implements Moveable{
     private boolean is_aquatic;
@@ -17,7 +19,7 @@ public class Zombie extends Entity implements Moveable{
     public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, int row, int col, boolean isAlive, boolean isFaster, boolean isSlowed) {
         super(name, health, attackDamage, attackSpeed, row, col, true);
         this.is_aquatic = is_aquatic;
-        this.isFaster = isFaster;
+        this.isFaster = false;
         this.isSlowed = false;
     }
 
@@ -81,6 +83,7 @@ public class Zombie extends Entity implements Moveable{
     }
 
     public void die() {
+        super.setIsAlive(false);
         System.out.println(this.getName() + " died!");
     }
 
@@ -88,5 +91,24 @@ public class Zombie extends Entity implements Moveable{
     public void move(Zombie zombie) {}
     public void attack(Plant plant){}
     public void attack(ListOf<Entity> tile){}
-}
+    
+    @Override
+    public void attackPlants() {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
+            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
+                if (!tile.getPlants().isEmpty()) {
+                    // Directly attack the first zombie in the tile
+                    Plant targetPlant = tile.getPlants().get(0);
+                    targetPlant.takeDamage(this.getAttackDamage());
+                    if (!targetPlant.getIsAlive()) {
+                        tile.removePlant(targetPlant);
+                    }
+                    this.setlastAttackTime(currentTime); // Update last attack time
+                    break;
+                }
+            }
+        }
+    }}
 

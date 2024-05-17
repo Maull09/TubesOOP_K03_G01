@@ -1,5 +1,6 @@
 package entity.plant;
 
+import data.GameState;
 import data.TimeKeeper;
 import entity.Projectile;
 import entity.zombie.Zombie;
@@ -16,11 +17,11 @@ public class Repeater extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
+    public void attackZombies() {
         int currentTime = TimeKeeper.getInstance().getCurrentTime();
         if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
-            for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
-                Tile tile = gameMap.getTile(this.getRow(), col);
+            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
                     // Directly attack the first zombie in the tile
                     Zombie targetZombie = tile.getZombies().get(0);
@@ -30,7 +31,7 @@ public class Repeater extends Plant{
                     }
                     // Add projectile for visualization
                     Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol(), this.getAttackDamage());
-                    gameMap.addProjectile(projectile);
+                    GameState.getInstance().getGameMap().addProjectile(projectile);
 
                     this.setlastAttackTime(currentTime); // Update last attack time
                     break;

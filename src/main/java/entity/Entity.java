@@ -13,6 +13,7 @@ public class Entity implements Attackable{
     private int row;
     private int col;
     private boolean isAlive;
+    private int lastAttackTime;
 
     public Entity(String name, int health, int attackDamage, int attackSpeed, int row, int col, boolean isAlive)
     {
@@ -23,6 +24,7 @@ public class Entity implements Attackable{
         this.row = row;
         this.col = col;
         this.isAlive = isAlive;
+        this.lastAttackTime = 0;
     }
 
     public String getName() {
@@ -85,6 +87,15 @@ public class Entity implements Attackable{
         this.health -= damage;
     }
 
+    public int getlastAttackTime(){
+        return lastAttackTime;
+    }
+
+    public int setlastAttackTime(int lastAttackTime){
+        return this.lastAttackTime = lastAttackTime;
+    }
+
+
     @Override
     public void attack(Entity entity) 
     {
@@ -129,6 +140,6 @@ public class Entity implements Attackable{
         }
     }
 
-    public void attackZombies() {}
-
+    public void attackPlants(){}
+    public void attackZombies(){}
 }

@@ -88,7 +88,6 @@ public class GameMap {
     }
 
     public void moveZombies() {
-        int currentTime = TimeKeeper.getInstance().getCurrentTime();
         for (int row = rows - 1; row >= 0; row--) {
             for (int col = cols - 1; col >= 0; col--) {
                 Tile currentTile = grid[row][col];
@@ -96,7 +95,7 @@ public class GameMap {
                 
                 for (int i = 0; i < currentTile.getZombies().size(); i++) {
                     Zombie zombie = currentTile.getZombies().get(i);
-                    if (zombie.canMove(currentTime)) {
+                    if (zombie.canMove(TimeKeeper.getInstance().getCurrentTime())) {
                         if (nextTile != null && nextTile.getPlants().isEmpty()) {
                             currentTile.removeZombie(zombie);
                             nextTile.addZombie(zombie);
@@ -104,7 +103,7 @@ public class GameMap {
                             System.out.println("Zombie yang bergerak: " + zombie.getName());
                             System.out.println("Posisi Zombie Bergerak: " + zombie.getRow() + ", " + zombie.getCol());
                         } else {
-                            zombie.attackPlants(currentTile);
+                            zombie.attackPlants();
                         }
                     }
                 }
@@ -153,20 +152,23 @@ public class GameMap {
         double chance = random.nextDouble();
         if (chance > spawnChance) {
             System.out.println("SpawnChance: " + chance);
-            Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())), random.nextInt(rows), 10);
-            if (zombie.getName().equals("Ducky Tube") || zombie.getName().equals("Dolphin Rider")) {
-                int randomIndex = random.nextInt(spawnWater.size());
-                grid[randomIndex][10].addZombie(zombie);
-                System.out.println("Zombie yang spawn: " + zombie.getName());;
-                System.out.println("Posisi Zombie: " + zombie.getRow() + ", " + zombie.getCol()); // Zombie position
+            String zombieType = zombieTypes.get(random.nextInt(zombieTypes.size()));
+            int spawnRow;
+    
+            if (zombieType.equals("Ducky Tube") || zombieType.equals("Dolphin Rider")) {
+                spawnRow = spawnWater.get(random.nextInt(spawnWater.size()));
             } else {
-                int randomIndex = random.nextInt(spawnLand.size());
-                grid[randomIndex][10].addZombie(zombie);
-                System.out.println("Zombie yang spawn: " + zombie.getName());;
-                System.out.println("Posisi Zombie: " + zombie.getRow() + ", " + zombie.getCol()); // Zombie position
+                spawnRow = spawnLand.get(random.nextInt(spawnLand.size()));
             }
+            spawnRow -= 1;
+            Zombie zombie = ZombieFactory.createZombie(zombieType, spawnRow, 10);
+            grid[spawnRow][10].addZombie(zombie);
+            
+            System.out.println("Zombie yang spawn: " + zombie.getName());
+            System.out.println("Posisi Zombie: " + zombie.getRow() + ", " + zombie.getCol()); // Zombie position
         }
     }
+    
 
     public void plantSpawner(String plantType, int row, int col, GameState gameState) {
         Plant plant = PlantFactory.createPlant(plantType, row, col);
