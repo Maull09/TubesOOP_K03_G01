@@ -19,6 +19,7 @@ public class TangleKelp extends Plant{
     }
 
     public void attackZombies() {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
         if (!hasAttacked) {
             Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol());
             if (!tile.getZombies().isEmpty()) {
@@ -30,6 +31,8 @@ public class TangleKelp extends Plant{
                 }
                 hasAttacked = true;
                 this.setIsAlive(false); // The plant dies after attacking
+
+                this.setlastAttackTime(currentTime); // Update last attack time
             }
         }
     }

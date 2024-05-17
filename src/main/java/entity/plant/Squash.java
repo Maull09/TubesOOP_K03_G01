@@ -20,7 +20,8 @@ public class Squash extends Plant{
     }
 
     public void attackZombies() {
-        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0 && !hasAttacked) {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
             for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
                 Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
@@ -32,6 +33,8 @@ public class Squash extends Plant{
                     }
                     hasAttacked = true;
                     this.setIsAlive(false); // The plant dies after attacking
+
+                    this.setlastAttackTime(currentTime); // Update last attack time
                     break;
                 }
             }

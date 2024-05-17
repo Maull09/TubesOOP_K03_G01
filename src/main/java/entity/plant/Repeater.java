@@ -17,7 +17,8 @@ public class Repeater extends Plant{
     }
 
     public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
             for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
                 Tile tile = gameMap.getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
@@ -30,6 +31,8 @@ public class Repeater extends Plant{
                     // Add projectile for visualization
                     Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol(), this.getAttackDamage());
                     gameMap.addProjectile(projectile);
+
+                    this.setlastAttackTime(currentTime); // Update last attack time
                     break;
                 }
             }

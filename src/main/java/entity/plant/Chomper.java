@@ -2,6 +2,7 @@ package entity.plant;
 
 import data.GameState;
 import data.TimeKeeper;
+import entity.Projectile;
 import entity.zombie.Zombie;
 import manager.GameMap;
 import manager.Tile;
@@ -17,7 +18,8 @@ public class Chomper extends Plant{
     }
 
     public void attackZombies() {
-        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0) {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
             for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
                 Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
@@ -27,6 +29,8 @@ public class Chomper extends Plant{
                     if (!targetZombie.getIsAlive()) {
                         tile.removeZombie(targetZombie);
                     }
+                    // Add projectile for visualization
+                    this.setlastAttackTime(currentTime); // Update last attack time
                     break;
                 }
             }
