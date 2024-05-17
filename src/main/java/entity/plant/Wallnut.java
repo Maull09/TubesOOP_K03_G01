@@ -14,5 +14,5 @@ public class Wallnut extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {}
+    public void attackZombies() {}
 }

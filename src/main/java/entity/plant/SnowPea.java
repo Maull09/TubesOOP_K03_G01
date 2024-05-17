@@ -1,5 +1,6 @@
 package entity.plant;
 
+import data.GameState;
 import data.TimeKeeper;
 import entity.Projectile;
 import entity.zombie.Zombie;
@@ -16,16 +17,16 @@ public class SnowPea extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
-            for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
-                Tile tile = gameMap.getTile(this.getRow(), col);
+    public void attackZombies() {
+        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0) {
+            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
                     // Directly attack the first zombie in the tile
                     Zombie targetZombie = tile.getZombies().get(0);
                     targetZombie.takeDamage(this.getAttackDamage());
                     // Slow the zombie
-                    if (timeKeeper.getCurrentTime() % 3 == 0){
+                    if (TimeKeeper.getInstance().getCurrentTime() % 3 == 0){
                         targetZombie.setIsSlowed(true);
                     }
                     if (!targetZombie.getIsAlive()) {
@@ -33,7 +34,7 @@ public class SnowPea extends Plant{
                     }
                     // Add projectile for visualization
                     Projectile projectile = new Projectile("SnowPeaProjectile", this.getRow(), this.getCol()+1, this.getAttackDamage());
-                    gameMap.addProjectile(projectile);
+                    GameState.getInstance().getGameMap().addProjectile(projectile);
                     break;
                 }
             }

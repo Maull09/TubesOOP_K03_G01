@@ -20,8 +20,8 @@ public class Sunflower extends Plant{
         Sun.addSun();
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % 3 == 0) {
+    public void attackZombies() {
+        if (TimeKeeper.getInstance().getCurrentTime() % 3 == 0) {
             produceSun();
         }
     }

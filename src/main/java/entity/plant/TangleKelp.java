@@ -1,5 +1,6 @@
 package entity.plant;
 
+import data.GameState;
 import data.TimeKeeper;
 import entity.zombie.Zombie;
 import manager.GameMap;
@@ -17,9 +18,9 @@ public class TangleKelp extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
+    public void attackZombies() {
         if (!hasAttacked) {
-            Tile tile = gameMap.getTile(this.getRow(), this.getCol());
+            Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol());
             if (!tile.getZombies().isEmpty()) {
                 // Directly attack the first zombie in the tile
                 Zombie targetZombie = tile.getZombies().get(0);

@@ -1,5 +1,6 @@
 package entity.plant;
 
+import data.GameState;
 import data.TimeKeeper;
 import entity.Projectile;
 import entity.zombie.Zombie;
@@ -17,10 +18,10 @@ public class Pumpkin extends Plant{
         zombie.setHealth(getHealth()-getAttackDamage());
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
-            for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
-                Tile tile = gameMap.getTile(this.getRow(), col);
+    public void attackZombies() {
+        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0) {
+            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
                     // Directly attack the first zombie in the tile
                     Zombie targetZombie = tile.getZombies().get(0);
@@ -30,7 +31,7 @@ public class Pumpkin extends Plant{
                     }
                     // Add projectile for visualization
                     Projectile projectile = new Projectile("Peashooter", this.getRow(), this.getCol(), this.getAttackDamage());
-                    gameMap.addProjectile(projectile);
+                    GameState.getInstance().getGameMap().addProjectile(projectile);
                     break;
                 }
             }
