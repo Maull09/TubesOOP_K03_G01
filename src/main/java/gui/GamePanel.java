@@ -277,10 +277,8 @@ public class GamePanel extends JPanel implements ActionListener{
 
                 for (int k = 0; k < zombies.size(); k++) {
                     Zombie zombie = zombies.get(k);
-                    double partialMove = zombie.getPartialMove();
-                    int offset = (int) (partialMove * CELL_SIZE); // Calculate offset based on partial move
                     ImageIcon zombieIcon = new ImageIcon(getClass().getResource("/resources/images/zombie/" + zombie.getName() + ".png"));
-                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE - offset, startY + (i + 1) * CELL_SIZE, 90, 90, this);
+                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
                 }
             }
         }

@@ -39,8 +39,8 @@ public class GameState {
         System.out.println("Current Time: " + TimeKeeper.getInstance().getCurrentTime());
         // flags.getAll().forEach(Flag::update);
         spawnZombie();
-        processZombieActions();
         processPlantActions();
+        processZombieActions();
         processProjectiles();
         // updateGameMap();
         checkGameOver();
@@ -50,7 +50,6 @@ public class GameState {
         if (TimeKeeper.getInstance().isZombieSpawnTime()){
             gameMap.zombieSpawner();
         }
-        // gameMap.zombieSpawner();
     }
 
     private void processZombieActions() {
@@ -67,12 +66,6 @@ public class GameState {
         // Projectiles move and attack
         gameMap.moveProjectiles();
     }
-
-    // private void updateGameMap() {
-    //     // Update the visual or state representation of the map
-    //     // Could be simplified or elaborated based on actual game mechanics
-    //     gameMap.update();
-    // }
 
     private void checkGameOver() {
         // Check conditions that would end the game

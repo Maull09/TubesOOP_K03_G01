@@ -91,7 +91,7 @@ public class GameMap {
         for (int row = rows - 1; row >= 0; row--) {
             for (int col = cols - 1; col >= 0; col--) {
                 Tile currentTile = grid[row][col];
-                Tile nextTile = col + 1 < cols ? grid[row][col + 1] : null;
+                Tile nextTile = col - 1 >= 0 ? grid[row][col - 1] : null;
                 
                 for (int i = 0; i < currentTile.getZombies().size(); i++) {
                     Zombie zombie = currentTile.getZombies().get(i);
@@ -130,17 +130,17 @@ public class GameMap {
 
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
+        spawnLand.add(0);
         spawnLand.add(1);
-        spawnLand.add(2);
+        spawnLand.add(4);
         spawnLand.add(5);
-        spawnLand.add(6);
         ListOf<Integer> spawnWater = new ListOf<Integer>();
+        spawnWater.add(2);
         spawnWater.add(3);
-        spawnWater.add(4);
         ListOf<String> zombieTypes = new ListOf<String>();
         zombieTypes.add("Normal");
         zombieTypes.add("ConeHead");
-        zombieTypes.add("Pole Vaulting");
+        // zombieTypes.add("Pole Vaulting");
         zombieTypes.add("Bucket Head");
         zombieTypes.add("Ducky Tube");
         zombieTypes.add("Dolphin Rider");
@@ -160,7 +160,7 @@ public class GameMap {
             } else {
                 spawnRow = spawnLand.get(random.nextInt(spawnLand.size()));
             }
-            spawnRow -= 1;
+
             Zombie zombie = ZombieFactory.createZombie(zombieType, spawnRow, 10);
             grid[spawnRow][10].addZombie(zombie);
             
@@ -217,7 +217,6 @@ public class GameMap {
     }   
 
     public boolean WinCondition() {
-        TimeKeeper.getInstance();
         if (getTotalZombies() == 0 && TimeKeeper.getInstance().getCurrentTime() >= TimeKeeper.DAY_LENGTH){
             return true;
         }

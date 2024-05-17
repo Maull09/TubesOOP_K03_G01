@@ -74,11 +74,7 @@ public class Zombie extends Entity implements Moveable{
     }
 
     public void move() {
-        this.partialMove += 1.0 / 5.0; // Move 1/5 of a tile
-        if (this.partialMove >= 1.0) {
-            this.setCol(this.getCol() - 1);
-            this.partialMove = 0.0;
-        }
+        this.setCol(this.getCol() - 1);
         this.lastMoveTime = TimeKeeper.getInstance().getCurrentTime();
     }
 
@@ -96,10 +92,10 @@ public class Zombie extends Entity implements Moveable{
     public void attackPlants() {
         int currentTime = TimeKeeper.getInstance().getCurrentTime();
         if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
-            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+            for (int col = this.getCol(); col >= 0; col--) {
                 Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getPlants().isEmpty()) {
-                    // Directly attack the first zombie in the tile
+                    // Directly attack the first plant in the tile
                     Plant targetPlant = tile.getPlants().get(0);
                     targetPlant.takeDamage(this.getAttackDamage());
                     if (!targetPlant.getIsAlive()) {
@@ -110,5 +106,6 @@ public class Zombie extends Entity implements Moveable{
                 }
             }
         }
-    }}
+    }
+}
 
