@@ -8,7 +8,7 @@ public class DeckTanaman {
     private static final int MAX_SIZE = 6;  // Maximum number of plants in the deck
 
     public DeckTanaman() {
-        this.plants = new ListOf<>();
+        this.plants = new ListOf<Plant>();
     }
 
     public boolean addPlant(Plant plant) {
@@ -35,6 +35,10 @@ public class DeckTanaman {
 
     public boolean isEmpty() {
         return plants.isEmpty();
+    }
+
+    public int size() {
+        return plants.size();
     }
 
     // public void clear() {

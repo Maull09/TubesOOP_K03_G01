@@ -1,26 +1,28 @@
 package main;
 
 import data.GameState;
+import gui.GameGUI;
+import gui.GamePanel;
+
+import javax.swing.SwingUtilities;
+
 import data.GameEngine;
+
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            // Initialize the main components of the game
-            GameState gameState = new GameState(); // assuming your game map dimensions are 9x6
-            GameEngine gameEngine = new GameEngine(gameState, 60); // Initialize game engine with a frame rate of 60 FPS
-            
-            // Setup GUI if necessary (not implemented here, assume exists)
-            // GameGUI gameGUI = new GameGUI(gameState);
-            // gameGUI.setVisible(true);
-
-            // Start the game engine in a separate thread to manage game logic updates
+        SwingUtilities.invokeLater(() -> {
+            System.out.println("Initializing GameState...");
+            GameState gameState = GameState.getInstance();
+            System.out.println("Initializing GameGUI...");
+            GameGUI gameGUI = new GameGUI();
+            System.out.println("Starting GameEngine...");
+            GameEngine gameEngine = new GameEngine(gameState, gameGUI, gameGUI.getGameScreen()); // Assuming 60 FPS
             gameEngine.start();
-
-            // The GUI would remain responsive, and the game state is updated in the background
-        } catch (Exception e) {
-            System.err.println("An error occurred during game initialization: " + e.getMessage());
-            e.printStackTrace();
-        }
+            System.out.println("Setting GameGUI visible...");
+            gameGUI.setVisible(true);
+        });
     }
 }
+
+

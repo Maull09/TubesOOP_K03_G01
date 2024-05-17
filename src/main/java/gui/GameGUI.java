@@ -7,11 +7,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
-import data.GameEngine;
 import data.GameState;
-import manager.DeckTanaman;
-import manager.GameMap;
-import manager.Inventory;
+
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -22,8 +19,9 @@ public class GameGUI extends JFrame {
     private PlantList plantList;
     private ZombieList zombieList;
     private PlantSelectScreen plantSelectScreen;
-    private HelpScreen helpScreen;  // Assuming you have a HelpScreen class
-    private GamePanel gameScreen;  // Assuming you have a GamePanel class
+    private HelpScreen helpScreen;  
+    private GamePanel gameScreen;  
+    private boolean isGameScreenDisplayed = false;
 
     public GameGUI() {
         initializeFrame();
@@ -45,32 +43,39 @@ public class GameGUI extends JFrame {
         mainMenu = new MainMenu(this);
         plantList = new PlantList(this);
         zombieList = new ZombieList(this);
-        plantSelectScreen = new PlantSelectScreen(new DeckTanaman(), new Inventory(), this);
-        helpScreen = new HelpScreen(this);  // Initialize your help screen here
-        gameScreen = new GamePanel(new GameMap(),new GameState(), this);  // Initialize your game screen here
+        plantSelectScreen = new PlantSelectScreen(this);
+        helpScreen = new HelpScreen(this); 
     }
 
     public void showMainMenu() {
         setPanel(mainMenu);
+        this.setGameScreenDisplayed(false);
     }
 
     public void showPlantList() {
         setPanel(plantList);
+        this.setGameScreenDisplayed(false);
     }
 
     public void showZombieList() {
         setPanel(zombieList);
+        this.setGameScreenDisplayed(false);
     }
 
-    public void showPlantSelectScreen() {
+    public void showPlantSelectScreen(Runnable onContinue) {
+        plantSelectScreen.setOnContinue(onContinue);
         setPanel(plantSelectScreen);
+        this.setGameScreenDisplayed(false);
     }
 
     public void showHelpScreen() {
         setPanel(helpScreen);
+        this.setGameScreenDisplayed(false);
     }
 
     public void showGameScreen() {
+        gameScreen = new GamePanel(this); // Initialize GamePanel here after deck is filled
+        this.setGameScreenDisplayed(true);
         setPanel(gameScreen);
     }
 
@@ -98,6 +103,18 @@ public class GameGUI extends JFrame {
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean isGameScreenDisplayed() {
+        return isGameScreenDisplayed;
+    }
+
+    public void setGameScreenDisplayed(boolean gameScreenDisplayed) {
+        isGameScreenDisplayed = gameScreenDisplayed;
+    }
+
+    public GamePanel getGameScreen() {
+        return gameScreen;
     }
 
     public static void main(String[] args) {

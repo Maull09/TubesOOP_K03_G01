@@ -2,10 +2,10 @@ package data;
 
 public class TimeKeeper {
     private int currentTime;
-    private static final int DAY_LENGTH = 200; // Total seconds in a day
-    private static final int NIGHT_START = 100; // Night starts at 100 seconds
-    private static final int ZOMBIE_SPAWN_START = 20; // Zombies start spawning at 20 seconds
-    private static final int ZOMBIE_SPAWN_END = 160; // Zombies stop spawning at 160 seconds
+    public static final int DAY_LENGTH = 200; // Total seconds in a day
+    public static final int NIGHT_START = 100; // Night starts at 100 seconds
+    public static final int ZOMBIE_SPAWN_START = 20; // Zombies start spawning at 20 seconds
+    public static final int ZOMBIE_SPAWN_END = 160; // Zombies stop spawning at 160 seconds
 
     // Singleton instance
     private static TimeKeeper instance;
@@ -25,7 +25,7 @@ public class TimeKeeper {
 
     // Method to update the current time
     public void update() {
-        currentTime = (currentTime + 1) % DAY_LENGTH; // Increment time and loop back every day
+        currentTime = (currentTime + 1); // Increment time and loop back every day
     }
 
     // Method to check if it is daytime

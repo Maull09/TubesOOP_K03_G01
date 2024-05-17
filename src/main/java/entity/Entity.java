@@ -2,9 +2,10 @@ package entity;
 
 import util.*;
 import entity.zombie.Zombie;
+import manager.GameMap;
 import manager.Tile;
+import data.TimeKeeper;
 import entity.plant.Plant;
-import javax.swing.ImageIcon;
 
 public class Entity implements Attackable{
     private String name;
@@ -14,7 +15,6 @@ public class Entity implements Attackable{
     private int row;
     private int col;
     private boolean isAlive;
-    private ImageIcon icon;
 
     public Entity(String name, int health, int attackDamage, int attackSpeed, int row, int col, boolean isAlive)
     {
@@ -130,5 +130,7 @@ public class Entity implements Attackable{
             tile.getZombies().get(i).setHealth(tile.getZombies().get(i).getHealth() - this.getAttackDamage());
         }
     }
+
+    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {}
 
 }

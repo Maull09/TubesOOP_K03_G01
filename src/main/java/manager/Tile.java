@@ -13,6 +13,7 @@ public class Tile {
     public Tile() {
         this.plants = new ListOf<Plant>();
         this.zombies = new ListOf<Zombie>();
+        this.projectiles = new ListOf<Projectile>();
     }
 
     public ListOf<Plant> getPlants() {

@@ -1,8 +1,8 @@
 package entity.plant;
 
-import javax.swing.ImageIcon;
-
+import data.TimeKeeper;
 import entity.zombie.Zombie;
+import manager.GameMap;
 
 public class Wallnut extends Plant{
     public Wallnut(int row, int col) {
@@ -14,5 +14,5 @@ public class Wallnut extends Plant{
         super.attack(zombie);
     }
 
-    
+    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {}
 }

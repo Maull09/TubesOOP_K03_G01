@@ -1,7 +1,5 @@
 package manager;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import entity.Projectile;
@@ -16,6 +14,7 @@ public class GameMap {
     private Tile[][] grid;
     private final int rows = 6;
     private final int cols = 11;
+    private static final int MAX_ZOMBIES = 10;
 
     public GameMap() {
         grid = new Tile[rows][cols];
@@ -78,26 +77,33 @@ public class GameMap {
         return zombies;
     }
 
+    private int getTotalZombies() {
+        int totalZombies = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                totalZombies += grid[i][j].getZombies().size();
+            }
+        }
+        return totalZombies;
+    }
+
     public void moveZombies() {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
         for (int row = rows - 1; row >= 0; row--) {
             for (int col = cols - 1; col >= 0; col--) {
                 Tile currentTile = grid[row][col];
                 Tile nextTile = col + 1 < cols ? grid[row][col + 1] : null;
-
-                ListOf<Zombie> toMove = new ListOf<Zombie>();
+                
                 for (int i = 0; i < currentTile.getZombies().size(); i++) {
                     Zombie zombie = currentTile.getZombies().get(i);
-                    if (nextTile != null && nextTile.getPlants().isEmpty()) {
-                        toMove.add(zombie);
-                    } else {
-                        zombie.attackPlants(currentTile);
-                    }
-                }
-
-                for (int i = 0; i < toMove.size(); i++) {
-                    currentTile.removeZombie(toMove.get(i));
-                    if (nextTile != null) {
-                        nextTile.addZombie(toMove.get(i));
+                    if (zombie.canMove(currentTime)) {
+                        if (nextTile != null && nextTile.getPlants().isEmpty()) {
+                            currentTile.removeZombie(zombie);
+                            nextTile.addZombie(zombie);
+                            zombie.move();
+                        } else {
+                            zombie.attackPlants(currentTile);
+                        }
                     }
                 }
             }
@@ -110,13 +116,17 @@ public class GameMap {
                 Tile currentTile = grid[row][col];
                 for (int i = 0; i < currentTile.getPlants().size(); i++) {
                     Plant plant = currentTile.getPlants().get(i);
-                    plant.attackZombies(currentTile);
+                    plant.attackZombies(this, TimeKeeper.getInstance());
                 }
             }
         }
     }
 
     public void zombieSpawner(){
+        if (getTotalZombies() >= MAX_ZOMBIES) {
+            return; // Do not spawn new zombies if the limit is reached
+        }
+
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
         spawnLand.add(1);
@@ -142,28 +152,33 @@ public class GameMap {
             Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())));
             if (zombie.getName().equals("Ducky Tube") || zombie.getName().equals("Dolphin Rider")) {
                 int randomIndex = random.nextInt(spawnWater.size());
-                grid[randomIndex][11].addZombie(zombie);
+                grid[randomIndex][10].addZombie(zombie);
             } else {
                 int randomIndex = random.nextInt(spawnLand.size());
-                grid[randomIndex][11].addZombie(zombie);
+                grid[randomIndex][10].addZombie(zombie);
             }
         }
     }
 
     public void plantSpawner(String plantType, int row, int col, GameState gameState) {
         Plant plant = PlantFactory.createPlant(plantType);
+
+        // Check if the player has enough sun points to plant the plant
         if (plant.getCost() > gameState.getSunPoints()) {
             return;
         }
 
+        // Check if the plant can be placed on the tile
         if (!canPlacePlant(col, plantType, grid[row][col])){
             return;
         }
 
+        // Check if the plant can be placed on the tile
         if (!grid[row][col].getPlants().isEmpty() && !plantType.equals("Pumpkin")) {
             return;
         } 
 
+        // Check tile boundaries
         if (col == 0 || col == 11) {
             return;
         }
@@ -179,7 +194,7 @@ public class GameMap {
         return true;
     }
 
-    public boolean checkForGameOverConditions() {
+    public boolean LoseCondition() {
         for (int row = 0; row < rows; row++) {
             ListOf<Zombie> targetZone = grid[row][0].getZombies();
             if (!targetZone.isEmpty()) {
@@ -188,6 +203,18 @@ public class GameMap {
         }
         return false;
     }   
+
+    public boolean WinCondition() {
+        TimeKeeper.getInstance();
+        if (getTotalZombies() == 0 && TimeKeeper.getInstance().getCurrentTime() >= TimeKeeper.DAY_LENGTH){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkForGameOverConditions() {
+        return LoseCondition() || WinCondition();
+    }
 
     public void moveProjectiles() {
         for (int row = 0; row < rows; row++) {
@@ -203,6 +230,30 @@ public class GameMap {
                         Tile nextTile = grid[row][newCol];
                         nextTile.addProjectile(projectile);
                         projectile.move();
+                    }
+                }
+            }
+        }
+    }
+
+    public void removeDeadEntities() {
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                Tile currentTile = grid[row][col];
+                ListOf<Plant> plants = currentTile.getPlants();
+                ListOf<Zombie> zombies = currentTile.getZombies();
+                
+                for (int i = 0; i < plants.size(); i++) {
+                    Plant plant = plants.get(i);
+                    if (!plant.getIsAlive()) {
+                        currentTile.removePlant(plant);
+                    }
+                }
+
+                for (int i = 0; i < zombies.size(); i++) {
+                    Zombie zombie = zombies.get(i);
+                    if (!zombie.getIsAlive()) {
+                        currentTile.removeZombie(zombie);
                     }
                 }
             }

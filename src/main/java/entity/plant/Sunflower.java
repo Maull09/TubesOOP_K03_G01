@@ -1,9 +1,8 @@
 package entity.plant;
 
 import entity.zombie.Zombie;
-
-import javax.swing.ImageIcon;
-
+import manager.GameMap;
+import data.TimeKeeper;
 import entity.*;
 
 public class Sunflower extends Plant{
@@ -19,6 +18,12 @@ public class Sunflower extends Plant{
     public void produceSun()
     {
         Sun.addSun();
+    }
+
+    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
+        if (timeKeeper.getCurrentTime() % 3 == 0) {
+            produceSun();
+        }
     }
 
 }

@@ -3,7 +3,6 @@ package data;
 import manager.*;
 import util.*;
 import entity.*;
-import java.util.Random;
 
 public class GameState {
     private GameMap gameMap;
@@ -13,13 +12,23 @@ public class GameState {
     private TimeKeeper timeKeeper;
     private ListOf<Flag> flags;
 
+    private static GameState instance;
+
     public GameState() {
         this.gameMap = new GameMap();
         this.deck = new DeckTanaman();
         this.inventory = new Inventory();
         this.sunPoints = new Sun();
+        this.timeKeeper = TimeKeeper.getInstance();
         this.flags = new ListOf<Flag>();
         initializeFlags();
+    }
+
+    public static synchronized GameState getInstance() {
+        if (instance == null) {
+            instance = new GameState();
+        }
+        return instance;
     }
 
     private void initializeFlags() {
@@ -29,21 +38,21 @@ public class GameState {
 
     public void update() {
         timeKeeper.update();
-        flags.getAll().forEach(Flag::update);
-        Random random = new Random();
-        int spawnsun = random.nextInt(10) + 1;
-        if (timeKeeper.getCurrentTime() % spawnsun == 0) {
-            addSunPoints(25);
-        }
+        System.out.println("Current Time: " + timeKeeper.getCurrentTime());
+        // flags.getAll().forEach(Flag::update);
         spawnZombie();
         processZombieActions();
         processPlantActions();
+        processProjectiles();
         // updateGameMap();
         checkGameOver();
     }
     
     private void spawnZombie() {
-        gameMap.zombieSpawner();
+        // Zombies spawn
+        if (timeKeeper.isZombieSpawnTime()){
+            gameMap.zombieSpawner();
+        }
     }
 
     private void processZombieActions() {
@@ -54,6 +63,11 @@ public class GameState {
     private void processPlantActions() {
         // Plants perform actions 
         gameMap.plantAttack();
+    }
+
+    private void processProjectiles() {
+        // Projectiles move and attack
+        gameMap.moveProjectiles();
     }
 
     // private void updateGameMap() {
@@ -101,5 +115,9 @@ public class GameState {
 
     public TimeKeeper getTimeKeeper() {
         return timeKeeper;
+    }
+
+    public void setTimeKeeper(TimeKeeper timeKeeper) {
+        this.timeKeeper = timeKeeper;
     }
 }

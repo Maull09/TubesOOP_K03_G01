@@ -1,7 +1,5 @@
 package entity.plant;
 
-import javax.swing.ImageIcon;
-
 import data.TimeKeeper;
 import entity.Projectile;
 import entity.zombie.Zombie;
@@ -30,7 +28,7 @@ public class Peashooter extends Plant {
                         tile.removeZombie(targetZombie);
                     }
                     // Add projectile for visualization
-                    Projectile projectile = new Projectile("Peashooter", this.getRow(), this.getCol(), this.getAttackDamage());
+                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol(), this.getAttackDamage());
                     gameMap.addProjectile(projectile);
                     break;
                 }

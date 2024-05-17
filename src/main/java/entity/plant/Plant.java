@@ -3,8 +3,6 @@ package entity.plant;
 import entity.Entity;
 import util.ListOf;
 
-import javax.swing.ImageIcon;
-
 import data.TimeKeeper;
 import entity.zombie.Zombie;
 

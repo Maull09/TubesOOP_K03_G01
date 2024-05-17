@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class MainMenu extends JPanel {
+    private Runnable onContinue;
     private Image backgroundImage;
     private GameGUI gameGUI;
 
@@ -57,7 +58,7 @@ public class MainMenu extends JPanel {
         String command = e.getActionCommand();
         switch (command) {
             case "Start":
-                gameGUI.showPlantSelectScreen();
+                gameGUI.showPlantSelectScreen(onContinue);
                 break;
             case "Plants":
                 gameGUI.showPlantList();
@@ -75,6 +76,10 @@ public class MainMenu extends JPanel {
                 System.out.println("Unknown command: " + command);
                 break;
         }
+    }
+
+    public void setOnContinue(Runnable onContinue) {
+        this.onContinue = onContinue;
     }
 
     public static void main(String[] args) {

@@ -1,27 +1,25 @@
 package gui;
 
 import javax.swing.*;
+
+import data.GameState;
+
 import java.awt.*;
 import entity.plant.Plant;
-import manager.DeckTanaman;
-import manager.Inventory;
 import util.ListOf;
 
 public class PlantSelectScreen extends JPanel {
     private Image backgroundImage;
-    private DeckTanaman deckTanaman;
-    private Inventory inventory;
     private JPanel deckPanel;
     private JPanel inventoryPanel;
     private JPanel topPanel;
     private JButton startButton;
     private JButton backButton;
     private GameGUI gameGUI;
+    private Runnable onContinue;
 
-    public PlantSelectScreen(DeckTanaman deckTanaman, Inventory inventory, GameGUI gameGUI) {
+    public PlantSelectScreen(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
-        this.deckTanaman = deckTanaman;
-        this.inventory = inventory;
         setSize(1280, 720);
         setLayout(new BorderLayout());
         loadImage();
@@ -69,7 +67,10 @@ public class PlantSelectScreen extends JPanel {
         styleButton(backButton);
 
         startButton.addActionListener(e -> {
-            if (deckTanaman.isFull()){
+            if (GameState.getInstance().getDeck().isFull()) {
+                if (onContinue != null) {
+                    onContinue.run();
+                }
                 gameGUI.showGameScreen();
             } else {
                 JOptionPane.showMessageDialog(this, "Deck is not full");
@@ -93,18 +94,19 @@ public class PlantSelectScreen extends JPanel {
         inventoryPanel.setLayout(new FlowLayout(3, 10, 50));
         
         // Populate inventory from inventory class
-        ListOf<Plant> availablePlants = inventory.getAllItems();
+        ListOf<Plant> availablePlants = GameState.getInstance().getInventory().getAllItems();
         for (int i = 0; i < availablePlants.size(); i++) {
             final Plant plant = availablePlants.get(i);  // make plant final for use in lambda
             JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
             styleButton(button);
             button.setPreferredSize(new Dimension(80, 85));
             button.addActionListener(e -> {
-                if (deckTanaman.getPlants().contains(plant)) {
+                if (GameState.getInstance().getDeck().getPlants().contains(plant)) {
                     JOptionPane.showMessageDialog(this, "Plant already in deck");
-                } else if (!deckTanaman.addPlant(plant)) {
+                } else if (GameState.getInstance().getDeck().isFull()) {
                     JOptionPane.showMessageDialog(this, "Deck is full");
                 } else {
+                    GameState.getInstance().getDeck().addPlant(plant);
                     refreshDeckPanel();
                 }
             });
@@ -129,13 +131,13 @@ public class PlantSelectScreen extends JPanel {
 
     private void refreshDeckPanel() {
         deckPanel.removeAll();
-        for (int i = 0; i < deckTanaman.getPlants().size(); i++) {
-            final Plant plant = deckTanaman.getPlants().get(i);
+        for (int i = 0; i < GameState.getInstance().getDeck().getPlants().size(); i++) {
+            final Plant plant = GameState.getInstance().getDeck().getPlants().get(i);
             JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
             styleButton(button);
             button.setPreferredSize(new Dimension(80, 85));
             button.addActionListener(e -> {
-                    deckTanaman.removePlant(plant);
+                    GameState.getInstance().getDeck().removePlant(plant);
                     refreshDeckPanel();
             });
             deckPanel.add(button);
@@ -151,11 +153,15 @@ public class PlantSelectScreen extends JPanel {
         button.setOpaque(false);
     }
 
+    public void setOnContinue(Runnable onContinue) {
+        this.onContinue = onContinue;
+    }
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Plant Selection");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GameGUI gameGUI = new GameGUI();
-        frame.setContentPane(new PlantSelectScreen(new DeckTanaman(), new Inventory(), gameGUI));
+        frame.setContentPane(new PlantSelectScreen(gameGUI));
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

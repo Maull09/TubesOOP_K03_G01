@@ -7,13 +7,13 @@ public class Inventory {
     private static final int MAX_ITEMS = 10;  // Maximum number of items in the inventory
 
     public Inventory() {
-        this.items = new ListOf<>();
+        this.items = new ListOf<Plant>();
         items.add(PlantFactory.createPlant("Sunflower"));
         items.add(PlantFactory.createPlant("Peashooter"));
         items.add(PlantFactory.createPlant("Repeater"));
         items.add(PlantFactory.createPlant("SnowPea"));
         items.add(PlantFactory.createPlant("Wallnut"));
-        items.add(PlantFactory.createPlant("Pumkin"));
+        items.add(PlantFactory.createPlant("Pumpkin"));
         items.add(PlantFactory.createPlant("Chomper"));
         items.add(PlantFactory.createPlant("TangleKelp"));
         items.add(PlantFactory.createPlant("Squash"));

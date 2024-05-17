@@ -1,58 +1,100 @@
 package data;
 
-public class GameEngine implements Runnable {
-    private Thread gameThread;        // Thread on which the game loop runs
-    private GameState gameState;      // Shared game state
+import javax.swing.*;
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import gui.GameGUI;
+import gui.GamePanel;
+
+public class GameEngine {
     private volatile boolean running; // Flag to control the game loop
-    private final long frameRate;     // Target frame rate, e.g., 60 FPS
+    private final GameGUI gameGUI;    // Reference to the main GUI
+    private final GamePanel gamePanel; // Reference to the game panel
+    private Timer timer;              // Timer to schedule updates and repaints
 
-    public GameEngine(GameState gameState, long frameRate) {
-        this.gameState = gameState;
-        this.frameRate = frameRate;
+    public GameEngine(GameState gameState, GameGUI gameGUI, GamePanel gamePanel) {
+        this.gameGUI = gameGUI;
+        this.gamePanel = gamePanel;
     }
 
-    // Starts the game loop in a new thread
+    // Starts the game loop using Timer
     public void start() {
-        if (gameThread == null || !gameThread.isAlive()) {
-            gameThread = new Thread(this);
-            running = true;
-            gameThread.start(); // Start the thread, which invokes the run method
-        }
+        running = true;
+        showMainMenu();
     }
 
-    // The main game loop
-    @Override
-    public void run() {
-        long lastTime = System.nanoTime();
-        final double ns = 1000000000 / frameRate;
-        double delta = 0;
+    private void showMainMenu() {
+        SwingUtilities.invokeLater(() -> gameGUI.showMainMenu());
+        waitForGameScreen();
+    }
 
-        while (running) {
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-
-            while (delta >= 1) {
-                update(); // Update game state
-                delta--;
+    private void waitForGameScreen() {
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() throws Exception {
+                while (!gameGUI.isGameScreenDisplayed()) {
+                    Thread.sleep(100); // Check every 100ms
+                }
+                return null;
             }
-        }
+
+            @Override
+            protected void done() {
+                startGameLoop();
+            }
+        }.execute();
     }
 
-    // Updates the game state
-    private void update() {
-        gameState.update(); // Update all components of the game
+    private void startGameLoop() {
+        long interval = 1000; // 1 second
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (running) {
+                    update(); // Update game state
+                    repaint(); // Repaint GUI
+                }
+            }
+        }, 0, interval);
+
+        scheduleSunAddition();
     }
 
     // Stops the game loop
     public void stop() {
         running = false;
-        try {
-            gameThread.join(); // Wait for the thread to finish executing
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            System.err.println("Failed to stop game thread gracefully");
+        if (timer != null) {
+            timer.cancel();
         }
     }
-}
 
+    // Updates the game state
+    private void update() {
+        GameState.getInstance().update(); // Update all components of the game
+    }
+
+    // Repaints the GUI on the Event Dispatch Thread (EDT)
+    private void repaint() {
+        SwingUtilities.invokeLater(() -> gamePanel.repaint());
+    }
+
+    // Schedule sun addition every 5 to 10 seconds
+    private void scheduleSunAddition() {
+        Random random = new Random();
+        int initialDelay = random.nextInt(6) + 5; // Initial delay between 5 to 10 seconds
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Random rand = new Random();
+                int delay = rand.nextInt(6) + 5; // Delay between 5 to 10 seconds
+                GameState.getInstance().addSunPoints(25);
+                System.out.println("Added sun points. Next addition in: " + delay + " seconds");
+            }
+        }, initialDelay * 1000, initialDelay * 1000);
+    }
+}
