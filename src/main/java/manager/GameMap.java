@@ -153,7 +153,7 @@ public class GameMap {
         double chance = random.nextDouble();
         if (chance > spawnChance) {
             System.out.println("SpawnChance: " + chance);
-            Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())));
+            Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())), random.nextInt(rows), 10);
             if (zombie.getName().equals("Ducky Tube") || zombie.getName().equals("Dolphin Rider")) {
                 int randomIndex = random.nextInt(spawnWater.size());
                 grid[randomIndex][10].addZombie(zombie);

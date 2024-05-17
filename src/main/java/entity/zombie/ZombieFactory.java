@@ -1,9 +1,6 @@
 package entity.zombie;
 
 public class ZombieFactory {
-    private static int row;
-    private static int col;
-
     public static Zombie createZombie(String type, int row, int col) {
         switch (type) {
             case "Normal":

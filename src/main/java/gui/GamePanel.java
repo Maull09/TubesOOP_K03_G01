@@ -179,10 +179,10 @@ public class GamePanel extends JPanel implements ActionListener{
         
         if (selectedPlant != null) {
             // Calculate the cell that was clicked
-            int col = (x - startX) / CELL_SIZE - 2;
-            int row = (y - startY) / CELL_SIZE - 1;
+            int col = ((x - startX) / CELL_SIZE) - 2;
+            int row = ((y - startY) / CELL_SIZE) - 1;
             
-            if (col >= 0 && col < 11 && row >= 0 && row < 6) {  // Adjust according to the grid range
+            if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
                 GameState.getInstance().getGameMap().plantSpawner(selectedPlant, row, col, GameState.getInstance());
                 selectedPlant = null;
                 
@@ -273,9 +273,9 @@ public class GamePanel extends JPanel implements ActionListener{
     private void drawZombies(Graphics g) {
 
         // dummy zombie
-        Zombie dummy1 = ZombieFactory.createZombie("Normal");
-        Zombie dummy2 = ZombieFactory.createZombie("ConeHead");
-        Zombie dummy3 = ZombieFactory.createZombie("Pole Vaulting");
+        Zombie dummy1 = ZombieFactory.createZombie("Normal", 0, 10);
+        Zombie dummy2 = ZombieFactory.createZombie("ConeHead", 1, 10);
+        Zombie dummy3 = ZombieFactory.createZombie("Pole Vaulting", 2, 10);
 
         // add dummy zombie to the game map
         GameState.getInstance().getGameMap().getTile(0, 10).addZombie(dummy1);
