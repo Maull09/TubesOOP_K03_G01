@@ -15,20 +15,6 @@ public class Lilypad extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
-            for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
-                Tile tile = gameMap.getTile(this.getRow(), col);
-                if (!tile.getZombies().isEmpty()) {
-                    // Directly attack the first zombie in the tile
-                    Zombie targetZombie = tile.getZombies().get(0);
-                    targetZombie.takeDamage(this.getAttackDamage());
-                    if (!targetZombie.getIsAlive()) {
-                        tile.removeZombie(targetZombie);
-                    }
-                    break;
-                }
-            }
-        }
+    public void attackZombies() {
     }
 }

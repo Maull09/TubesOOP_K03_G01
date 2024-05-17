@@ -1,6 +1,7 @@
 package manager;
 
-import data.*;
+import data.GameState;
+import data.TimeKeeper;
 
 
 public class Flag {
@@ -34,7 +35,7 @@ public class Flag {
 
     // Check whether it's time to trigger this flag
     public void update() {
-        if (gameState.getTimeKeeper().getCurrentTime() == triggerTime) {
+        if (TimeKeeper.getInstance().getCurrentTime() == triggerTime) {
             trigger();
         }
     }

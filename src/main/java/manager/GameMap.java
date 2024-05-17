@@ -118,16 +118,16 @@ public class GameMap {
                 Tile currentTile = grid[row][col];
                 for (int i = 0; i < currentTile.getPlants().size(); i++) {
                     Plant plant = currentTile.getPlants().get(i);
-                    plant.attackZombies(this, TimeKeeper.getInstance());
+                    plant.attackZombies();
                 }
             }
         }
     }
 
     public void zombieSpawner(){
-        // if (getTotalZombies() >= MAX_ZOMBIES) {
-        //     return; // Do not spawn new zombies if the limit is reached
-        // }
+        if (getTotalZombies() >= MAX_ZOMBIES) {
+            return; // Do not spawn new zombies if the limit is reached
+        }
 
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
@@ -169,7 +169,7 @@ public class GameMap {
     }
 
     public void plantSpawner(String plantType, int row, int col, GameState gameState) {
-        Plant plant = PlantFactory.createPlant(plantType);
+        Plant plant = PlantFactory.createPlant(plantType, row, col);
 
         // Check if the player has enough sun points to plant the plant
         if (plant.getCost() > gameState.getSunPoints()) {

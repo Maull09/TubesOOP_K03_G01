@@ -8,16 +8,16 @@ public class Inventory {
 
     public Inventory() {
         this.items = new ListOf<Plant>();
-        items.add(PlantFactory.createPlant("Sunflower"));
-        items.add(PlantFactory.createPlant("Peashooter"));
-        items.add(PlantFactory.createPlant("Repeater"));
-        items.add(PlantFactory.createPlant("SnowPea"));
-        items.add(PlantFactory.createPlant("Wallnut"));
-        items.add(PlantFactory.createPlant("Pumpkin"));
-        items.add(PlantFactory.createPlant("Chomper"));
-        items.add(PlantFactory.createPlant("TangleKelp"));
-        items.add(PlantFactory.createPlant("Squash"));
-        items.add(PlantFactory.createPlant("Lilypad"));
+        items.add(PlantFactory.createPlant("Sunflower", 0,0));
+        items.add(PlantFactory.createPlant("Peashooter",0,0));
+        items.add(PlantFactory.createPlant("Repeater",0,0));
+        items.add(PlantFactory.createPlant("SnowPea",0,0));
+        items.add(PlantFactory.createPlant("Wallnut",0,0));
+        items.add(PlantFactory.createPlant("Pumpkin",0,0));
+        items.add(PlantFactory.createPlant("Chomper",0,0));
+        items.add(PlantFactory.createPlant("TangleKelp",0,0));
+        items.add(PlantFactory.createPlant("Squash",0,0));
+        items.add(PlantFactory.createPlant("Lilypad",0,0));
     }
 
     public void addItem(Plant item) {

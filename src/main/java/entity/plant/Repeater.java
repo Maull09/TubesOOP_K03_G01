@@ -28,7 +28,7 @@ public class Repeater extends Plant{
                         tile.removeZombie(targetZombie);
                     }
                     // Add projectile for visualization
-                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol(), this.getAttackDamage());
+                    Projectile projectile = new Projectile("ProjectTile1", this.getRow(), this.getCol()+1, this.getAttackDamage());
                     gameMap.addProjectile(projectile);
                     break;
                 }

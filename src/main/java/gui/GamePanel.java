@@ -249,8 +249,8 @@ public class GamePanel extends JPanel implements ActionListener{
 
         // dummy plant
         // Plant dummy1 = PlantFactory.createPlant("Sunflower");
-        Plant dummy2 = PlantFactory.createPlant("Peashooter");
-        Plant dummy3 = PlantFactory.createPlant("Wallnut");
+        Plant dummy2 = PlantFactory.createPlant("Peashooter", 1,1);
+        Plant dummy3 = PlantFactory.createPlant("Wallnut",2,1);
 
         // add dummy plant to the game map
         // gameState.getGameMap().getTile(0, 1).addPlant(dummy1);
@@ -307,7 +307,7 @@ public class GamePanel extends JPanel implements ActionListener{
                 for(int k = 0; k < projectiles.size(); k++){
                     Projectile projectile = projectiles.get(k);
                     ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                    g.drawImage(projectileicon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
+                    g.drawImage(projectileicon.getImage(), (startX + (j + 2) * CELL_SIZE) + 53, (startY + (i + 1) * CELL_SIZE) + 5, 33, 30, this);
                 }
             }
         }

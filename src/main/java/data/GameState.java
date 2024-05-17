@@ -9,7 +9,6 @@ public class GameState {
     private DeckTanaman deck;
     private Inventory inventory;
     private Sun sunPoints;
-    private TimeKeeper timeKeeper;
     private ListOf<Flag> flags;
 
     private static GameState instance;
@@ -19,7 +18,6 @@ public class GameState {
         this.deck = new DeckTanaman();
         this.inventory = new Inventory();
         this.sunPoints = new Sun();
-        this.timeKeeper = TimeKeeper.getInstance();
         this.flags = new ListOf<Flag>();
         initializeFlags();
     }
@@ -37,8 +35,8 @@ public class GameState {
     }
 
     public void update() {
-        timeKeeper.update();
-        System.out.println("Current Time: " + timeKeeper.getCurrentTime());
+        TimeKeeper.getInstance().update();
+        System.out.println("Current Time: " + TimeKeeper.getInstance().getCurrentTime());
         // flags.getAll().forEach(Flag::update);
         spawnZombie();
         processZombieActions();
@@ -112,13 +110,5 @@ public class GameState {
 
     public void setSunPoints(int amount) {
         sunPoints.setTotalSun(amount);
-    }
-
-    public TimeKeeper getTimeKeeper() {
-        return timeKeeper;
-    }
-
-    public void setTimeKeeper(TimeKeeper timeKeeper) {
-        this.timeKeeper = timeKeeper;
     }
 }

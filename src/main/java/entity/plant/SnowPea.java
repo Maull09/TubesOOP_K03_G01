@@ -32,7 +32,7 @@ public class SnowPea extends Plant{
                         tile.removeZombie(targetZombie);
                     }
                     // Add projectile for visualization
-                    Projectile projectile = new Projectile("SnowPeaProjectile", this.getRow(), this.getCol(), this.getAttackDamage());
+                    Projectile projectile = new Projectile("SnowPeaProjectile", this.getRow(), this.getCol()+1, this.getAttackDamage());
                     gameMap.addProjectile(projectile);
                     break;
                 }

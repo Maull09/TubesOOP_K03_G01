@@ -2,7 +2,6 @@ package main;
 
 import data.GameState;
 import gui.GameGUI;
-import gui.GamePanel;
 
 import javax.swing.SwingUtilities;
 
@@ -17,7 +16,7 @@ public class Main {
             System.out.println("Initializing GameGUI...");
             GameGUI gameGUI = new GameGUI();
             System.out.println("Starting GameEngine...");
-            GameEngine gameEngine = new GameEngine(gameState, gameGUI, gameGUI.getGameScreen()); // Assuming 60 FPS
+            GameEngine gameEngine = new GameEngine(gameState, gameGUI); // Assuming 60 FPS
             gameEngine.start();
             System.out.println("Setting GameGUI visible...");
             gameGUI.setVisible(true);

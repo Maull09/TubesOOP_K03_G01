@@ -1,5 +1,6 @@
 package entity.plant;
 
+import data.GameState;
 import data.TimeKeeper;
 import entity.zombie.Zombie;
 import manager.GameMap;
@@ -15,10 +16,10 @@ public class Chomper extends Plant{
         super.attack(zombie);
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {
-        if (timeKeeper.getCurrentTime() % this.getAttackSpeed() == 0) {
-            for (int col = this.getCol() + 1; col < gameMap.getCols(); col++) {
-                Tile tile = gameMap.getTile(this.getRow(), col);
+    public void attackZombies() {
+        if (TimeKeeper.getInstance().getCurrentTime() % this.getAttackSpeed() == 0) {
+            for (int col = this.getCol() + 1; col < GameState.getInstance().getGameMap().getCols(); col++) {
+                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
                 if (!tile.getZombies().isEmpty()) {
                     // Directly attack the first zombie in the tile
                     Zombie targetZombie = tile.getZombies().get(0);

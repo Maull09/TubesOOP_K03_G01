@@ -7,17 +7,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import gui.GameGUI;
-import gui.GamePanel;
 
 public class GameEngine {
     private volatile boolean running; // Flag to control the game loop
     private final GameGUI gameGUI;    // Reference to the main GUI
-    private final GamePanel gamePanel; // Reference to the game panel
     private Timer timer;              // Timer to schedule updates and repaints
 
-    public GameEngine(GameState gameState, GameGUI gameGUI, GamePanel gamePanel) {
+    public GameEngine(GameState gameState, GameGUI gameGUI) {
         this.gameGUI = gameGUI;
-        this.gamePanel = gamePanel;
     }
 
     // Starts the game loop using Timer

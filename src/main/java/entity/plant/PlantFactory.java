@@ -1,9 +1,6 @@
 package entity.plant;
 
 public class PlantFactory {
-    private static int row;
-    private static int col;
-    
     public static Plant createPlant(String type, int row, int col) {
         switch (type) {
             case "Chomper":

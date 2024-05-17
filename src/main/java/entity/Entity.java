@@ -2,9 +2,7 @@ package entity;
 
 import util.*;
 import entity.zombie.Zombie;
-import manager.GameMap;
 import manager.Tile;
-import data.TimeKeeper;
 import entity.plant.Plant;
 
 public class Entity implements Attackable{
@@ -131,6 +129,6 @@ public class Entity implements Attackable{
         }
     }
 
-    public void attackZombies(GameMap gameMap, TimeKeeper timeKeeper) {}
+    public void attackZombies() {}
 
 }
