@@ -50,9 +50,10 @@ public class GameState {
     
     private void spawnZombie() {
         // Zombies spawn
-        if (timeKeeper.isZombieSpawnTime()){
-            gameMap.zombieSpawner();
-        }
+        // if (timeKeeper.isZombieSpawnTime()){
+        //     gameMap.zombieSpawner();
+        // }
+        gameMap.zombieSpawner();
     }
 
     private void processZombieActions() {

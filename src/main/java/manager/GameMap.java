@@ -101,6 +101,8 @@ public class GameMap {
                             currentTile.removeZombie(zombie);
                             nextTile.addZombie(zombie);
                             zombie.move();
+                            System.out.println("Zombie yang bergerak: " + zombie.getName());
+                            System.out.println("Posisi Zombie Bergerak: " + zombie.getRow() + ", " + zombie.getCol());
                         } else {
                             zombie.attackPlants(currentTile);
                         }
@@ -123,9 +125,9 @@ public class GameMap {
     }
 
     public void zombieSpawner(){
-        if (getTotalZombies() >= MAX_ZOMBIES) {
-            return; // Do not spawn new zombies if the limit is reached
-        }
+        // if (getTotalZombies() >= MAX_ZOMBIES) {
+        //     return; // Do not spawn new zombies if the limit is reached
+        // }
 
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
@@ -148,14 +150,20 @@ public class GameMap {
         zombieTypes.add("Flag");
         zombieTypes.add("Newspaper");
         double spawnChance = 0.3;
-        if (random.nextDouble() < spawnChance) {
+        double chance = random.nextDouble();
+        if (chance > spawnChance) {
+            System.out.println("SpawnChance: " + chance);
             Zombie zombie = ZombieFactory.createZombie(zombieTypes.get(random.nextInt(zombieTypes.size())));
             if (zombie.getName().equals("Ducky Tube") || zombie.getName().equals("Dolphin Rider")) {
                 int randomIndex = random.nextInt(spawnWater.size());
                 grid[randomIndex][10].addZombie(zombie);
+                System.out.println("Zombie yang spawn: " + zombie.getName());;
+                System.out.println("Posisi Zombie: " + zombie.getRow() + ", " + zombie.getCol()); // Zombie position
             } else {
                 int randomIndex = random.nextInt(spawnLand.size());
                 grid[randomIndex][10].addZombie(zombie);
+                System.out.println("Zombie yang spawn: " + zombie.getName());;
+                System.out.println("Posisi Zombie: " + zombie.getRow() + ", " + zombie.getCol()); // Zombie position
             }
         }
     }
@@ -185,6 +193,8 @@ public class GameMap {
 
         gameState.setSunPoints(gameState.getSunPoints() - plant.getCost());
         grid[row][col].addPlant(plant);  
+        System.out.println("Tanaman yang ditanam: " + plant.getName());
+        System.out.println("Posisi Tanaman: " + plant.getRow() + ", " + plant.getCol()); // Plant position
     }
 
     private boolean canPlacePlant(int col, String plantType, Tile tile) {
