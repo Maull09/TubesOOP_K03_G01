@@ -7,8 +7,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
-import data.GameState;
-
 import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;

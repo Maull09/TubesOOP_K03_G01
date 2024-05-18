@@ -13,15 +13,17 @@ import data.GameState;
 import data.TimeKeeper;
 import entity.Projectile;
 import entity.plant.Plant;
-import entity.plant.PlantFactory;
 import entity.zombie.Zombie;
-import entity.zombie.ZombieFactory;
 
 public class GamePanel extends JPanel implements ActionListener{
     private Image backgroundImage;
     private final int CELL_SIZE = 96;
     private final int startX = 8;
     private final int startY = 42;
+    private int CELL_SIZE_scaled;
+    private int startX_scaled;
+    private int startY_scaled;
+    private double scaleFactor;
     private GameGUI gameGUI;
     private JPanel topBarPanel;
     private JPanel deckPanel;
@@ -31,7 +33,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
     public GamePanel(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
-        loadImage();
         setPreferredSize(new Dimension(1280, 720));  
         setLayout(new BorderLayout());
         drawMenuButton();
@@ -49,7 +50,11 @@ public class GamePanel extends JPanel implements ActionListener{
 
     private void loadImage() {
         try {
-            backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/PoolBg.png")).getImage();
+            if (TimeKeeper.getInstance().isDaytime()) {
+                backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/PoolBg.png")).getImage();
+            } else {
+                backgroundImage = new ImageIcon(getClass().getResource("/resources/images/background/NightPoolBg.png")).getImage();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,14 +63,93 @@ public class GamePanel extends JPanel implements ActionListener{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        loadImage();
+
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+    
+        // Original configuration values
+        int originalPanelWidth = 1280; // Original panel width
+        int originalPanelHeight = 720; // Original panel height
+    
+        // Calculate scaling factor based on width and height
+        double widthScaleFactor = (double) panelWidth / originalPanelWidth;
+        double heightScaleFactor = (double) panelHeight / originalPanelHeight;
+        scaleFactor = Math.min(widthScaleFactor, heightScaleFactor); // Maintain aspect ratio
+    
+        // Calculate dynamic CELL_SIZE, startX, and startY
+        CELL_SIZE_scaled = (int) (CELL_SIZE * scaleFactor);
+        startX_scaled = (int) (startX * scaleFactor);
+        startY_scaled = (int) (startY * scaleFactor);
+    
+        drawBackground(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
+        drawPlants(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
+        drawZombies(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
+        drawProjectiles(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
+    }
+    
+    private void drawBackground(Graphics g, int startX, int startY, int CELL_SIZE) {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         }
-        drawBackground(g);
-        drawPlants(g);
-        drawZombies(g);
-        drawProjectiles(g);
+
+        for (int row = 1; row < 7; row++) {
+            for (int col = 2; col < 13; col++) {
+                g.drawRect(startX + col * CELL_SIZE, startY + row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+            }
+        }
     }
+    
+    private void drawPlants(Graphics g, int startX, int startY, int CELL_SIZE) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 1; j < 10; j++) {
+                ListOf<Plant> plants = GameState.getInstance().getGameMap().getTile(i, j).getPlants();
+                for (int k = 0; k < plants.size(); k++) {
+                    Plant plant = plants.get(k);
+                    ImageIcon plantIcon = new ImageIcon(getClass().getResource("/resources/images/plants/" + plant.getName() + ".png"));
+                    g.drawImage(plantIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE, this);
+                }
+            }
+        }
+    }
+    
+    private void drawZombies(Graphics g, int startX, int startY, int CELL_SIZE) {
+        for (int i = 0; i < GameState.getInstance().getGameMap().getRows(); i++) {
+            for (int j = 0; j < GameState.getInstance().getGameMap().getCols(); j++) {
+                ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
+                for (int k = 0; k < zombies.size(); k++) {
+                    Zombie zombie = zombies.get(k);
+                    ImageIcon zombieIcon = new ImageIcon(getClass().getResource("/resources/images/zombie/" + zombie.getName() + ".png"));
+                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE, this);
+                }
+            }
+        }
+    }
+    
+    private void drawProjectiles(Graphics g, int startX, int startY, int CELL_SIZE) {
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 11; j++) {
+                ListOf<Projectile> projectiles = GameState.getInstance().getGameMap().getTile(i, j).getProjectiles();
+                for (int k = 0; k < projectiles.size(); k++) {
+                    Projectile projectile = projectiles.get(k);
+                    boolean hitZombie = false;
+    
+                    ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
+                    if (!zombies.isEmpty()) {
+                        hitZombie = true;
+                    }
+    
+                    if (hitZombie) {
+                        projectiles.remove(projectile);
+                    } else {
+                        ImageIcon projectileIcon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
+                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int)(53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int)(5 * scaleFactor), (int)(CELL_SIZE / 2), (int)(CELL_SIZE / 2), this);
+                    }
+                }
+            }
+        }
+    }
+    
 
     @Override
     public void actionPerformed(ActionEvent ev) {
@@ -107,14 +191,6 @@ public class GamePanel extends JPanel implements ActionListener{
 
         // Menambahkan tanaman ke deckPanel
         DeckTanaman plantDeck = GameState.getInstance().getDeck();
-
-        // // isi deck tanaman
-        // plantDeck.addPlant(PlantFactory.createPlant("Sunflower"));
-        // plantDeck.addPlant(PlantFactory.createPlant("Peashooter"));
-        // plantDeck.addPlant(PlantFactory.createPlant("Wallnut"));
-        // plantDeck.addPlant(PlantFactory.createPlant("SnowPea"));
-        // plantDeck.addPlant(PlantFactory.createPlant("Repeater"));
-        // plantDeck.addPlant(PlantFactory.createPlant("Lilypad"));
 
         // Menambahkan tanaman ke deckPanel
         for (int i = 0; i < plantDeck.getPlants().size(); i++) {
@@ -174,22 +250,15 @@ public class GamePanel extends JPanel implements ActionListener{
         add(topBarPanel, BorderLayout.NORTH);
     }
 
-    private void handleMouseClick(int x, int y) {
-
-        
+    private void handleMouseClick(int x, int y) { 
         if (selectedPlant != null) {
             // Calculate the cell that was clicked
-            int col = ((x - startX) / CELL_SIZE) - 2;
-            int row = ((y - startY) / CELL_SIZE) - 1;
+            int col = ((x - startX_scaled) / CELL_SIZE_scaled) - 2;
+            int row = ((y - startY_scaled) / CELL_SIZE_scaled) - 1;
             
             if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
                 GameState.getInstance().getGameMap().plantSpawner(selectedPlant, row, col, GameState.getInstance());
                 selectedPlant = null;
-                
-                // Draw a debug rectangle
-                Graphics g = getGraphics();
-                g.setColor(Color.RED);
-                g.drawRect(startX + (col + 2) * CELL_SIZE, startY + (row + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
     }
@@ -202,10 +271,10 @@ public class GamePanel extends JPanel implements ActionListener{
     }
 
     private void drawProgressBar(Graphics g) {
-        int x = 83;
-        int y = 30; // Vertical position of the bar
+        int x = 87;
+        int y = 32; // Vertical position of the bar
         int totalDuration = TimeKeeper.DAY_LENGTH; // Total duration in seconds
-        int maxWidth = 71 * 4; // Maximum width of the progress bar
+        int maxWidth = 69 * 4; // Maximum width of the progress bar
 
         // Get current time from TimeKeeper
         int currentTime = TimeKeeper.getInstance().getCurrentTime();
@@ -215,9 +284,9 @@ public class GamePanel extends JPanel implements ActionListener{
 
         // Draw the progress bar
         g.setColor(Color.RED);
-        g.fillRect(x, y, currentWidth, 29);
+        g.fillRect(x, y, currentWidth, 23);
         g.setColor(Color.BLACK);
-        g.drawRect(x, y, maxWidth, 29);
+        g.drawRect(x, y, maxWidth, 23);
     }
 
     private void drawMenuButton() {
@@ -235,83 +304,72 @@ public class GamePanel extends JPanel implements ActionListener{
         add(menuButton, BorderLayout.WEST);
     }
 
-    private void drawBackground(Graphics g) {
+    // private void drawBackground(Graphics g) {
+    //     // Draw grid
+    //     for (int row = 1; row < 7; row++) {
+    //         for (int col = 2; col < 13; col++) {
+    //             g.drawRect(startX + col * CELL_SIZE, startY + row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    //         }
+    //     }
+    // }
 
-        // Draw grid
-        for (int row = 1; row < 7; row++) {
-            for (int col = 2; col < 13; col++) {
-                g.drawRect(startX + col * CELL_SIZE, startY + row * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            }
-        }
-    }
+    // private void drawPlants(Graphics g) {
+    //     // Draw every plant in the grid
+    //     for(int i = 0; i < 6; i++){
+    //         for(int j = 1; j < 10; j++){
+    //             ListOf<Plant> plants = GameState.getInstance().getGameMap().getTile(i, j).getPlants();
+    //             for(int k = 0; k < plants.size(); k++){
+    //                 Plant plant = plants.get(k);
+    //                 ImageIcon planticon = new ImageIcon(getClass().getResource("/resources/images/plants/" + plant.getName() + ".png"));
+    //                 g.drawImage(planticon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
+    //             }
+    //         }
+    //     }
+    // }
 
-    private void drawPlants(Graphics g) {
-        // Draw every plant in the grid
-        for(int i = 0; i < 6; i++){
-            for(int j = 1; j < 10; j++){
-                ListOf<Plant> plants = GameState.getInstance().getGameMap().getTile(i, j).getPlants();
-                for(int k = 0; k < plants.size(); k++){
-                    Plant plant = plants.get(k);
-                    ImageIcon planticon = new ImageIcon(getClass().getResource("/resources/images/plants/" + plant.getName() + ".png"));
-                    g.drawImage(planticon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
-                }
-            }
-        }
-    }
+    // private void drawZombies(Graphics g) {
+    //     // Draw every zombie in the grid
+    //     for (int i = 0; i < GameState.getInstance().getGameMap().getRows(); i++) {
+    //         for (int j = 0; j < GameState.getInstance().getGameMap().getCols(); j++) {
+    //             ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
 
-    private void drawZombies(Graphics g) {
+    //             for (int k = 0; k < zombies.size(); k++) {
+    //                 Zombie zombie = zombies.get(k);
+    //                 ImageIcon zombieIcon = new ImageIcon(getClass().getResource("/resources/images/zombie/" + zombie.getName() + ".png"));
+    //                 g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
+    //             }
+    //         }
+    //     }
+    // }
 
-        // // dummy zombie
-        // Zombie dummy1 = ZombieFactory.createZombie("Normal", 0, 10);
-        // Zombie dummy2 = ZombieFactory.createZombie("ConeHead", 1, 10);
-        // Zombie dummy3 = ZombieFactory.createZombie("Pole Vaulting", 2, 10);
+    // private void drawProjectiles(Graphics g) {
+    //     // Implement drawing projectiles based on gameState
 
-        // // add dummy zombie to the game map
-        // GameState.getInstance().getGameMap().getTile(0, 10).addZombie(dummy1);
-        // GameState.getInstance().getGameMap().getTile(1, 10).addZombie(dummy2);
-        // GameState.getInstance().getGameMap().getTile(2, 10).addZombie(dummy3);
+    //     // Draw every projectile in the grid
+    //     for(int i = 0; i < 6; i++){
+    //         for(int j = 0; j < 11; j++){
+    //             ListOf<Projectile> projectiles = GameState.getInstance().getGameMap().getTile(i, j).getProjectiles();
+    //             for(int k = 0; k < projectiles.size(); k++){
+    //                 Projectile projectile = projectiles.get(k);
+    //                 boolean hitZombie = false;
 
-        for (int i = 0; i < GameState.getInstance().getGameMap().getRows(); i++) {
-            for (int j = 0; j < GameState.getInstance().getGameMap().getCols(); j++) {
-                ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
+    //                 // Check if the projectile hits a zombie
+    //                 ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
+    //                 if (!zombies.isEmpty()) {
+    //                     hitZombie = true;
+    //                 }
 
-                for (int k = 0; k < zombies.size(); k++) {
-                    Zombie zombie = zombies.get(k);
-                    ImageIcon zombieIcon = new ImageIcon(getClass().getResource("/resources/images/zombie/" + zombie.getName() + ".png"));
-                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, 90, 90, this);
-                }
-            }
-        }
-    }
-
-    private void drawProjectiles(Graphics g) {
-        // Implement drawing projectiles based on gameState
-
-        // Draw every projectile in the grid
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j < 11; j++){
-                ListOf<Projectile> projectiles = GameState.getInstance().getGameMap().getTile(i, j).getProjectiles();
-                for(int k = 0; k < projectiles.size(); k++){
-                    Projectile projectile = projectiles.get(k);
-                    boolean hitZombie = false;
-
-                    // Check if the projectile hits a zombie
-                    ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
-                    if (!zombies.isEmpty()) {
-                        hitZombie = true;
-                    }
-
-                    // If the projectile hits a zombie, remove the projectile
-                    if (hitZombie) {
-                        projectiles.remove(projectile);
-                    } else {
-                        ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                        g.drawImage(projectileicon.getImage(), (startX + (j + 2) * CELL_SIZE) + 53, (startY + (i + 1) * CELL_SIZE) + 5, 33, 30, this);                      
-                    }
-                }
-            }
-        }
-    }
+    //                 // If the projectile hits a zombie, remove the projectile
+    //                 if (hitZombie) {
+    //                     projectiles.remove(projectile);
+    //                 } else {
+    //                     ImageIcon projectileicon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
+    //                     g.drawImage(projectileicon.getImage(), (startX + (j + 2) * CELL_SIZE) + 53, (startY + (i + 1) * CELL_SIZE) + 5, 33, 30, this);                      
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Plants vs. Zombies");

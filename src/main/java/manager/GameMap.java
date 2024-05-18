@@ -103,7 +103,7 @@ public class GameMap {
                             System.out.println("Zombie yang bergerak: " + zombie.getName());
                             System.out.println("Posisi Zombie Bergerak: " + zombie.getRow() + ", " + zombie.getCol());
                         } else {
-                            zombie.attackPlants();
+                            zombie.attack();
                         }
                     }
                 }
@@ -117,7 +117,7 @@ public class GameMap {
                 Tile currentTile = grid[row][col];
                 for (int i = 0; i < currentTile.getPlants().size(); i++) {
                     Plant plant = currentTile.getPlants().get(i);
-                    plant.attackZombies();
+                    plant.attack();
                 }
             }
         }

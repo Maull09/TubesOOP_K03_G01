@@ -84,14 +84,18 @@ public class GameEngine {
     private void scheduleSunAddition() {
         Random random = new Random();
         int initialDelay = random.nextInt(6) + 5; // Initial delay between 5 to 10 seconds
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                Random rand = new Random();
-                int delay = rand.nextInt(6) + 5; // Delay between 5 to 10 seconds
-                GameState.getInstance().addSunPoints(25);
-                System.out.println("Added sun points. Next addition in: " + delay + " seconds");
+                int currentTime = TimeKeeper.getInstance().getCurrentTime();
+                if (TimeKeeper.getInstance().isDaytime()){
+                    GameState.getInstance().addSunPoints(25);
+                    System.out.println("Added sun points. Current time: " + currentTime);
+                } else {
+                    System.out.println("No sun points added. Current time: " + currentTime);
+                }
             }
-        }, initialDelay * 1000, initialDelay * 1000);
+        }, initialDelay * 1000, 5000); // Reschedule every 5 seconds
     }
 }

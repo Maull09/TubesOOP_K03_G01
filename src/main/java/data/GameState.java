@@ -31,7 +31,7 @@ public class GameState {
 
     private void initializeFlags() {
         // Initialize flag to trigger at a specific time, assuming it triggers daily at a set time
-        this.flags.add(new Flag(130, this, gameMap)); 
+        this.flags.add(new Flag(130)); 
     }
 
     public void update() {

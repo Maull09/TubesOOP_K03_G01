@@ -1,9 +1,6 @@
 package entity;
 
 import util.*;
-import entity.zombie.Zombie;
-import manager.Tile;
-import entity.plant.Plant;
 
 public class Entity implements Attackable{
     private String name;
@@ -84,7 +81,10 @@ public class Entity implements Attackable{
     }
 
     public void takeDamage(int damage){
-        this.health -= damage;
+        health -= damage;
+        if(health <= 0){
+            isAlive = false;
+        }
     }
 
     public int getlastAttackTime(){
@@ -95,51 +95,5 @@ public class Entity implements Attackable{
         return this.lastAttackTime = lastAttackTime;
     }
 
-
-    @Override
-    public void attack(Entity entity) 
-    {
-        entity.setHealth(getHealth() - this.getAttackDamage());
-    }
-
-    @Override
-    public void attack() 
-    {
-        System.out.println("Attacking...");
-    }
-
-    @Override
-    public void attack(Zombie zombie) 
-    {
-        zombie.setHealth(zombie.getHealth() - this.getAttackDamage());
-    }
-
-    @Override
-    public void attack(Plant plant) 
-    {
-        plant.setHealth(plant.getHealth() - this.getAttackDamage());
-    }
-
-    @Override
-    public void attack(ListOf<Entity> tile) 
-    {
-        for (int i = 0; i < tile.size(); i++) {
-            tile.get(i).setHealth(tile.get(i).getHealth() - this.getAttackDamage());
-        }
-    }
-
-    public void attackPlants(Tile tile){
-        for (int i = 0; i < tile.getPlants().size(); i++) {
-            tile.getPlants().get(i).setHealth(tile.getPlants().get(i).getHealth() - this.getAttackDamage());
-        }
-    }
-    
-    public void attackZombies(Tile tile){
-        for (int i = 0; i < tile.getZombies().size(); i++) {
-            tile.getZombies().get(i).setHealth(tile.getZombies().get(i).getHealth() - this.getAttackDamage());
-        }
-    }
-
-    public void attackPlants(){}
-    public void attackZombies(){}
+    public void attack(){}
 }

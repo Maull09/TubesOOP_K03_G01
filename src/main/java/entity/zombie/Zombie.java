@@ -1,12 +1,8 @@
 package entity.zombie;
 
-import util.ListOf;
 import util.Moveable;
-import data.GameState;
 import data.TimeKeeper;
 import entity.Entity;
-import entity.plant.Plant;
-import manager.Tile;
 
 public class Zombie extends Entity implements Moveable{
     private boolean is_aquatic;
@@ -14,7 +10,7 @@ public class Zombie extends Entity implements Moveable{
     private boolean isSlowed;
     private int lastMoveTime;
     private double partialMove;
-
+    private int slowedTime;
 
     public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, int row, int col, boolean isAlive, boolean isFaster, boolean isSlowed) {
         super(name, health, attackDamage, attackSpeed, row, col, true);
@@ -82,30 +78,42 @@ public class Zombie extends Entity implements Moveable{
         super.setIsAlive(false);
         System.out.println(this.getName() + " died!");
     }
-
-    @Override
-    public void move(Zombie zombie) {}
-    public void attack(Plant plant){}
-    public void attack(ListOf<Entity> tile){}
     
-    @Override
-    public void attackPlants() {
-        int currentTime = TimeKeeper.getInstance().getCurrentTime();
-        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
-            for (int col = this.getCol(); col >= 0; col--) {
-                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
-                if (!tile.getPlants().isEmpty()) {
-                    // Directly attack the first plant in the tile
-                    Plant targetPlant = tile.getPlants().get(0);
-                    targetPlant.takeDamage(this.getAttackDamage());
-                    if (!targetPlant.getIsAlive()) {
-                        tile.removePlant(targetPlant);
-                    }
-                    this.setlastAttackTime(currentTime); // Update last attack time
-                    break;
-                }
-            }
-        }
+    public void setSlowedTime(int slowedTime) {
+        this.slowedTime = slowedTime;
     }
+    
+    public boolean isSlowed() {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        // Check if the slow effect should still be active
+        if (isSlowed && (currentTime - slowedTime) > 3) {
+            this.isSlowed = false; // Reset the slowed status after 3 seconds
+        }
+        return isSlowed;
+    }
+
+    public void attack() {}
 }
+    
+    
+//     @Override
+//     public void attackPlants() {
+//         int currentTime = TimeKeeper.getInstance().getCurrentTime();
+//         if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
+//             for (int col = this.getCol(); col >= 0; col--) {
+//                 Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
+//                 if (!tile.getPlants().isEmpty()) {
+//                     // Directly attack the first plant in the tile
+//                     Plant targetPlant = tile.getPlants().get(0);
+//                     targetPlant.takeDamage(this.getAttackDamage());
+//                     if (!targetPlant.getIsAlive()) {
+//                         tile.removePlant(targetPlant);
+//                     }
+//                     this.setlastAttackTime(currentTime); // Update last attack time
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+// }
 
