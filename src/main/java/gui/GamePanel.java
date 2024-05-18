@@ -15,7 +15,7 @@ import entity.Projectile;
 import entity.plant.Plant;
 import entity.zombie.Zombie;
 
-public class GamePanel extends JPanel implements ActionListener{
+public class GamePanel extends JPanel implements ActionListener {
     private Image backgroundImage;
     private final int CELL_SIZE = 96;
     private final int startX = 8;
@@ -29,13 +29,14 @@ public class GamePanel extends JPanel implements ActionListener{
     private JPanel deckPanel;
     private JLabel sunPointsLabel;
     private String selectedPlant;
+    private boolean shovelActive = false; // Track shovel state
     private Timer timer = new Timer(1000, this);
 
     public GamePanel(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
-        setPreferredSize(new Dimension(1280, 720));  
+        setPreferredSize(new Dimension(1280, 720));
         setLayout(new BorderLayout());
-        drawMenuButton();
+        // drawMenuButton();
         drawTopBar();
         addMouseListener(new MouseAdapter() {
             @Override
@@ -45,7 +46,6 @@ public class GamePanel extends JPanel implements ActionListener{
         });
 
         timer.start();
-
     }
 
     private void loadImage() {
@@ -67,27 +67,27 @@ public class GamePanel extends JPanel implements ActionListener{
 
         int panelWidth = getWidth();
         int panelHeight = getHeight();
-    
+
         // Original configuration values
         int originalPanelWidth = 1280; // Original panel width
         int originalPanelHeight = 720; // Original panel height
-    
+
         // Calculate scaling factor based on width and height
         double widthScaleFactor = (double) panelWidth / originalPanelWidth;
         double heightScaleFactor = (double) panelHeight / originalPanelHeight;
         scaleFactor = Math.min(widthScaleFactor, heightScaleFactor); // Maintain aspect ratio
-    
+
         // Calculate dynamic CELL_SIZE, startX, and startY
         CELL_SIZE_scaled = (int) (CELL_SIZE * scaleFactor);
         startX_scaled = (int) (startX * scaleFactor);
         startY_scaled = (int) (startY * scaleFactor);
-    
+
         drawBackground(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
         drawPlants(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
         drawZombies(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
         drawProjectiles(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
     }
-    
+
     private void drawBackground(Graphics g, int startX, int startY, int CELL_SIZE) {
         if (backgroundImage != null) {
             g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements ActionListener{
             }
         }
     }
-    
+
     private void drawPlants(Graphics g, int startX, int startY, int CELL_SIZE) {
         for (int i = 0; i < 6; i++) {
             for (int j = 1; j < 10; j++) {
@@ -112,7 +112,7 @@ public class GamePanel extends JPanel implements ActionListener{
             }
         }
     }
-    
+
     private void drawZombies(Graphics g, int startX, int startY, int CELL_SIZE) {
         for (int i = 0; i < GameState.getInstance().getGameMap().getRows(); i++) {
             for (int j = 0; j < GameState.getInstance().getGameMap().getCols(); j++) {
@@ -125,7 +125,7 @@ public class GamePanel extends JPanel implements ActionListener{
             }
         }
     }
-    
+
     private void drawProjectiles(Graphics g, int startX, int startY, int CELL_SIZE) {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 11; j++) {
@@ -133,23 +133,22 @@ public class GamePanel extends JPanel implements ActionListener{
                 for (int k = 0; k < projectiles.size(); k++) {
                     Projectile projectile = projectiles.get(k);
                     boolean hitZombie = false;
-    
+
                     ListOf<Zombie> zombies = GameState.getInstance().getGameMap().getTile(i, j).getZombies();
                     if (!zombies.isEmpty()) {
                         hitZombie = true;
                     }
-    
+
                     if (hitZombie) {
                         projectiles.remove(projectile);
                     } else {
                         ImageIcon projectileIcon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int)(53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int)(5 * scaleFactor), (int)(CELL_SIZE / 2), (int)(CELL_SIZE / 2), this);
+                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int) (53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int) (5 * scaleFactor), (int) (CELL_SIZE / 2), (int) (CELL_SIZE / 2), this);
                     }
                 }
             }
         }
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent ev) {
@@ -164,20 +163,20 @@ public class GamePanel extends JPanel implements ActionListener{
         topBarPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
         topBarPanel.setPreferredSize(new Dimension(1280, 130));
         topBarPanel.setOpaque(false);
-        
+
         // Placeholder for deck tanaman panel
         deckPanel = new BackgroundPanel("/resources/images/background/SunDeck.png");
         deckPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         deckPanel.setPreferredSize(new Dimension(646, 111));  // Adjust size as needed
         deckPanel.setOpaque(false);
-        
+
         // Label sun points
         sunPointsLabel = new JLabel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    drawSunPoints(g);
-                }
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                drawSunPoints(g);
+            }
         };
         sunPointsLabel.setPreferredSize(new Dimension(100, 100));
         sunPointsLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -209,28 +208,30 @@ public class GamePanel extends JPanel implements ActionListener{
         topBarPanel.add(deckPanel);
 
         // Panel untuk shovel
-        JPanel shovelPanel = new JPanel();
+        JPanel shovelPanel = new BackgroundPanel("/resources/images/background/Shovel.png");
         shovelPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        shovelPanel.setPreferredSize(new Dimension(130, 111));  // Adjust size as needed
+        shovelPanel.setPreferredSize(new Dimension(82, 82));  // Adjust size as needed
         shovelPanel.setOpaque(false);
-        
+
         // Button shovel
-        ImageIcon shovelIcon = new ImageIcon(getClass().getResource("/resources/images/background/Shovel.png"));
+        ImageIcon shovelIcon = new ImageIcon(getClass().getResource("/resources/images/background/shovelremove.png"));
         JButton shovelButton = new JButton(shovelIcon);
         shovelButton.setBorderPainted(false);
         shovelButton.setContentAreaFilled(false);
         shovelButton.setFocusPainted(false);
+        shovelButton.addActionListener(e -> toggleShovel());
+
         shovelPanel.add(shovelButton);
 
         // Add shovel panel to top bar panel
         topBarPanel.add(shovelPanel);
-        
+
         // Panel untuk progress bar
         JPanel progressBarPanel = new BackgroundPanel("/resources/images/background/FlagLevel.png");
         progressBarPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         progressBarPanel.setPreferredSize(new Dimension(430, 111));  // Adjust size as needed
         progressBarPanel.setOpaque(false);
-        
+
         // Progress bar
         JLabel progressBarlabel = new JLabel() {
             @Override
@@ -250,14 +251,16 @@ public class GamePanel extends JPanel implements ActionListener{
         add(topBarPanel, BorderLayout.NORTH);
     }
 
-    private void handleMouseClick(int x, int y) { 
-        if (selectedPlant != null) {
-            // Calculate the cell that was clicked
-            int col = ((x - startX_scaled) / CELL_SIZE_scaled) - 2;
-            int row = ((y - startY_scaled) / CELL_SIZE_scaled) - 1;
-            
-            if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
-                GameState.getInstance().getGameMap().plantSpawner(selectedPlant, row, col, GameState.getInstance());
+    private void handleMouseClick(int x, int y) {
+        int col = ((x - startX_scaled) / CELL_SIZE_scaled) - 2;
+        int row = ((y - startY_scaled) / CELL_SIZE_scaled) - 1;
+
+        if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
+            if (shovelActive) {
+                GameState.getInstance().getGameMap().removePlant(row, col);
+                shovelActive = false;
+            } else if (selectedPlant != null) {
+                GameState.getInstance().getGameMap().plantSpawner(selectedPlant, row, col);
                 selectedPlant = null;
             }
         }
@@ -295,14 +298,25 @@ public class GamePanel extends JPanel implements ActionListener{
         menuButton.setBorderPainted(false);
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusPainted(false);
-        menuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                gameGUI.showMainMenu();
-            }
-        });
+        menuButton.addActionListener(e -> gameGUI.showMainMenu());
         add(menuButton, BorderLayout.WEST);
     }
+
+    private void toggleShovel() {
+        shovelActive = !shovelActive;
+        System.out.println("Shovel Active: " + shovelActive);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Plants vs. Zombies");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(new GamePanel(new GameGUI()));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+}
+
 
     // private void drawBackground(Graphics g) {
     //     // Draw grid
@@ -370,13 +384,3 @@ public class GamePanel extends JPanel implements ActionListener{
     //         }
     //     }
     // }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Plants vs. Zombies");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new GamePanel(new GameGUI()));
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-    }
-}

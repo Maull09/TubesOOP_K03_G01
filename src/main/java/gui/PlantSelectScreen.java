@@ -6,6 +6,7 @@ import data.GameState;
 
 import java.awt.*;
 import entity.plant.Plant;
+import manager.DeckTanaman;
 import util.ListOf;
 
 public class PlantSelectScreen extends JPanel {
@@ -17,6 +18,10 @@ public class PlantSelectScreen extends JPanel {
     private JButton backButton;
     private GameGUI gameGUI;
     private Runnable onContinue;
+
+    private Plant selectedPlantForSwap = null;
+    private JButton selectedButtonForSwap = null;
+    private ListOf<JButton> deckButtons = new ListOf<JButton>();
 
     public PlantSelectScreen(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
@@ -131,19 +136,49 @@ public class PlantSelectScreen extends JPanel {
 
     private void refreshDeckPanel() {
         deckPanel.removeAll();
+        deckButtons.clear();
         for (int i = 0; i < GameState.getInstance().getDeck().getPlants().size(); i++) {
             final Plant plant = GameState.getInstance().getDeck().getPlants().get(i);
             JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
             styleButton(button);
             button.setPreferredSize(new Dimension(80, 85));
             button.addActionListener(e -> {
+                if (selectedPlantForSwap == null) {
+                    selectedPlantForSwap = plant;
+                    selectedButtonForSwap = button;
+                    button.setBorderPainted(true);
+                    button.setBorder(BorderFactory.createLineBorder(Color.RED));
+                } else if (selectedPlantForSwap == plant) {
+                    // int confirm = JOptionPane.showConfirmDialog(this, "Do you want to remove this plant from the deck?", "Remove Plant", JOptionPane.YES_NO_OPTION);
+                    // if (confirm == JOptionPane.YES_OPTION) {
+                    //     GameState.getInstance().getDeck().removePlant(plant);
+                    //     refreshDeckPanel();
+                    // }
                     GameState.getInstance().getDeck().removePlant(plant);
                     refreshDeckPanel();
+                    // selectedPlantForSwap.setBorderPainted(false);
+                    selectedPlantForSwap = null;
+                    selectedButtonForSwap = null;
+                } else {
+                    swapPlants(selectedPlantForSwap, plant);
+                    selectedPlantForSwap = null;
+                    selectedButtonForSwap.setBorderPainted(false);
+                    selectedButtonForSwap = null;
+                    refreshDeckPanel();
+                }
             });
+            deckButtons.add(button);
             deckPanel.add(button);
         }
         deckPanel.revalidate();
         deckPanel.repaint();
+    }
+
+    private void swapPlants(Plant plant1, Plant plant2) {
+        DeckTanaman deck = GameState.getInstance().getDeck();
+        int index1 = deck.getPlants().indexOf(plant1);
+        int index2 = deck.getPlants().indexOf(plant2);
+        deck.getPlants().swap(index1, index2);
     }
 
     private void styleButton(JButton button) {

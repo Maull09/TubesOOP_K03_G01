@@ -11,12 +11,14 @@ public class Zombie extends Entity implements Moveable{
     private int lastMoveTime;
     private double partialMove;
     private int slowedTime;
+    private int moveInterval;
 
     public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean is_aquatic, int row, int col, boolean isAlive, boolean isFaster, boolean isSlowed) {
         super(name, health, attackDamage, attackSpeed, row, col, true);
         this.is_aquatic = is_aquatic;
         this.isFaster = false;
         this.isSlowed = false;
+        this.lastMoveTime = TimeKeeper.getInstance().getCurrentTime();
     }
 
     public boolean getIsAquatic() {
@@ -60,7 +62,7 @@ public class Zombie extends Entity implements Moveable{
     }
 
     public boolean canMove(int currentTime) {
-        int moveInterval = 5; // 5 seconds
+        moveInterval = 10; // 5 seconds
         if (isFaster) {
             moveInterval /= 1.5; // Increase speed by 50%
         } else if (isSlowed) {
@@ -90,6 +92,14 @@ public class Zombie extends Entity implements Moveable{
             this.isSlowed = false; // Reset the slowed status after 3 seconds
         }
         return isSlowed;
+    }
+
+    public int getSlowedTime() {
+        return slowedTime;
+    }
+
+    public int getmoveInterval() {
+        return moveInterval;
     }
 
     public void attack() {}

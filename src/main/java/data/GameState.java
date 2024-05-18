@@ -3,6 +3,7 @@ package data;
 import manager.*;
 import util.*;
 import entity.*;
+import gui.GameGUI;
 
 public class GameState {
     private GameMap gameMap;
@@ -37,7 +38,7 @@ public class GameState {
     public void update() {
         TimeKeeper.getInstance().update();
         System.out.println("Current Time: " + TimeKeeper.getInstance().getCurrentTime());
-        // flags.getAll().forEach(Flag::update);
+        flags.getAll().forEach(Flag::update);
         spawnZombie();
         processPlantActions();
         processZombieActions();

@@ -90,5 +90,32 @@ public class ListOf<T> {
         return false;
     }
 
+    public void remove(int index) {
+        items.remove(index);
+    }
+
+    public void remove(String name) {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).toString().equals(name)) {
+                items.remove(i);
+                return;
+            }
+        }
+    }
+
+    public int indexOf(T item) {
+        return items.indexOf(item);
+    }
+
+    public void set(int index, T item) {
+        items.set(index, item);
+    }
+
+    public void swap(int index1, int index2) {
+        T temp = items.get(index1);
+        items.set(index1, items.get(index2));
+        items.set(index2, temp);
+    }
+
 }
 

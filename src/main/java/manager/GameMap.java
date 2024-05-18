@@ -14,7 +14,7 @@ public class GameMap {
     private Tile[][] grid;
     private final int rows = 6;
     private final int cols = 11;
-    private static final int MAX_ZOMBIES = 10;
+    private static int MAX_ZOMBIES = 10;
 
     public GameMap() {
         grid = new Tile[rows][cols];
@@ -43,6 +43,10 @@ public class GameMap {
 
     public void addProjectile(Projectile projectile) {
         grid[projectile.getRow()][projectile.getCol()].addProjectile(projectile);
+    }
+
+    public void removePlant(int row, int col) {
+        grid[row][col].removePlant(grid[row][col].getPlants().get(0));
     }
 
     public ListOf<Plant> getPlants(int row, int col) {
@@ -124,9 +128,15 @@ public class GameMap {
     }
 
     public void zombieSpawner(){
+        if(TimeKeeper.getInstance().getCurrentTime() == 160){
+            MAX_ZOMBIES = 25;
+        } 
+
         if (getTotalZombies() >= MAX_ZOMBIES) {
             return; // Do not spawn new zombies if the limit is reached
         }
+
+        System.out.println("Total Zombies: " + getTotalZombies());
 
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
@@ -170,11 +180,11 @@ public class GameMap {
     }
     
 
-    public void plantSpawner(String plantType, int row, int col, GameState gameState) {
+    public void plantSpawner(String plantType, int row, int col) {
         Plant plant = PlantFactory.createPlant(plantType, row, col);
 
         // Check if the player has enough sun points to plant the plant
-        if (plant.getCost() > gameState.getSunPoints()) {
+        if (plant.getCost() > GameState.getInstance().getSunPoints()) {
             return;
         }
 
@@ -193,14 +203,14 @@ public class GameMap {
             return;
         }
 
-        gameState.setSunPoints(gameState.getSunPoints() - plant.getCost());
+        GameState.getInstance().setSunPoints(GameState.getInstance().getSunPoints() - plant.getCost());
         grid[row][col].addPlant(plant);  
         System.out.println("Tanaman yang ditanam: " + plant.getName());
         System.out.println("Posisi Tanaman: " + plant.getRow() + ", " + plant.getCol()); // Plant position
     }
 
-    private boolean canPlacePlant(int col, String plantType, Tile tile) {
-        if (col == 3 && col == 4 && !plantType.equals("Lilypad") && !tile.getPlants().contains("Lilypad")) {
+    private boolean canPlacePlant(int row, String plantType, Tile tile) {
+        if (row == 2 && row == 3 && !plantType.equals("Lilypad") && !tile.getPlants().contains("Lilypad")) {
             return false;
         }
         return true;
