@@ -310,7 +310,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Plants vs. Zombies");
+        JFrame frame = new JFrame("Michael vs. Lalapan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(new GamePanel(new GameGUI()));
         frame.pack();
