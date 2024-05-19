@@ -107,7 +107,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 for (int k = 0; k < plants.size(); k++) {
                     Plant plant = plants.get(k);
                     ImageIcon plantIcon = new ImageIcon(getClass().getResource("/resources/images/plants/" + plant.getName() + ".png"));
-                    g.drawImage(plantIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE, this);
+                    g.drawImage(plantIcon.getImage(), startX + (j + 2) * CELL_SIZE + (CELL_SIZE - plantIcon.getIconWidth()), startY + (i + 1) * CELL_SIZE + (CELL_SIZE - plantIcon.getIconHeight()), plantIcon.getIconWidth(), plantIcon.getIconHeight(), this);
                 }
             }
         }
@@ -120,7 +120,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 for (int k = 0; k < zombies.size(); k++) {
                     Zombie zombie = zombies.get(k);
                     ImageIcon zombieIcon = new ImageIcon(getClass().getResource("/resources/images/zombie/" + zombie.getName() + ".png"));
-                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, CELL_SIZE, CELL_SIZE, this);
+                    g.drawImage(zombieIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, zombieIcon.getIconWidth(), zombieIcon.getIconHeight(), this);
                 }
             }
         }
@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements ActionListener {
                         projectiles.remove(projectile);
                     } else {
                         ImageIcon projectileIcon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int) (53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int) (5 * scaleFactor), (int) (CELL_SIZE / 2), (int) (CELL_SIZE / 2), this);
+                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int) (53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int) (5 * scaleFactor), projectileIcon.getIconWidth(), projectileIcon.getIconHeight(), this);
                     }
                 }
             }
@@ -197,7 +197,8 @@ public class GamePanel extends JPanel implements ActionListener {
             ImageIcon plantIcon = new ImageIcon(getClass().getResource("/resources/images/cards/cards_" + plant + ".png"));
             JButton plantButton = new JButton(plantIcon);
             plantButton.setPreferredSize(new Dimension(76, 144));
-            plantButton.setBorderPainted(false);
+            plantButton.setBorderPainted(true);
+            plantButton.setBorder(BorderFactory.createLineBorder(Color.RED));
             plantButton.setContentAreaFilled(false);
             plantButton.setFocusPainted(false);
             plantButton.addActionListener(e -> selectedPlant = plant);
@@ -216,7 +217,8 @@ public class GamePanel extends JPanel implements ActionListener {
         // Button shovel
         ImageIcon shovelIcon = new ImageIcon(getClass().getResource("/resources/images/background/shovelremove.png"));
         JButton shovelButton = new JButton(shovelIcon);
-        shovelButton.setBorderPainted(false);
+        shovelButton.setBorderPainted(true);
+        shovelButton.setBorder(BorderFactory.createLineBorder(Color.RED));
         shovelButton.setContentAreaFilled(false);
         shovelButton.setFocusPainted(false);
         shovelButton.addActionListener(e -> toggleShovel());

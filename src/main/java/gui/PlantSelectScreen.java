@@ -149,11 +149,6 @@ public class PlantSelectScreen extends JPanel {
                     button.setBorderPainted(true);
                     button.setBorder(BorderFactory.createLineBorder(Color.RED));
                 } else if (selectedPlantForSwap == plant) {
-                    // int confirm = JOptionPane.showConfirmDialog(this, "Do you want to remove this plant from the deck?", "Remove Plant", JOptionPane.YES_NO_OPTION);
-                    // if (confirm == JOptionPane.YES_OPTION) {
-                    //     GameState.getInstance().getDeck().removePlant(plant);
-                    //     refreshDeckPanel();
-                    // }
                     GameState.getInstance().getDeck().removePlant(plant);
                     refreshDeckPanel();
                     // selectedPlantForSwap.setBorderPainted(false);

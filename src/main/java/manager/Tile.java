@@ -51,4 +51,13 @@ public class Tile {
     public void removeProjectile(Projectile projectile) {
         projectiles.remove(projectile);
     }
+
+    public boolean containsPlant(String plant) {
+        for (Plant p : plants.getAll()) {
+            if (p.getName().equals(plant)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

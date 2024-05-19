@@ -185,21 +185,39 @@ public class GameMap {
 
         // Check if the player has enough sun points to plant the plant
         if (plant.getCost() > GameState.getInstance().getSunPoints()) {
+            System.out.println("Not enough sun points to plant " + plant.getName());
             return;
         }
 
         // Check if the plant can be placed on the tile
-        if (!canPlacePlant(col, plantType, grid[row][col])){
+        if(plantType.equals("Lilypad") || plantType.equals("TangleKelp")){
+            if(row != 2 && row != 3){
+                System.out.println("Lilypad and TangleKelp can only be placed on row 2 and 3");
+                return;
+            }
+        }
+
+        // Check if the plant can be placed on the tile
+        if (!canPlacePlant(row, col, plantType, grid[row][col])){
+            System.out.println("Cannot place plant " + plant.getName() + " at (" + row + ", " + col + ")");
+            return;
+        }
+
+        // pumpkins can only be placed on top of other plants
+        if (plantType.equals("Pumpkin") && grid[row][col].getPlants().isEmpty()) {
+            System.out.println("Pumpkin can only be placed on top of other plants");
             return;
         }
 
         // Check if the plant can be placed on the tile
-        if (!grid[row][col].getPlants().isEmpty() && !plantType.equals("Pumpkin")) {
+        if (!grid[row][col].getPlants().isEmpty() && !plantType.equals("Pumpkin") && !plantType.equals("Lilypad") && !grid[row][col].containsPlant("Lilypad")) {
+            System.out.println("There's already a plant on this tile and it is not a Lilypad");
             return;
-        } 
+        }
 
         // Check tile boundaries
         if (col == 0 || col == 11) {
+            System.out.println("Can't plant on the first or last column");
             return;
         }
 
@@ -209,12 +227,39 @@ public class GameMap {
         System.out.println("Posisi Tanaman: " + plant.getRow() + ", " + plant.getCol()); // Plant position
     }
 
-    private boolean canPlacePlant(int row, String plantType, Tile tile) {
-        if (row == 2 && row == 3 && !plantType.equals("Lilypad") && !tile.getPlants().contains("Lilypad")) {
+    private boolean canPlacePlant(int row, int col, String plantType, Tile tile) {
+        int plantCount = tile.getPlants().size();
+    
+        // Check if the row is 2 or 3
+        if (row == 2 || row == 3) {
+            // Handle Lilypad and TangleKelp
+            if (plantType.equals("Lilypad")) {
+                return plantCount == 0;
+            }
+            if (plantType.equals("TangleKelp")) {
+                return plantCount == 0; // TangleKelp can only be alone
+            }
+    
+            // Handle other plants, allowing up to 3 plants (Lilypad, one plant, and Pumpkin)
+            if (tile.containsPlant("Lilypad")) {
+                if (plantCount < 2) {
+                    return true;
+                } else if (plantCount == 2 && plantType.equals("Pumpkin")) {
+                    return !tile.containsPlant("Squash") && !tile.containsPlant("TangleKelp");
+                }
+            }
+            return false; // If no Lilypad is present, other plants can't be placed
+        } else {
+            // Handle normal rows, allowing up to 2 plants (one plant and Pumpkin)
+            if (plantCount < 1) {
+                return true;
+            } else if (plantCount == 1 && plantType.equals("Pumpkin")) {
+                return !tile.containsPlant("Squash") && !tile.containsPlant("TangleKelp");
+            }
             return false;
         }
-        return true;
     }
+    
 
     public boolean LoseCondition() {
         for (int row = 0; row < rows; row++) {
