@@ -29,7 +29,7 @@ public class GameGUI extends JFrame {
     }
 
     private void initializeFrame() {
-        setTitle("Plants vs. Zombies");
+        setTitle("Michael vs. Lalapan");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280, 720);
         setLocationRelativeTo(null);

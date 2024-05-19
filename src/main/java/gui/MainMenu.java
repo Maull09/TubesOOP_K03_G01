@@ -83,7 +83,7 @@ public class MainMenu extends JPanel {
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Plants vs. Zombies");
+        JFrame frame = new JFrame("Michael vs. Lalapan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
         frame.setLocationRelativeTo(null);
