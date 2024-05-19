@@ -17,9 +17,9 @@ import entity.zombie.Zombie;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Image backgroundImage;
-    private final int CELL_SIZE = 96;
-    private final int startX = 8;
-    private final int startY = 42;
+    private final int CELL_SIZE = 95;
+    private final int startX = 25;
+    private final int startY = 55;
     private int CELL_SIZE_scaled;
     private int startX_scaled;
     private int startY_scaled;
@@ -82,10 +82,10 @@ public class GamePanel extends JPanel implements ActionListener {
         startX_scaled = (int) (startX * scaleFactor);
         startY_scaled = (int) (startY * scaleFactor);
 
-        drawBackground(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
-        drawPlants(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
-        drawZombies(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
-        drawProjectiles(g, startX_scaled, startY_scaled, CELL_SIZE_scaled);
+        drawBackground(g, startX, startY, CELL_SIZE);
+        drawPlants(g, startX, startY, CELL_SIZE);
+        drawZombies(g, startX, startY, CELL_SIZE);
+        drawProjectiles(g, startX, startY, CELL_SIZE);
     }
 
     private void drawBackground(Graphics g, int startX, int startY, int CELL_SIZE) {
@@ -197,8 +197,7 @@ public class GamePanel extends JPanel implements ActionListener {
             ImageIcon plantIcon = new ImageIcon(getClass().getResource("/resources/images/cards/cards_" + plant + ".png"));
             JButton plantButton = new JButton(plantIcon);
             plantButton.setPreferredSize(new Dimension(76, 144));
-            plantButton.setBorderPainted(true);
-            plantButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+            plantButton.setBorderPainted(false);
             plantButton.setContentAreaFilled(false);
             plantButton.setFocusPainted(false);
             plantButton.addActionListener(e -> selectedPlant = plant);
@@ -217,8 +216,7 @@ public class GamePanel extends JPanel implements ActionListener {
         // Button shovel
         ImageIcon shovelIcon = new ImageIcon(getClass().getResource("/resources/images/background/shovelremove.png"));
         JButton shovelButton = new JButton(shovelIcon);
-        shovelButton.setBorderPainted(true);
-        shovelButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        shovelButton.setBorderPainted(false);
         shovelButton.setContentAreaFilled(false);
         shovelButton.setFocusPainted(false);
         shovelButton.addActionListener(e -> toggleShovel());

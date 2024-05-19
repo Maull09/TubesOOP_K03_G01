@@ -30,7 +30,7 @@ public class Squash extends Plant{
                 }
                 this.hasAttacked = true;
                 this.setIsAlive(false); // The plant dies after attacking
-                tile.removePlant(this);
+                GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol()).removePlant(this);
                 this.setlastAttackTime(currentTime); // Update last attack time
             }    
         }

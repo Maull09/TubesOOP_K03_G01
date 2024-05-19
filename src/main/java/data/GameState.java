@@ -2,6 +2,10 @@ package data;
 
 import manager.*;
 import util.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import entity.*;
 import gui.GameGUI;
 
@@ -11,6 +15,7 @@ public class GameState {
     private Inventory inventory;
     private Sun sunPoints;
     private ListOf<Flag> flags;
+    private Map<String, Long> plantCooldowns;
 
     private static GameState instance;
 
@@ -20,6 +25,7 @@ public class GameState {
         this.inventory = new Inventory();
         this.sunPoints = new Sun();
         this.flags = new ListOf<Flag>();
+        this.plantCooldowns = new HashMap<>();
         initializeFlags();
     }
 
@@ -77,7 +83,6 @@ public class GameState {
 
     private void stopGame() {
         // Perform actions to end the game
-        // Could be showing a game over screen, saving high scores, etc.
         System.out.println("Game Over!");
     }
 
@@ -103,5 +108,9 @@ public class GameState {
 
     public void setSunPoints(int amount) {
         sunPoints.setTotalSun(amount);
+    }
+
+    public Map<String, Long> getPlantCooldowns() {
+        return plantCooldowns;
     }
 }

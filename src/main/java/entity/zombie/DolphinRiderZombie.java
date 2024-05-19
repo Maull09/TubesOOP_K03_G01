@@ -10,7 +10,7 @@ public class DolphinRiderZombie extends Zombie {
     private boolean canJump = true;
 
     public DolphinRiderZombie(int row, int col) {
-        super("DolphinRiderZombie", 175, 100, 1, true, row, col, true, false, false);
+        super("DolphinRiderZombie", 175, 100, 1, true, row, col, true, true, false);
     } 
 
     @Override
@@ -32,6 +32,7 @@ public class DolphinRiderZombie extends Zombie {
                     }
                     this.setCol(this.getCol() - 1); // Move to the next tile
                     canJump = false; // Can only jump once
+                    this.setIsFaster(false); // Increase speed
                 } else {
                     // Regular attack
                     Plant targetPlant = nextTile.getPlants().get(0);

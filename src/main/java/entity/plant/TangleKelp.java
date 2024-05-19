@@ -29,7 +29,7 @@ public class TangleKelp extends Plant{
                 }
                 hasAttacked = true;
                 this.setIsAlive(false); // The plant dies after attacking
-                tile.removePlant(this);
+                GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol()).removePlant(this);
                 this.setlastAttackTime(currentTime); // Update last attack time
             }
         }

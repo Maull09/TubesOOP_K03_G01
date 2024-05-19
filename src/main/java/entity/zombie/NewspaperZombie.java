@@ -15,18 +15,15 @@ public class NewspaperZombie extends Zombie{
     public void attack() {
         int currentTime = TimeKeeper.getInstance().getCurrentTime();
         if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed()) {
-            for (int col = this.getCol(); col >= 0; col--) {
-                Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), col);
-                if (!tile.getPlants().isEmpty()) {
-                    // Directly attack the first plant in the tile
-                    Plant targetPlant = tile.getPlants().get(0);
-                    targetPlant.takeDamage(this.getAttackDamage());
-                    if (!targetPlant.getIsAlive()) {
-                        tile.removePlant(targetPlant);
-                    }
-                    this.setlastAttackTime(currentTime); // Update last attack time
-                    break;
+            Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol() - 1);
+            if (!tile.getPlants().isEmpty()) {
+                // Directly attack the first plant in the tile
+                Plant targetPlant = tile.getPlants().get(0);
+                targetPlant.takeDamage(this.getAttackDamage());
+                if (!targetPlant.getIsAlive()) {
+                    tile.removePlant(targetPlant);
                 }
+                this.setlastAttackTime(currentTime); // Update last attack time
             }
         }
     }

@@ -183,6 +183,12 @@ public class GameMap {
     public void plantSpawner(String plantType, int row, int col) {
         Plant plant = PlantFactory.createPlant(plantType, row, col);
 
+            // Check if the plant is on cooldown
+        if (isOnCooldown(plantType)) {
+            System.out.println("Plant " + plant.getName() + " is on cooldown");
+            return;
+        }
+
         // Check if the player has enough sun points to plant the plant
         if (plant.getCost() > GameState.getInstance().getSunPoints()) {
             System.out.println("Not enough sun points to plant " + plant.getName());
@@ -259,7 +265,21 @@ public class GameMap {
             return false;
         }
     }
+
+    private boolean isOnCooldown(String plantType) {
+        long currentTime = System.currentTimeMillis();
+        Long lastUsedTime = GameState.getInstance().getPlantCooldowns().get(plantType);
+        if (lastUsedTime == null) {
+            return false;
+        }
+        long cooldownTime = PlantFactory.createPlant(plantType, 0, 0).getCooldown();
+        return currentTime - lastUsedTime < cooldownTime;
+    }
     
+    private void updateCooldown(String plantType) {
+        GameState.getInstance().getPlantCooldowns().put(plantType, System.currentTimeMillis());
+    }
+
 
     public boolean LoseCondition() {
         for (int row = 0; row < rows; row++) {
