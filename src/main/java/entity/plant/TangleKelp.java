@@ -6,16 +6,17 @@ import entity.zombie.Zombie;
 import manager.Tile;
 
 public class TangleKelp extends Plant{
-    private boolean hasAttacked = false;
+    private boolean hasAttacked;
 
     public TangleKelp(int row, int col) {
         super("TangleKelp", 25, 100, 5000, 0, 1, 20, row, col);
+        this.hasAttacked = false;
     }
 
     public void attack() {
         int currentTime = TimeKeeper.getInstance().getCurrentTime();
-        if (!hasAttacked) {
-            Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol());
+        if (currentTime - this.getlastAttackTime() >= this.getAttackSpeed() && !this.hasAttacked) {
+            Tile tile = GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol() + 1);
             if (!tile.getZombies().isEmpty()) {
                 // Directly attack the zombie in the tile
                 for (int i = 0; i < tile.getZombies().size(); i++) {
@@ -27,7 +28,7 @@ public class TangleKelp extends Plant{
                         i--;
                     }
                 }
-                hasAttacked = true;
+                this.hasAttacked = true;
                 this.setIsAlive(false); // The plant dies after attacking
                 GameState.getInstance().getGameMap().getTile(this.getRow(), this.getCol()).removePlant(this);
                 this.setlastAttackTime(currentTime); // Update last attack time
