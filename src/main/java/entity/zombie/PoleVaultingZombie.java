@@ -10,7 +10,7 @@ import util.ListOf;
 public class PoleVaultingZombie extends Zombie {
     private boolean canJump = true;
 
-    public PoleVaultingZombie(int col, int row) {
+    public PoleVaultingZombie(int row, int col) {
         super("PoleVaultingZombie", 175, 100, 1, false, row, col, true, true, false);
     }
 

@@ -128,8 +128,15 @@ public class GameMap {
     }
 
     public void zombieSpawner(){
-        if(TimeKeeper.getInstance().getCurrentTime() == 160){
+        // Spawn a zombie every 3 seconds
+        if ((TimeKeeper.getInstance().getCurrentTime() - 20) % 3 != 0) {
+            return;
+        }
+
+        // Increase the maximum number of zombies in 160 seconds
+        if(TimeKeeper.getInstance().getCurrentTime() == 140){
             MAX_ZOMBIES = 25;
+            System.out.println("Max Zombies increased to 25");
         } 
 
         if (getTotalZombies() >= MAX_ZOMBIES) {
@@ -137,6 +144,7 @@ public class GameMap {
         }
 
         System.out.println("Total Zombies: " + getTotalZombies());
+
 
         Random random = new Random();
         ListOf<Integer> spawnLand = new ListOf<Integer>();
@@ -150,7 +158,7 @@ public class GameMap {
         ListOf<String> zombieTypes = new ListOf<String>();
         zombieTypes.add("Normal");
         zombieTypes.add("ConeHead");
-        // zombieTypes.add("Pole Vaulting");
+        zombieTypes.add("Pole Vaulting");
         zombieTypes.add("Bucket Head");
         zombieTypes.add("Ducky Tube");
         zombieTypes.add("Dolphin Rider");

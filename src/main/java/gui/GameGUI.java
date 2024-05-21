@@ -20,6 +20,8 @@ public class GameGUI extends JFrame {
     private HelpScreen helpScreen;  
     private GamePanel gameScreen;  
     private boolean isGameScreenDisplayed = false;
+    private LoseScreen loseScreen;
+    private WinScreen winScreen;
 
     public GameGUI() {
         initializeFrame();
@@ -43,6 +45,8 @@ public class GameGUI extends JFrame {
         zombieList = new ZombieList(this);
         plantSelectScreen = new PlantSelectScreen(this);
         helpScreen = new HelpScreen(this); 
+        loseScreen = new LoseScreen(this);
+        winScreen = new WinScreen(this);
     }
 
     public void showMainMenu() {
@@ -75,6 +79,16 @@ public class GameGUI extends JFrame {
         gameScreen = new GamePanel(this); // Initialize GamePanel here after deck is filled
         this.setGameScreenDisplayed(true);
         setPanel(gameScreen);
+    }
+
+    public void showLoseScreen() {
+        setPanel(loseScreen);
+        this.setGameScreenDisplayed(false);
+    }
+
+    public void showWinScreen() {
+        setPanel(winScreen);
+        this.setGameScreenDisplayed(false);
     }
 
     private void setPanel(JPanel panel) {

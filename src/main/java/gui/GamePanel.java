@@ -65,22 +65,22 @@ public class GamePanel extends JPanel implements ActionListener {
         super.paintComponent(g);
         loadImage();
 
-        int panelWidth = getWidth();
-        int panelHeight = getHeight();
+        // int panelWidth = getWidth();
+        // int panelHeight = getHeight();
 
-        // Original configuration values
-        int originalPanelWidth = 1280; // Original panel width
-        int originalPanelHeight = 720; // Original panel height
+        // // Original configuration values
+        // int originalPanelWidth = 1280; // Original panel width
+        // int originalPanelHeight = 720; // Original panel height
 
-        // Calculate scaling factor based on width and height
-        double widthScaleFactor = (double) panelWidth / originalPanelWidth;
-        double heightScaleFactor = (double) panelHeight / originalPanelHeight;
-        scaleFactor = Math.min(widthScaleFactor, heightScaleFactor); // Maintain aspect ratio
+        // // Calculate scaling factor based on width and height
+        // double widthScaleFactor = (double) panelWidth / originalPanelWidth;
+        // double heightScaleFactor = (double) panelHeight / originalPanelHeight;
+        // scaleFactor = Math.min(widthScaleFactor, heightScaleFactor); // Maintain aspect ratio
 
-        // Calculate dynamic CELL_SIZE, startX, and startY
-        CELL_SIZE_scaled = (int) (CELL_SIZE * scaleFactor);
-        startX_scaled = (int) (startX * scaleFactor);
-        startY_scaled = (int) (startY * scaleFactor);
+        // // Calculate dynamic CELL_SIZE, startX, and startY
+        // CELL_SIZE_scaled = (int) (CELL_SIZE * scaleFactor);
+        // startX_scaled = (int) (startX * scaleFactor);
+        // startY_scaled = (int) (startY * scaleFactor);
 
         drawBackground(g, startX, startY, CELL_SIZE);
         drawPlants(g, startX, startY, CELL_SIZE);
@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements ActionListener {
                         projectiles.remove(projectile);
                     } else {
                         ImageIcon projectileIcon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
-                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE + (int) (53 * scaleFactor), startY + (i + 1) * CELL_SIZE + (int) (5 * scaleFactor), projectileIcon.getIconWidth(), projectileIcon.getIconHeight(), this);
+                        g.drawImage(projectileIcon.getImage(), startX + (j + 2) * CELL_SIZE, startY + (i + 1) * CELL_SIZE, projectileIcon.getIconWidth(), projectileIcon.getIconHeight(), this);
                     }
                 }
             }
@@ -252,8 +252,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     private void handleMouseClick(int x, int y) {
-        int col = ((x - startX_scaled) / CELL_SIZE_scaled) - 2;
-        int row = ((y - startY_scaled) / CELL_SIZE_scaled) - 1;
+        int col = ((x - startX) / CELL_SIZE) - 2;
+        int row = ((y - startY) / CELL_SIZE) - 1;
 
         if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
             if (shovelActive) {
