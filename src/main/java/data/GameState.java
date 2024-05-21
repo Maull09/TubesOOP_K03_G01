@@ -78,10 +78,17 @@ public class GameState {
         // Check conditions that would end the game
         if (gameMap.checkForGameOverConditions()) {
             stopGame();
+            if (gameMap.WinCondition()){
+                GameGUI.getInstance().showWinScreen();
+            } else {
+                GameGUI.getInstance().showLoseScreen();
+            }
+            stopGame();
         }
     }
 
     private void stopGame() {
+        GameEngine.getInstance().stop();
         // Perform actions to end the game
         System.out.println("Game Over!");
     }

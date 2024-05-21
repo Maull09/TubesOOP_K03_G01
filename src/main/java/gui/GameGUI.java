@@ -23,6 +23,16 @@ public class GameGUI extends JFrame {
     private LoseScreen loseScreen;
     private WinScreen winScreen;
 
+    private static GameGUI instance;
+
+
+    public static GameGUI getInstance() {
+        if (instance == null) {
+            instance = new GameGUI();
+        }
+        return instance;
+    }
+
     public GameGUI() {
         initializeFrame();
         initializePanels();

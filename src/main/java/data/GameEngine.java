@@ -10,11 +10,18 @@ import gui.GameGUI;
 
 public class GameEngine {
     private volatile boolean running; // Flag to control the game loop
-    private final GameGUI gameGUI;    // Reference to the main GUI
     private Timer timer;              // Timer to schedule updates and repaints
 
-    public GameEngine(GameState gameState, GameGUI gameGUI) {
-        this.gameGUI = gameGUI;
+    private static GameEngine instance;
+
+    public static GameEngine getInstance() {
+        if (instance == null) {
+            instance = new GameEngine();
+        }
+        return instance;
+    }
+
+    public GameEngine() {
     }
 
     // Starts the game loop using Timer
@@ -24,7 +31,7 @@ public class GameEngine {
     }
 
     private void showMainMenu() {
-        SwingUtilities.invokeLater(() -> gameGUI.showMainMenu());
+        SwingUtilities.invokeLater(() -> GameGUI.getInstance().showMainMenu());
         waitForGameScreen();
     }
 
@@ -32,7 +39,7 @@ public class GameEngine {
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
-                while (!gameGUI.isGameScreenDisplayed()) {
+                while (!GameGUI.getInstance().isGameScreenDisplayed()) {
                     Thread.sleep(100); // Check every 100ms
                 }
                 return null;
@@ -77,7 +84,7 @@ public class GameEngine {
 
     // Repaints the GUI on the Event Dispatch Thread (EDT)
     private void repaint() {
-        SwingUtilities.invokeLater(() -> gameGUI.getGameScreen().repaint());
+        SwingUtilities.invokeLater(() -> GameGUI.getInstance().getGameScreen().repaint());
     }
 
     // Schedule sun addition every 5 to 10 seconds
