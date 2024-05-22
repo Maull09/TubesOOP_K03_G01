@@ -1,7 +1,6 @@
 package data;
 
 import manager.*;
-import util.*;
 
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
@@ -16,7 +15,6 @@ public class GameState {
     private DeckTanaman deck;
     private Inventory inventory;
     private Sun sunPoints;
-    private ListOf<Flag> flags;
     private Map<String, Long> plantCooldowns;
 
     private static GameState instance;
@@ -39,7 +37,6 @@ public class GameState {
     public void update() {
         TimeKeeper.getInstance().update();
         System.out.println("Current Time: " + TimeKeeper.getInstance().getCurrentTime());
-        flags.getAll().forEach(Flag::update);
         spawnZombie();
         processPlantActions();
         processZombieActions();
@@ -73,7 +70,6 @@ public class GameState {
         // Check conditions that would end the game
         if (gameMap.checkForGameOverConditions()) {
             stopGame();
-            reset();
             if (gameMap.WinCondition()){
                 GameGUI.getInstance().showWinScreen();
             } else {
@@ -96,6 +92,7 @@ public class GameState {
 
     private void stopGame() {
         GameEngine.getInstance().stop();
+        GameState.getInstance().reset();
         // Perform actions to end the game
         System.out.println("Game Over!");
     }
@@ -129,6 +126,7 @@ public class GameState {
     }
 
     public void reset(){
+        instance = null;
         instance = new GameState();
     }
 }

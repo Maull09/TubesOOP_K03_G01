@@ -20,11 +20,6 @@ public class GamePanel extends JPanel implements ActionListener {
     private final int CELL_SIZE = 95;
     private final int startX = 25;
     private final int startY = 55;
-    private int CELL_SIZE_scaled;
-    private int startX_scaled;
-    private int startY_scaled;
-    private double scaleFactor;
-    private GameGUI gameGUI;
     private JPanel topBarPanel;
     private JPanel deckPanel;
     private JLabel sunPointsLabel;
@@ -32,11 +27,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private boolean shovelActive = false; // Track shovel state
     private Timer timer = new Timer(1000, this);
 
-    public GamePanel(GameGUI gameGUI) {
-        this.gameGUI = gameGUI;
+    public GamePanel() {
         setPreferredSize(new Dimension(1280, 720));
         setLayout(new BorderLayout());
-        drawMenuButton();
+        // drawMenuButton();
         drawTopBar();
         addMouseListener(new MouseAdapter() {
             @Override
@@ -292,15 +286,15 @@ public class GamePanel extends JPanel implements ActionListener {
         g.drawRect(x, y, maxWidth, 23);
     }
 
-    private void drawMenuButton() {
-        ImageIcon menuIcon = new ImageIcon(getClass().getResource("/resources/images/background/MenuButton.png"));
-        JButton menuButton = new JButton(menuIcon);
-        menuButton.setBorderPainted(false);
-        menuButton.setContentAreaFilled(false);
-        menuButton.setFocusPainted(false);
-        menuButton.addActionListener(e -> GameState.getInstance().saveGame("jkwjson"));
-        add(menuButton, BorderLayout.WEST);
-    }
+    // private void drawMenuButton() {
+    //     ImageIcon menuIcon = new ImageIcon(getClass().getResource("/resources/images/background/MenuButton.png"));
+    //     JButton menuButton = new JButton(menuIcon);
+    //     menuButton.setBorderPainted(false);
+    //     menuButton.setContentAreaFilled(false);
+    //     menuButton.setFocusPainted(false);
+    //     menuButton.addActionListener(e -> GameState.getInstance().saveGame("jkwjson"));
+    //     add(menuButton, BorderLayout.WEST);
+    // }
 
     private void toggleShovel() {
         shovelActive = !shovelActive;
@@ -310,7 +304,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Michael vs. Lalapan");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(new GamePanel(new GameGUI()));
+        frame.add(new GamePanel());
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

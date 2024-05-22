@@ -241,6 +241,7 @@ public class GameMap{
         grid[row][col].addPlant(plant);  
         System.out.println("Tanaman yang ditanam: " + plant.getName());
         System.out.println("Posisi Tanaman: " + plant.getRow() + ", " + plant.getCol()); // Plant position
+        updateCooldown(plantType);
     }
 
     private boolean canPlacePlant(int row, int col, String plantType, Tile tile) {
@@ -277,7 +278,7 @@ public class GameMap{
     }
 
     private boolean isOnCooldown(String plantType) {
-        long currentTime = System.currentTimeMillis();
+        long currentTime = TimeKeeper.getInstance().getCurrentTime();
         Long lastUsedTime = GameState.getInstance().getPlantCooldowns().get(plantType);
         if (lastUsedTime == null) {
             return false;

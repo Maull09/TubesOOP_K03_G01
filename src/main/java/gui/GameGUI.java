@@ -86,7 +86,7 @@ public class GameGUI extends JFrame {
     }
 
     public void showGameScreen() {
-        gameScreen = new GamePanel(this); // Initialize GamePanel here after deck is filled
+        gameScreen = new GamePanel(); // Initialize GamePanel here after deck is filled
         this.setGameScreenDisplayed(true);
         setPanel(gameScreen);
     }
