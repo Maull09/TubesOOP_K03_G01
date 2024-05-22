@@ -128,5 +128,6 @@ public class GameState {
     public void reset(){
         instance = null;
         instance = new GameState();
+        TimeKeeper.getInstance().setCurrentTime(0);
     }
 }
