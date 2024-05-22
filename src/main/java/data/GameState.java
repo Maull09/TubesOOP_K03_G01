@@ -15,7 +15,7 @@ public class GameState {
     private DeckTanaman deck;
     private Inventory inventory;
     private Sun sunPoints;
-    private Map<String, Long> plantCooldowns;
+    private Map<String, Integer> plantCooldowns;
 
     private static GameState instance;
 
@@ -121,7 +121,7 @@ public class GameState {
         sunPoints.setTotalSun(amount);
     }
 
-    public Map<String, Long> getPlantCooldowns() {
+    public Map<String, Integer> getPlantCooldowns() {
         return plantCooldowns;
     }
 
