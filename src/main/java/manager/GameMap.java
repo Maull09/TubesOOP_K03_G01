@@ -1,5 +1,6 @@
 package manager;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import entity.Projectile;
@@ -10,7 +11,8 @@ import entity.zombie.ZombieFactory;
 import util.ListOf;
 import data.*;
 
-public class GameMap {
+public class GameMap{
+    
     private Tile[][] grid;
     private final int rows = 6;
     private final int cols = 11;

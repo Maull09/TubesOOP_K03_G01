@@ -36,7 +36,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.gameGUI = gameGUI;
         setPreferredSize(new Dimension(1280, 720));
         setLayout(new BorderLayout());
-        // drawMenuButton();
+        drawMenuButton();
         drawTopBar();
         addMouseListener(new MouseAdapter() {
             @Override
@@ -298,7 +298,7 @@ public class GamePanel extends JPanel implements ActionListener {
         menuButton.setBorderPainted(false);
         menuButton.setContentAreaFilled(false);
         menuButton.setFocusPainted(false);
-        menuButton.addActionListener(e -> gameGUI.showMainMenu());
+        menuButton.addActionListener(e -> GameState.getInstance().saveGame("jkwjson"));
         add(menuButton, BorderLayout.WEST);
     }
 

@@ -3,6 +3,8 @@ package data;
 import manager.*;
 import util.*;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,9 +26,7 @@ public class GameState {
         this.deck = new DeckTanaman();
         this.inventory = new Inventory();
         this.sunPoints = new Sun();
-        this.flags = new ListOf<Flag>();
         this.plantCooldowns = new HashMap<>();
-        initializeFlags();
     }
 
     public static synchronized GameState getInstance() {
@@ -34,11 +34,6 @@ public class GameState {
             instance = new GameState();
         }
         return instance;
-    }
-
-    private void initializeFlags() {
-        // Initialize flag to trigger at a specific time, assuming it triggers daily at a set time
-        this.flags.add(new Flag(130)); 
     }
 
     public void update() {
@@ -78,12 +73,24 @@ public class GameState {
         // Check conditions that would end the game
         if (gameMap.checkForGameOverConditions()) {
             stopGame();
+            reset();
             if (gameMap.WinCondition()){
                 GameGUI.getInstance().showWinScreen();
             } else {
                 GameGUI.getInstance().showLoseScreen();
             }
             stopGame();
+        }
+    }
+
+    // Metode untuk menyimpan game
+    public void saveGame(String filePath) {
+        try (FileOutputStream fileOut = new FileOutputStream(filePath);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+            out.writeObject(this);
+            System.out.println("Game saved successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -119,5 +126,9 @@ public class GameState {
 
     public Map<String, Long> getPlantCooldowns() {
         return plantCooldowns;
+    }
+
+    public void reset(){
+        instance = new GameState();
     }
 }
