@@ -16,12 +16,15 @@ public class PlantSelectScreen extends JPanel {
     private JPanel topPanel;
     private JButton startButton;
     private JButton backButton;
+    private JButton swapModeButton;
     private GameGUI gameGUI;
     private Runnable onContinue;
 
+    private boolean isSwapMode = false; // Flag to indicate if swap mode is enabled
     private Plant selectedPlantForSwap = null;
     private JButton selectedButtonForSwap = null;
     private ListOf<JButton> deckButtons = new ListOf<JButton>();
+    private ListOf<JButton> inventoryButtons = new ListOf<JButton>();
 
     public PlantSelectScreen(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
@@ -58,7 +61,7 @@ public class PlantSelectScreen extends JPanel {
         // Deck Panel setup
         deckPanel = new BackgroundPanel("/resources/images/background/FrameAtas.png");
         deckPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        deckPanel.setPreferredSize(new Dimension(365, 100));  // Adjust dimensions as needed
+        deckPanel.setPreferredSize(new Dimension(530, 100));  // Adjust dimensions as needed
         deckPanel.setOpaque(false);
         
         // Button Panel setup
@@ -68,8 +71,10 @@ public class PlantSelectScreen extends JPanel {
         
         startButton = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/startselect.png")));
         backButton = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/backselect.png")));
+        swapModeButton = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/swapselect.png"))); // New button for swap mode
         styleButton(startButton);
         styleButton(backButton);
+        styleButton(swapModeButton);
 
         startButton.addActionListener(e -> {
             if (GameState.getInstance().getDeck().isFull()) {
@@ -82,10 +87,18 @@ public class PlantSelectScreen extends JPanel {
             }
         });
         backButton.addActionListener(e -> gameGUI.showMainMenu());
+        swapModeButton.addActionListener(e -> {
+            isSwapMode = !isSwapMode;
+            if (isSwapMode) {
+            } else {
+                clearSwapSelection();
+            }
+        });
 
         buttonPanel.add(Box.createHorizontalGlue()); // Add glue to push buttons to the right
         buttonPanel.add(startButton);
         buttonPanel.add(backButton);
+        buttonPanel.add(swapModeButton);
         
         // Bot panel setup
         JPanel botPanel = new JPanel();
@@ -105,16 +118,8 @@ public class PlantSelectScreen extends JPanel {
             JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
             styleButton(button);
             button.setPreferredSize(new Dimension(80, 85));
-            button.addActionListener(e -> {
-                if (GameState.getInstance().getDeck().getPlants().contains(plant)) {
-                    JOptionPane.showMessageDialog(this, "Plant already in deck");
-                } else if (GameState.getInstance().getDeck().isFull()) {
-                    JOptionPane.showMessageDialog(this, "Deck is full");
-                } else {
-                    GameState.getInstance().getDeck().addPlant(plant);
-                    refreshDeckPanel();
-                }
-            });
+            button.addActionListener(e -> handleInventoryPlantClick(plant, button));
+            inventoryButtons.add(button);
             inventoryPanel.add(button);
         }
         
@@ -142,26 +147,7 @@ public class PlantSelectScreen extends JPanel {
             JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
             styleButton(button);
             button.setPreferredSize(new Dimension(80, 85));
-            button.addActionListener(e -> {
-                if (selectedPlantForSwap == null) {
-                    selectedPlantForSwap = plant;
-                    selectedButtonForSwap = button;
-                    button.setBorderPainted(true);
-                    button.setBorder(BorderFactory.createLineBorder(Color.RED));
-                } else if (selectedPlantForSwap == plant) {
-                    GameState.getInstance().getDeck().removePlant(plant);
-                    refreshDeckPanel();
-                    // selectedPlantForSwap.setBorderPainted(false);
-                    selectedPlantForSwap = null;
-                    selectedButtonForSwap = null;
-                } else {
-                    swapPlants(selectedPlantForSwap, plant);
-                    selectedPlantForSwap = null;
-                    selectedButtonForSwap.setBorderPainted(false);
-                    selectedButtonForSwap = null;
-                    refreshDeckPanel();
-                }
-            });
+            button.addActionListener(e -> handleDeckPlantClick(plant, button));
             deckButtons.add(button);
             deckPanel.add(button);
         }
@@ -169,11 +155,89 @@ public class PlantSelectScreen extends JPanel {
         deckPanel.repaint();
     }
 
-    private void swapPlants(Plant plant1, Plant plant2) {
+    private void handleInventoryPlantClick(Plant plant, JButton button) {
+        if (isSwapMode) {
+            if (selectedPlantForSwap == null) {
+                selectedPlantForSwap = plant;
+                selectedButtonForSwap = button;
+                button.setBorderPainted(true);
+                button.setBorder(BorderFactory.createLineBorder(Color.RED));
+            } else if (selectedPlantForSwap == plant) {
+                selectedPlantForSwap = null;
+                selectedButtonForSwap.setBorderPainted(false);
+                selectedButtonForSwap = null;
+            } else {
+                swapPlantsInInventory(selectedPlantForSwap, plant);
+                selectedPlantForSwap = null;
+                selectedButtonForSwap.setBorderPainted(false);
+                selectedButtonForSwap = null;
+                refreshInventoryPanel();
+            }
+        } else {
+            // Add plant to deck if not in swap mode
+            if (GameState.getInstance().getDeck().getPlants().contains(plant)) {
+                JOptionPane.showMessageDialog(this, "Plant already in deck");
+            } else if (GameState.getInstance().getDeck().isFull()) {
+                JOptionPane.showMessageDialog(this, "Deck is full");
+            } else {
+                GameState.getInstance().getDeck().addPlant(plant);
+                refreshDeckPanel();
+            }
+        }
+    }
+
+    private void handleDeckPlantClick(Plant plant, JButton button) {
+        if (selectedPlantForSwap == null) {
+            // Select plant for swap
+            selectedPlantForSwap = plant;
+            selectedButtonForSwap = button;
+            button.setBorderPainted(true);
+            button.setBorder(BorderFactory.createLineBorder(Color.RED));
+        } else {
+            // Swap logic for deck
+            if (selectedPlantForSwap == plant) {
+                GameState.getInstance().getDeck().removePlant(plant);
+                refreshDeckPanel();
+                selectedPlantForSwap = null;
+                selectedButtonForSwap.setBorderPainted(false);
+                selectedButtonForSwap = null;
+            } else {
+                swapPlantsInDeck(selectedPlantForSwap, plant);
+                selectedPlantForSwap = null;
+                selectedButtonForSwap.setBorderPainted(false);
+                selectedButtonForSwap = null;
+                refreshDeckPanel();
+            }
+        }
+    }
+
+    private void refreshInventoryPanel() {
+        inventoryPanel.removeAll();
+        for (int i = 0; i < GameState.getInstance().getInventory().getAllItems().size(); i++) {
+            final Plant plant = GameState.getInstance().getInventory().getAllItems().get(i);
+            JButton button = new JButton(new ImageIcon(getClass().getResource("/resources/images/background/selectplant" + plant.getName() + ".png")));
+            styleButton(button);
+            button.setPreferredSize(new Dimension(80, 85));
+            button.addActionListener(e -> handleInventoryPlantClick(plant, button));
+            inventoryButtons.add(button);
+            inventoryPanel.add(button);
+        }
+        inventoryPanel.revalidate();
+        inventoryPanel.repaint();
+    }
+
+    private void swapPlantsInDeck(Plant plant1, Plant plant2) {
         DeckTanaman deck = GameState.getInstance().getDeck();
         int index1 = deck.getPlants().indexOf(plant1);
         int index2 = deck.getPlants().indexOf(plant2);
         deck.getPlants().swap(index1, index2);
+    }
+
+    private void swapPlantsInInventory(Plant plant1, Plant plant2) {
+        ListOf<Plant> inventory = GameState.getInstance().getInventory().getAllItems();
+        int index1 = inventory.indexOf(plant1);
+        int index2 = inventory.indexOf(plant2);
+        inventory.swap(index1, index2);
     }
 
     private void styleButton(JButton button) {
@@ -181,6 +245,14 @@ public class PlantSelectScreen extends JPanel {
         button.setContentAreaFilled(false);
         button.setFocusPainted(false);
         button.setOpaque(false);
+    }
+
+    private void clearSwapSelection() {
+        if (selectedButtonForSwap != null) {
+            selectedButtonForSwap.setBorderPainted(false);
+            selectedButtonForSwap = null;
+        }
+        selectedPlantForSwap = null;
     }
 
     public void setOnContinue(Runnable onContinue) {

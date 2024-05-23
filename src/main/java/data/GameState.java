@@ -2,10 +2,19 @@ package data;
 
 import manager.*;
 
+import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import entity.*;
 import gui.GameGUI;
@@ -16,6 +25,7 @@ public class GameState {
     private Inventory inventory;
     private Sun sunPoints;
     private Map<String, Integer> plantCooldowns;
+    private Clip clip;
 
     private static GameState instance;
 
@@ -75,7 +85,6 @@ public class GameState {
             } else {
                 GameGUI.getInstance().showLoseScreen();
             }
-            stopGame();
         }
     }
 
@@ -114,6 +123,7 @@ public class GameState {
     }
 
     public void addSunPoints(int amount) {
+        playBackgroundSound("/resources/sound/plants-vs-zombies-sun-pickup.wav");
         sunPoints.addSun(amount);
     }
 
@@ -129,5 +139,24 @@ public class GameState {
         instance = null;
         instance = new GameState();
         TimeKeeper.getInstance().setCurrentTime(0);
+    }
+
+    private void playBackgroundSound(String resourcePath) {
+        try {
+            // Use getClass().getResourceAsStream inside AudioSystem to get an AudioInputStream
+            InputStream audioSrc = getClass().getResourceAsStream(resourcePath);
+            // Check if the input stream is null
+            if (audioSrc == null) {
+                System.err.println("Resource not found: " + resourcePath);
+                return;
+            }
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 }

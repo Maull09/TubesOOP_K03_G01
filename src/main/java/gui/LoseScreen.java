@@ -1,13 +1,22 @@
 package gui;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class LoseScreen extends JPanel {
     private Image backgroundImage;
     private GameGUI gameGUI;
+    private Clip clip;
 
     public LoseScreen(GameGUI gameGUI) {
         this.gameGUI = gameGUI;
@@ -32,6 +41,7 @@ public class LoseScreen extends JPanel {
 
         // Create and place buttons
         add(createButton("MainMenu", 535, 535, "/resources/images/background/mainMenu.png"));
+
 
         revalidate();
         repaint();
@@ -59,6 +69,25 @@ public class LoseScreen extends JPanel {
             default:
                 System.out.println("Unknown command: " + command);
                 break;
+        }
+    }
+
+    private void playBackgroundSound(String resourcePath) {
+        try {
+            // Use getClass().getResourceAsStream inside AudioSystem to get an AudioInputStream
+            InputStream audioSrc = getClass().getResourceAsStream(resourcePath);
+            // Check if the input stream is null
+            if (audioSrc == null) {
+                System.err.println("Resource not found: " + resourcePath);
+                return;
+            }
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
     public static void main(String[] args) {

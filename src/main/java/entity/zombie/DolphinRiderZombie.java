@@ -32,7 +32,10 @@ public class DolphinRiderZombie extends Zombie {
                     }
                     this.setCol(this.getCol() - 1); // Move to the next tile
                     canJump = false; // Can only jump once
+                    currentTile.removeZombie(this);
+                    nextTile.addZombie(this);
                     this.setIsFaster(false); // Increase speed
+                    System.out.println("DolphinRiderZombie jumped over the plants");
                 } else {
                     // Regular attack
                     Plant targetPlant = nextTile.getPlants().get(0);

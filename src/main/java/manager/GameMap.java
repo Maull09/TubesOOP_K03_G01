@@ -1,8 +1,16 @@
 package manager;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JOptionPane;
 
 import entity.Projectile;
@@ -18,7 +26,8 @@ public class GameMap{
     private Tile[][] grid;
     private final int rows = 6;
     private final int cols = 11;
-    private static int MAX_ZOMBIES = 10;
+    private static int MAX_ZOMBIES;
+    private Clip clip;
 
     public GameMap() {
         grid = new Tile[rows][cols];
@@ -132,16 +141,33 @@ public class GameMap{
     }
 
     public void zombieSpawner(){
-        // Spawn a zombie every 3 seconds
-        if ((TimeKeeper.getInstance().getCurrentTime() - 20) % 3 != 0) {
-            return;
+        Random randomFlagTime = new Random();
+        int flag_time = randomFlagTime.nextInt(20) + 100;
+        
+        // add first time appear
+        if (TimeKeeper.getInstance().getCurrentTime() == 20) {
+            playBackgroundSound("resources/sound/Voicy_The_Zombies_are_coming.wav");
+        }
+
+        if (TimeKeeper.getInstance().getCurrentTime() == flag_time) {
+            playBackgroundSound("/resources/sound/plants-vs-zombies-wave.wav");
         }
 
         // Increase the maximum number of zombies in 160 seconds
-        if(TimeKeeper.getInstance().getCurrentTime() == 140){
+        if(TimeKeeper.getInstance().getCurrentTime() >= flag_time){
             MAX_ZOMBIES = 25;
+            // JOptionPane.showMessageDialog(null, "Flag Zombie appeared! Max Zombies increased to 25");
             System.out.println("Max Zombies increased to 25");
-        } 
+
+            // add zombie for flag
+            
+        } else {
+            // Spawn a zombie every 3 seconds
+            if ((TimeKeeper.getInstance().getCurrentTime() - 20) % 3 != 0) {
+                return;
+            }
+            MAX_ZOMBIES = 10;
+        }
 
         if (getTotalZombies() >= MAX_ZOMBIES) {
             return; // Do not spawn new zombies if the limit is reached
@@ -161,17 +187,24 @@ public class GameMap{
         spawnWater.add(3);
         ListOf<String> zombieTypes = new ListOf<String>();
         zombieTypes.add("Normal");
-        zombieTypes.add("ConeHead");
-        zombieTypes.add("Pole Vaulting");
-        zombieTypes.add("Bucket Head");
-        zombieTypes.add("Ducky Tube");
-        zombieTypes.add("Dolphin Rider");
-        zombieTypes.add("Door");
-        zombieTypes.add("Football");
-        zombieTypes.add("Flag");
-        zombieTypes.add("Newspaper");
+        // zombieTypes.add("ConeHead");
+        // zombieTypes.add("Pole Vaulting");
+        // zombieTypes.add("Bucket Head");
+        // zombieTypes.add("Ducky Tube");
+        // zombieTypes.add("Dolphin Rider");
+        // zombieTypes.add("Door");
+        // zombieTypes.add("Football");
+        // zombieTypes.add("Flag");
+        // zombieTypes.add("Newspaper");
         double spawnChance = 0.3;
-        double chance = random.nextDouble();
+        
+        double chance;
+        if (TimeKeeper.getInstance().getCurrentTime() >= flag_time){
+            chance = 1.0;
+        } else {
+            chance = random.nextDouble();
+        }
+
         if (chance > spawnChance) {
             System.out.println("SpawnChance: " + chance);
             String zombieType = zombieTypes.get(random.nextInt(zombieTypes.size()));
@@ -314,8 +347,10 @@ public class GameMap{
     }   
 
     public boolean WinCondition() {
-        if (getTotalZombies() == 0 && TimeKeeper.getInstance().getCurrentTime() >= TimeKeeper.DAY_LENGTH){
-            return true;
+        if (TimeKeeper.getInstance().getCurrentTime() % TimeKeeper.DAY_LENGTH >= 200) {
+            if (getTotalZombies() == 0) {
+                return true;
+            }
         }
         return false;
     }
@@ -365,6 +400,25 @@ public class GameMap{
                     }
                 }
             }
+        }
+    }
+
+    private void playBackgroundSound(String resourcePath) {
+        try {
+            // Use getClass().getResourceAsStream inside AudioSystem to get an AudioInputStream
+            InputStream audioSrc = getClass().getResourceAsStream(resourcePath);
+            // Check if the input stream is null
+            if (audioSrc == null) {
+                System.err.println("Resource not found: " + resourcePath);
+                return;
+            }
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
         }
     }
 }

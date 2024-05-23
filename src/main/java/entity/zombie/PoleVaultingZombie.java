@@ -32,7 +32,11 @@ public class PoleVaultingZombie extends Zombie {
                         nextTile.removePlant(plants.get(0)); // After removing the first plant, the second plant (if exists) is now at index 0
                     }
                     this.setCol(this.getCol() - 1); // Move to the next tile
+                    currentTile.removeZombie(this);
+                    nextTile.addZombie(this);
+                    this.setIsFaster(false); // Increase speed
                     canJump = false; // Can only jump once
+                    System.out.println("PoleVaultingZombie jumped over the plants");
                 } else {
                     // Regular attack
                     Plant targetPlant = nextTile.getPlants().get(0);

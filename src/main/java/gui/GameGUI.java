@@ -22,6 +22,7 @@ public class GameGUI extends JFrame {
     private boolean isGameScreenDisplayed = false;
     private LoseScreen loseScreen;
     private WinScreen winScreen;
+    private Clip clip;
 
     private static GameGUI instance;
 
@@ -36,7 +37,6 @@ public class GameGUI extends JFrame {
     public GameGUI() {
         initializeFrame();
         initializePanels();
-        playBackgroundSound("/resources/sound/backsound.wav");
         showMainMenu();
     }
 
@@ -60,6 +60,10 @@ public class GameGUI extends JFrame {
     }
 
     public void showMainMenu() {
+        if (clip != null) {
+            clip.stop();
+        }
+        playBackgroundSound("/resources/sound/backsound.wav");
         setPanel(mainMenu);
         this.setGameScreenDisplayed(false);
     }
@@ -86,17 +90,23 @@ public class GameGUI extends JFrame {
     }
 
     public void showGameScreen() {
+        clip.stop();
         gameScreen = new GamePanel(); // Initialize GamePanel here after deck is filled
+        playBackgroundSound("/resources/sound/Sabilulungan (Trap Remix)  Prod. Marcel NTX - Indonesian Trap Beat.wav");
         this.setGameScreenDisplayed(true);
         setPanel(gameScreen);
     }
 
     public void showLoseScreen() {
+        clip.stop();
+        playBackgroundSound("/resources/sound/sad-hamster-made-with-Voicemod.wav");
         setPanel(loseScreen);
         this.setGameScreenDisplayed(false);
     }
 
     public void showWinScreen() {
+        clip.stop();
+        playBackgroundSound("/resources/sound/happy-happy-happy-cat.wav");
         setPanel(winScreen);
         this.setGameScreenDisplayed(false);
     }
@@ -118,7 +128,7 @@ public class GameGUI extends JFrame {
             }
             InputStream bufferedIn = new BufferedInputStream(audioSrc);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
             clip.start();

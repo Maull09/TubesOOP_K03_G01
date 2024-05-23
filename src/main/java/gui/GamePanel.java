@@ -1,5 +1,10 @@
 package gui;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
 import java.awt.*;
@@ -7,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import manager.DeckTanaman;
 import util.ListOf;
 import data.GameState;
@@ -26,6 +35,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private String selectedPlant;
     private boolean shovelActive = false; // Track shovel state
     private Timer timer = new Timer(1000, this);
+    private Clip clip;
 
     public GamePanel() {
         setPreferredSize(new Dimension(1280, 720));
@@ -134,6 +144,7 @@ public class GamePanel extends JPanel implements ActionListener {
                     }
 
                     if (hitZombie) {
+                        playBackgroundSound("/resources/sound/plants-vs-zombies-hit-2.wav");
                         projectiles.remove(projectile);
                     } else {
                         ImageIcon projectileIcon = new ImageIcon(getClass().getResource("/resources/images/background/" + projectile.getType() + ".png"));
@@ -279,6 +290,11 @@ public class GamePanel extends JPanel implements ActionListener {
         // Calculate the width of the progress bar based on current time
         int currentWidth = (int) ((double) currentTime / totalDuration * maxWidth);
 
+        // max currentWidth is maxWidth
+        if (currentWidth > maxWidth) {
+            currentWidth = maxWidth;
+        }
+
         // Draw the progress bar
         g.setColor(Color.RED);
         g.fillRect(x, y, currentWidth, 23);
@@ -299,6 +315,25 @@ public class GamePanel extends JPanel implements ActionListener {
     private void toggleShovel() {
         shovelActive = !shovelActive;
         System.out.println("Shovel Active: " + shovelActive);
+    }
+
+    private void playBackgroundSound(String resourcePath) {
+        try {
+            // Use getClass().getResourceAsStream inside AudioSystem to get an AudioInputStream
+            InputStream audioSrc = getClass().getResourceAsStream(resourcePath);
+            // Check if the input stream is null
+            if (audioSrc == null) {
+                System.err.println("Resource not found: " + resourcePath);
+                return;
+            }
+            InputStream bufferedIn = new BufferedInputStream(audioSrc);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
