@@ -79,11 +79,12 @@ public class GameState {
     private void checkGameOver() {
         // Check conditions that would end the game
         if (gameMap.checkForGameOverConditions()) {
-            stopGame();
             if (gameMap.WinCondition()){
                 GameGUI.getInstance().showWinScreen();
+                stopGame();
             } else {
                 GameGUI.getInstance().showLoseScreen();
+                stopGame();
             }
         }
     }

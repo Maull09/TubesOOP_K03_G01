@@ -230,14 +230,14 @@ public class GameMap{
 
             // Check if the plant is on cooldown
         if (isOnCooldown(plantType)) {
-            JOptionPane.showMessageDialog(null, "Plant " + plant.getName() + " is on cooldown");
-            System.out.println("Plant " + plant.getName() + " is on cooldown");
+            JOptionPane.showMessageDialog(null, "Plant " + plant.getName() + " sedang cooldown");
+            System.out.println("Plant " + plant.getName() + " sedang cooldown");
             return;
         }
 
         // Check if the player has enough sun points to plant the plant
         if (plant.getCost() > GameState.getInstance().getSunPoints()) {
-            JOptionPane.showMessageDialog(null, "Not enough sun points to plant " + plant.getName());
+            JOptionPane.showMessageDialog(null, "Sun point tidak cukup untuk menanam " + plant.getName());
             System.out.println("Not enough sun points to plant " + plant.getName());
             return;
         }
@@ -245,7 +245,7 @@ public class GameMap{
         // Check if the plant can be placed on the tile
         if(plantType.equals("Lilypad") || plantType.equals("TangleKelp")){
             if(row != 2 && row != 3){
-                JOptionPane.showMessageDialog(null, "Lilypad and TangleKelp can only be placed on row 2 and 3");
+                JOptionPane.showMessageDialog(null, "Lilypad dan TangleKelp hanya bisa diletakkan di air");
                 System.out.println("Lilypad and TangleKelp can only be placed on row 2 and 3");
                 return;
             }
@@ -253,14 +253,14 @@ public class GameMap{
 
         // Check if the plant can be placed on the tile
         if (!canPlacePlant(row, col, plantType, grid[row][col])){
-            JOptionPane.showMessageDialog(null, "Cannot place plant " + plant.getName() + " at water");
+            JOptionPane.showMessageDialog(null, "Hanya bisa menanam " + plant.getName() + " di atas Lilipad");
             System.out.println("Cannot place plant " + plant.getName() + " at (" + row + ", " + col + ")");
             return;
         }
 
         // pumpkins can only be placed on top of other plants
         if (plantType.equals("Pumpkin") && grid[row][col].getPlants().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Pumpkin can only be placed on top of other plants");
+            JOptionPane.showMessageDialog(null, "Pumpkin hanya bisa ditanam pada tanaman lain");
             System.out.println("Pumpkin can only be placed on top of other plants");
             return;
         }
@@ -347,15 +347,24 @@ public class GameMap{
     }   
 
     public boolean WinCondition() {
-        if (TimeKeeper.getInstance().getCurrentTime() % TimeKeeper.DAY_LENGTH >= 200) {
-            if (getTotalZombies() == 0) {
+        int currentTime = TimeKeeper.getInstance().getCurrentTime();
+        int totalZombies = getTotalZombies();
+
+        System.out.println("Current time: " + currentTime);
+        System.out.println("Total zombies: " + totalZombies);
+
+        if (totalZombies == 0) {
+            if (currentTime >= TimeKeeper.DAY_LENGTH) {
+                System.out.println("Win condition met");
                 return true;
             }
         }
+        System.out.println("Win condition not met");
         return false;
     }
 
     public boolean checkForGameOverConditions() {
+        System.out.println("Apakah Menang?" + WinCondition());
         return LoseCondition() || WinCondition();
     }
 
