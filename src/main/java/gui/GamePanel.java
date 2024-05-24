@@ -262,7 +262,15 @@ public class GamePanel extends JPanel implements ActionListener {
 
         if (col >= 1 && col < 10 && row >= 0 && row < 6) {  // Adjust according to the grid range
             if (shovelActive) {
-                GameState.getInstance().getGameMap().removePlant(row, col);
+                if(GameState.getInstance().getGameMap().getTile(row, col).getPlants().size() > 0){
+                    GameState.getInstance().getGameMap().removePlant(row, col);
+                }
+                if(GameState.getInstance().getGameMap().getTile(row, col).getPlants().size() > 0){
+                    GameState.getInstance().getGameMap().removePlant(row, col);
+                }
+                if(GameState.getInstance().getGameMap().getTile(row, col).getPlants().size() > 0){
+                    GameState.getInstance().getGameMap().removePlant(row, col);
+                }
                 shovelActive = false;
             } else if (selectedPlant != null) {
                 GameState.getInstance().getGameMap().plantSpawner(selectedPlant, row, col);

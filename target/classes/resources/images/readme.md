@@ -1,1 +1,0 @@
-ini buat gui gambar
