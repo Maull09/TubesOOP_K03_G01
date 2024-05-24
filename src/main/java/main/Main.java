@@ -1,4 +1,4 @@
-
+package main;
 
 import data.GameState;
 import gui.GameGUI;
