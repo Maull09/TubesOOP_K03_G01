@@ -96,7 +96,7 @@ public class GameEngine {
             @Override
             public void run() {
                 int currentTime = TimeKeeper.getInstance().getCurrentTime();
-                if (TimeKeeper.getInstance().isDaytime()){
+                if (TimeKeeper.getInstance().isDaytime()) {
                     GameState.getInstance().addSunPoints(25);
                     System.out.println("Added sun points. Current time: " + currentTime);
                 } else {
@@ -109,5 +109,6 @@ public class GameEngine {
     // Reset the game engine to allow for a new game to start
     public void reset() {
         stop();
+        GameGUI.getInstance().setGameScreenDisplayed(false); // Reset game screen displayed flag
     }
 }

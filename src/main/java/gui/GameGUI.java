@@ -98,17 +98,17 @@ public class GameGUI extends JFrame {
     }
 
     public void showLoseScreen() {
+        this.setGameScreenDisplayed(false);
         clip.stop();
         playBackgroundSound("/resources/sound/sad-hamster-made-with-Voicemod.wav");
         setPanel(loseScreen);
-        this.setGameScreenDisplayed(false);
     }
 
     public void showWinScreen() {
+        this.setGameScreenDisplayed(false);
         clip.stop();
         playBackgroundSound("/resources/sound/happy-happy-happy-cat.wav");
         setPanel(winScreen);
-        this.setGameScreenDisplayed(false);
     }
 
     private void setPanel(JPanel panel) {
