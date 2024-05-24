@@ -19,13 +19,7 @@ _______
 ## **How to Run the Program:**
 1. Pastikan sedang berada di root repository.
 2. Buka terminal.  
-3. Jalankan perintah berikut untuk mengompilasi:  
-<<<<<<< HEAD
-`javac -d bin src/main/java/data/*.java src/main/java/entity/*.java src/main/java/entity/plant/*.java src/main/java/entity/zombie/*.java src/main/java/gui/*.java src/main/java/manager/*.java src/main/java/util/*.java src/main/java/Main.java`
-4. Setelah kompilasi berhasil, jalankan program dengan perintah berikut:  
-`java -cp bin Main`
-=======
-   `./compile.bat`
+3. Jalankan perintah berikut untuk mengompilasi:
+     `./compile.bat`
 4. Setelah kompilasi berhasil, jalankan program dengan perintah berikut:  
    `./run.bat`
->>>>>>> 2ff65d659f5b75dd244ac7d7cdb9393dbc80f058
