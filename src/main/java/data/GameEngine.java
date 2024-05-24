@@ -1,7 +1,6 @@
 package data;
 
 import javax.swing.*;
-
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +20,7 @@ public class GameEngine {
         return instance;
     }
 
-    public GameEngine() {
+    private GameEngine() {
     }
 
     // Starts the game loop using Timer
@@ -74,6 +73,7 @@ public class GameEngine {
         running = false;
         if (timer != null) {
             timer.cancel();
+            timer = null;
         }
     }
 
@@ -104,5 +104,10 @@ public class GameEngine {
                 }
             }
         }, initialDelay * 1000, 5000); // Reschedule every 5 seconds
+    }
+
+    // Reset the game engine to allow for a new game to start
+    public void reset() {
+        stop();
     }
 }
