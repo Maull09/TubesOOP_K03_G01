@@ -26,9 +26,9 @@ import entity.zombie.Zombie;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Image backgroundImage;
-    private final int CELL_SIZE = 95;
-    private final int startX = 25;
-    private final int startY = 55;
+    private final int CELL_SIZE = 97;
+    private final int startX = 10;
+    private final int startY = 20;
     private JPanel topBarPanel;
     private JPanel deckPanel;
     private JLabel sunPointsLabel;

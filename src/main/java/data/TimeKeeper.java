@@ -12,7 +12,7 @@ public class TimeKeeper {
 
     // Private constructor to prevent instantiation
     private TimeKeeper() {
-        this.currentTime = 140; // Start time at the beginning of the day
+        this.currentTime = 0; // Start time at the beginning of the day
     }
 
     // Public method to provide access to the singleton instance

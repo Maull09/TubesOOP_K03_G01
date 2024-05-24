@@ -187,15 +187,15 @@ public class GameMap{
         spawnWater.add(3);
         ListOf<String> zombieTypes = new ListOf<String>();
         zombieTypes.add("Normal");
-        // zombieTypes.add("ConeHead");
-        // zombieTypes.add("Pole Vaulting");
-        // zombieTypes.add("Bucket Head");
-        // zombieTypes.add("Ducky Tube");
-        // zombieTypes.add("Dolphin Rider");
-        // zombieTypes.add("Door");
-        // zombieTypes.add("Football");
-        // zombieTypes.add("Flag");
-        // zombieTypes.add("Newspaper");
+        zombieTypes.add("ConeHead");
+        zombieTypes.add("Pole Vaulting");
+        zombieTypes.add("Bucket Head");
+        zombieTypes.add("Ducky Tube");
+        zombieTypes.add("Dolphin Rider");
+        zombieTypes.add("Door");
+        zombieTypes.add("Football");
+        zombieTypes.add("Flag");
+        zombieTypes.add("Newspaper");
         double spawnChance = 0.3;
         
         double chance;
