@@ -101,9 +101,8 @@ public class GameState {
     }
 
     private void stopGame() {
-        GameEngine.getInstance().stop();
         GameState.getInstance().reset();
-        // Perform actions to end the game
+        GameEngine.getInstance().stop();
         System.out.println("Game Selesai!");
     }
 
