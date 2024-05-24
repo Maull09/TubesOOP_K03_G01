@@ -7,6 +7,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.*;
 
+import data.GameEngine;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.BufferedInputStream;
@@ -63,7 +65,7 @@ public class LoseScreen extends JPanel {
         String command = e.getActionCommand();
         switch (command) {
             case "MainMenu":
-                gameGUI.showMainMenu(); 
+                GameEngine.getInstance().start(); 
                 System.out.println("Back to Main Menu");
                 break;
             default:
