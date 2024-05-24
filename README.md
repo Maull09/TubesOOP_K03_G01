@@ -20,6 +20,6 @@ _______
 1. Pastikan sedang berada di src directory.
 2. Buka terminal.  
 3. Jalankan perintah berikut untuk mengompilasi:  
-`javac Main.java`
+`javac -d bin src/main/java/data/*.java src/main/java/entity/*.java src/main/java/entity/plant/*.java src/main/java/entity/zombie/*.java src/main/java/gui/*.java src/main/java/manager/*.java src/main/java/util/*.java src/main/java/Main.java`
 4. Setelah kompilasi berhasil, jalankan program dengan perintah berikut:  
-`java Main`
+`java -cp bin Main`

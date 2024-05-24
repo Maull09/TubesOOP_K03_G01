@@ -1,0 +1,1 @@
+ini buat sound gui nanti
