@@ -17,7 +17,7 @@ _______
 **Asisten:** Rifqi Naufal Abdjul / 13520062
 
 ## **How to Run the Program:**
-1. Pastikan sedang berada di src directory.
+1. Pastikan sedang berada di root repository.
 2. Buka terminal.  
 3. Jalankan perintah berikut untuk mengompilasi:  
    `./compile.bat`
