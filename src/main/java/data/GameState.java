@@ -93,7 +93,7 @@ public class GameState {
         try (FileOutputStream fileOut = new FileOutputStream(filePath);
             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(this);
-            System.out.println("Game saved successfully.");
+            System.out.println("Permainan Berhasil di Simpan.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -103,7 +103,7 @@ public class GameState {
         GameEngine.getInstance().stop();
         GameState.getInstance().reset();
         // Perform actions to end the game
-        System.out.println("Game Over!");
+        System.out.println("Game Selesai!");
     }
 
     public GameMap getGameMap() {
