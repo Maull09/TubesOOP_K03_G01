@@ -5,7 +5,7 @@ public class Sun {
 
     public Sun ()
     {
-        totalSun = 1000;
+        totalSun = 50;
     }
 
     public static void addSun(){
