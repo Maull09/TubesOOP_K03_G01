@@ -20,6 +20,6 @@ _______
 1. Pastikan sedang berada di src directory.
 2. Buka terminal.  
 3. Jalankan perintah berikut untuk mengompilasi:  
-`javac Main.java`
+   `./compile.bat`
 4. Setelah kompilasi berhasil, jalankan program dengan perintah berikut:  
-`java Main`
+   `./run.bat`
